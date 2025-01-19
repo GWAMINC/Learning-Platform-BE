@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package com.example.common;
+
+message Message {
+  string id = 1;
+  string sender = 2;
+  string receiver = 3;
+  string content = 4;
+  string timestamp = 5;
+}

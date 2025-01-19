@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://user-service:8081
+          predicates:
+            - Path=/api/user/**
+        - id: course-service
+          uri: http://course-service:8082
+          predicates:
+            - Path=/api/course/**
+        - id: enroll-service
+          uri: http://enroll-service:8083
+          predicates:
+            - Path=/api/enroll/**
+        - id: chat-service
+          uri: http://chat-service:8084
+          predicates:
+            - Path=/api/chat/**
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: DEBUG
+    org.springframework.cloud.gateway.filter.GlobalFilter: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  logging:
+    level:
+      org.springframework.boot.actuate: DEBUG

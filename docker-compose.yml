@@ -1,0 +1,130 @@
+services:
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    ports:
+      - "15762:15672" # Giao diện quản trị RabbitMQ
+      - "5672:5672"   # Port mặc định để các ứng dụng kết nối tới RabbitMQ
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - microservices-network
+
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    networks:
+      - microservices-network
+    volumes:
+      - ./mongo-data:/data/db
+
+  mysql-container:
+    image: mysql:8.0
+    container_name: mysql-container
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+      MYSQL_DATABASE: userdb
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+    networks:
+      - microservices-network
+
+  user-service:
+    build:
+      context: ./user-service
+    container_name: user-service
+    depends_on:
+      - mysql-container
+      - rabbitmq
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-container:3306/userdb
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=userpassword
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQLDialect
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+    ports:
+      - 8081:8081
+    networks:
+      - microservices-network
+
+  course-service:
+    build:
+      context: ./course-service
+    container_name: course-service
+    depends_on:
+      - mysql-container
+      - rabbitmq
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-container:3306/userdb
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=userpassword
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQLDialect
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+    ports:
+      - 8082:8082
+      - 50051:50051 # gRPC
+    networks:
+      - microservices-network
+
+  enroll-service:
+    build:
+      context: ./enroll-service
+    container_name: enroll-service
+    depends_on:
+      - mysql-container
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-container:3306/userdb
+      - SPRING_DATASOURCE_USERNAME=user
+      - SPRING_DATASOURCE_PASSWORD=userpassword
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQLDialect
+    ports:
+      - 8083:8083
+    networks:
+      - microservices-network
+
+  chat-service:
+    build:
+      context: ./chat-service
+    container_name: chat-service
+    depends_on:
+      - mongodb
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://root:rootpassword@mongodb:27017/chatdb?authSource=admin
+    ports:
+      - 8084:8084
+    networks:
+      - microservices-network
+
+  api-gateway:
+    build:
+      context: ./APIGateWay
+    container_name: api-gateway
+    depends_on:
+      - user-service
+      - course-service
+      - enroll-service
+      - chat-service
+    ports:
+      - 8080:8080
+    networks:
+      - microservices-network
+
+
+networks:
+  microservices-network:
+    driver: bridge
