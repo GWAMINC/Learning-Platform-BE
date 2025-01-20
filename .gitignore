@@ -27,3 +27,6 @@ replay_pid*
 .idea
 /mysql-data
 mongo-data
+mysql-coursedb-data/
+mysql-enrolldb-data/
+mysql-userdb-data/

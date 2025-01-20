@@ -24,18 +24,51 @@ services:
     volumes:
       - ./mongo-data:/data/db
 
-  mysql-container:
+  # MySQL cho User Service
+  mysql-userdb:
     image: mysql:8.0
-    container_name: mysql-container
+    container_name: mysql-userdb
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_USER: user
       MYSQL_PASSWORD: userpassword
       MYSQL_DATABASE: userdb
     volumes:
-      - ./mysql-data:/var/lib/mysql
+      - ./mysql-userdb-data:/var/lib/mysql
+    networks:
+      - microservices-network
+
+  # MySQL cho Course Service
+  mysql-coursedb:
+    image: mysql:8.0
+    container_name: mysql-coursedb
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+      MYSQL_DATABASE: coursedb
+    volumes:
+      - ./mysql-coursedb-data:/var/lib/mysql
+    networks:
+      - microservices-network
+
+  # MySQL cho Enroll Service
+  mysql-enrolldb:
+    image: mysql:8.0
+    container_name: mysql-enrolldb
+    ports:
+      - "3309:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpassword
+      MYSQL_DATABASE: enrolldb
+    volumes:
+      - ./mysql-enrolldb-data:/var/lib/mysql
     networks:
       - microservices-network
 
@@ -44,10 +77,10 @@ services:
       context: ./user-service
     container_name: user-service
     depends_on:
-      - mysql-container
+      - mysql-userdb
       - rabbitmq
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-container:3306/userdb
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-userdb:3306/userdb
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=userpassword
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
@@ -64,10 +97,10 @@ services:
       context: ./course-service
     container_name: course-service
     depends_on:
-      - mysql-container
+      - mysql-coursedb
       - rabbitmq
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-container:3306/userdb
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-coursedb:3306/coursedb
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=userpassword
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
@@ -85,9 +118,9 @@ services:
       context: ./enroll-service
     container_name: enroll-service
     depends_on:
-      - mysql-container
+      - mysql-enrolldb
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-container:3306/userdb
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-enrolldb:3306/enrolldb
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=userpassword
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
@@ -101,8 +134,6 @@ services:
     build:
       context: ./chat-service
     container_name: chat-service
-    depends_on:
-      - mongodb
     environment:
       - SPRING_DATA_MONGODB_URI=mongodb://root:rootpassword@mongodb:27017/chatdb?authSource=admin
     ports:
