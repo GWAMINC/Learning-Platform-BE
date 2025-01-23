@@ -1,9 +1,8 @@
-server:
-  port: 8081
-
 spring:
+  main:
+    web-application-type: none
   datasource:
-    url: jdbc:mysql://localhost:3306/userdb
+    url: jdbc:mysql://localhost:3307/userdb
     username: user
     password: userpassword
     driver-class-name: com.mysql.cj.jdbc.Driver

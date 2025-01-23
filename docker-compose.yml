@@ -75,7 +75,8 @@ services:
       - SPRING_RABBITMQ_HOST=rabbitmq
       - SPRING_RABBITMQ_PORT=5672
     ports:
-      - 8081:8081
+#      - 8081:8081
+      - 50050:50050 # gRPC
     networks:
       - microservices-network
 
@@ -95,7 +96,7 @@ services:
       - SPRING_RABBITMQ_HOST=rabbitmq
       - SPRING_RABBITMQ_PORT=5672
     ports:
-      - 8082:8082
+#      - 8082:8082
       - 50051:50051 # gRPC
     networks:
       - microservices-network
@@ -113,7 +114,8 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQLDialect
     ports:
-      - 8083:8083
+#      - 8083:8083
+      - 50052:50052 # gRPC
     networks:
       - microservices-network
 
@@ -124,7 +126,8 @@ services:
     environment:
       - SPRING_DATA_MONGODB_URI=mongodb://root:rootpassword@mongodb:27017/chatdb?authSource=admin
     ports:
-      - 8084:8084
+#      - 8084:8084
+      - 50053:50053 # gRPC
     networks:
       - microservices-network
 

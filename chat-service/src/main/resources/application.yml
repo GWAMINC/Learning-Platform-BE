@@ -1,7 +1,6 @@
-server:
-  port: 8084
-
 spring:
+  main:
+    web-application-type: none
   data:
     mongodb:
       uri: mongodb://root:rootpassword@localhost:27017/chatdb?authSource=admin
