@@ -11,19 +11,6 @@ services:
     networks:
       - microservices-network
 
-  mongodb:
-    image: mongo:6.0
-    container_name: mongodb
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: rootpassword
-    networks:
-      - microservices-network
-    volumes:
-      - ./mongo-data:/data/db
-
   # MySQL cho User Service
   mysql-userdb:
     image: mysql:8.0
