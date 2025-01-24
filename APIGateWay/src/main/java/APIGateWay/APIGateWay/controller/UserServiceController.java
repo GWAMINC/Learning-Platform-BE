@@ -8,6 +8,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import jakarta.annotation.PreDestroy;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/user")
@@ -30,7 +31,7 @@ public class UserServiceController {
     }
 
     @GetMapping("/{id}")
-    public String getUserById(@PathVariable int id) {
+    public ResponseEntity<String> getUserById(@PathVariable int id) {
         try {
             // Gửi request đến user-service qua gRPC
             GetUserRequest request = GetUserRequest.newBuilder()
@@ -39,25 +40,35 @@ public class UserServiceController {
             GetUserResponse response = userServiceStub.getUser(request);
 
             // Chuyển đổi từ protobuf sang JSON
-            return JsonFormat.printer().includingDefaultValueFields().print(response);
+            String json = JsonFormat.printer().includingDefaultValueFields().print(response);
+
+            // Trả về với Content-Type là application/json
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json")
+                    .body(json);
         } catch (Exception e) {
             e.printStackTrace();
-            return "{\"error\":\"Failed to fetch user\"}";
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to fetch user\"}");
         }
     }
 
     @GetMapping("/all")
-    public String getAllUsers() {
+    public ResponseEntity<String> getAllUsers() {
         try {
             // Gửi request đến user-service qua gRPC
             GateWayUserRpcProto.GetAllUsersRequest request = GateWayUserRpcProto.GetAllUsersRequest.newBuilder().build();
             GateWayUserRpcProto.GetAllUsersResponse response = userServiceStub.getAllUsers(request);
 
             // Chuyển đổi từ protobuf sang JSON
-            return JsonFormat.printer().includingDefaultValueFields().print(response);
+            String json = JsonFormat.printer().includingDefaultValueFields().print(response);
+
+            // Trả về với Content-Type là application/json
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json")
+                    .body(json);
         } catch (Exception e) {
             e.printStackTrace();
-            return "{\"error\":\"Failed to fetch users\"}";
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to fetch users\"}");
         }
     }
     @PreDestroy
