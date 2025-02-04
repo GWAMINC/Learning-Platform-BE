@@ -29,6 +29,9 @@ for SERVICE in "${SERVICES[@]}"; do
       protoc --proto_path=proto --java_out="$SERVICE/src/main/java" "$PROTO_FILE"
       protoc --proto_path=proto --java_out="$SERVICE/src/main/java" --grpc-java_out="$SERVICE/src/main/java" --plugin=protoc-gen-grpc-java="C:\Users\Admin\Downloads\protoc-gen-grpc-java-1.9.1-windows-x86_64.exe" "$PROTO_FILE"
 
+      echo "Replacing javax.annotation.Generated with jakarta.annotation.Generated in $SERVICE..."
+      find "$SERVICE/src/main/java" -type f -name "*.java" -exec sed -i 's/javax\.annotation\.Generated/jakarta.annotation.Generated/g' {} +
+
       echo "Building $SERVICE..."
       (cd "$SERVICE" && mvn clean install "-Dmaven.build=true")
     fi
