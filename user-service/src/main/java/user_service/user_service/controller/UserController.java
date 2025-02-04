@@ -7,7 +7,9 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import user_service.user_service.service.LoggingService;
 
 @RestController
 public class UserController {
@@ -19,6 +21,7 @@ public class UserController {
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
+    private LoggingService loggingService;
 
     @PostMapping("/api/user/send")
     public String sendMessage(@RequestBody String content) {
@@ -34,9 +37,11 @@ public class UserController {
             // Gửi message qua RabbitMQ
             rabbitTemplate.convertAndSend("courseExchange", "courseRoutingKey", messageBytes);
 
+            loggingService.logUserActivity(200, "sendMessage", "User sent message to Course Service!");
             return "Message sent to Course Service!";
         } catch (Exception e) {
             e.printStackTrace(); // In ra chi tiết lỗi
+            loggingService.logError(e,"sendMessage");
             return "Failed to send message: " + e.getMessage();
         }
     }

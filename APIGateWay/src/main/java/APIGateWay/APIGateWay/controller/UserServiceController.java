@@ -1,5 +1,6 @@
 package APIGateWay.APIGateWay.controller;
 
+import APIGateWay.APIGateWay.service.LoggingService;
 import com.example.gatewayuser.GateWayUserRpcProto;
 import com.example.gatewayuser.UserServiceGrpc;
 import com.example.gatewayuser.GateWayUserRpcProto.*;
@@ -7,6 +8,7 @@ import com.google.protobuf.util.JsonFormat;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import jakarta.annotation.PreDestroy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -16,6 +18,9 @@ public class UserServiceController {
 
     private final ManagedChannel userServiceChannel;
     private final UserServiceGrpc.UserServiceBlockingStub userServiceStub;
+
+    @Autowired
+    private LoggingService loggingService;
 
     public UserServiceController() {
         // Kết nối tới user-service qua gRPC
@@ -37,7 +42,10 @@ public class UserServiceController {
             GetUserRequest request = GetUserRequest.newBuilder()
                     .setId(id)
                     .build();
+
             GetUserResponse response = userServiceStub.getUser(request);
+
+            loggingService.logAPIActivity(200, "getUserById", response.toString());
 
             // Chuyển đổi từ protobuf sang JSON
             String json = JsonFormat.printer().includingDefaultValueFields().print(response);

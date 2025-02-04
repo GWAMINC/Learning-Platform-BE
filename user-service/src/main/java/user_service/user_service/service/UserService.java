@@ -4,6 +4,7 @@ import com.example.gatewayuser.GateWayUserRpcProto;
 import com.example.gatewayuser.UserServiceGrpc;
 import com.example.gatewayuser.GateWayUserRpcProto.*;
 import io.grpc.stub.StreamObserver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import user_service.user_service.repository.UserRepository;
 
@@ -13,6 +14,9 @@ import java.util.Map;
 @Service
 public class UserService extends UserServiceGrpc.UserServiceImplBase {
     private final UserRepository userRepository;
+
+    @Autowired
+    private LoggingService loggingService;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -24,6 +28,7 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
         Map<String, Object> result = userRepository.findUserById(request.getId());
         if (result == null || result.isEmpty()) {
             responseObserver.onError(new RuntimeException("User not found"));
+            loggingService.logError(new RuntimeException("User not found"), "getUser");
             return;
         }
 
@@ -42,6 +47,7 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
         GetUserResponse response = GetUserResponse.newBuilder().setUser(user).build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
+        loggingService.logUserActivity(200, "getUser", response.toString());
     }
 
     @Override

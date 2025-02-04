@@ -1,0 +1,25 @@
+<configuration>
+    <appender name="COURSE_SERVICE_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/course-service.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/course-service-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}] [%level] [%logger] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%d{HH:mm:ss}] [%level] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="COURSE_SERVICE_LOG"/>
+        <appender-ref ref="CONSOLE"/>
+    </root>
+</configuration>
