@@ -94,6 +94,38 @@ public final class UserServiceGrpc {
      }
      return getGetAllUsersMethod;
   }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getLoginMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.LoginRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.LoginResponse> METHOD_LOGIN = getLoginMethod();
+
+  private static volatile io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.LoginRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.LoginResponse> getLoginMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.LoginRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.LoginResponse> getLoginMethod() {
+    io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.LoginRequest, com.example.gatewayuser.GateWayUserRpcProto.LoginResponse> getLoginMethod;
+    if ((getLoginMethod = UserServiceGrpc.getLoginMethod) == null) {
+      synchronized (UserServiceGrpc.class) {
+        if ((getLoginMethod = UserServiceGrpc.getLoginMethod) == null) {
+          UserServiceGrpc.getLoginMethod = getLoginMethod = 
+              io.grpc.MethodDescriptor.<com.example.gatewayuser.GateWayUserRpcProto.LoginRequest, com.example.gatewayuser.GateWayUserRpcProto.LoginResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "user.UserService", "Login"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.gatewayuser.GateWayUserRpcProto.LoginRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.gatewayuser.GateWayUserRpcProto.LoginResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new UserServiceMethodDescriptorSupplier("Login"))
+                  .build();
+          }
+        }
+     }
+     return getLoginMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -139,6 +171,13 @@ public final class UserServiceGrpc {
       asyncUnimplementedUnaryCall(getGetAllUsersMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void login(com.example.gatewayuser.GateWayUserRpcProto.LoginRequest request,
+        io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.LoginResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getLoginMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -155,6 +194,13 @@ public final class UserServiceGrpc {
                 com.example.gatewayuser.GateWayUserRpcProto.GetAllUsersRequest,
                 com.example.gatewayuser.GateWayUserRpcProto.GetAllUsersResponse>(
                   this, METHODID_GET_ALL_USERS)))
+          .addMethod(
+            getLoginMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.example.gatewayuser.GateWayUserRpcProto.LoginRequest,
+                com.example.gatewayuser.GateWayUserRpcProto.LoginResponse>(
+                  this, METHODID_LOGIN)))
           .build();
     }
   }
@@ -195,6 +241,14 @@ public final class UserServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getGetAllUsersMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void login(com.example.gatewayuser.GateWayUserRpcProto.LoginRequest request,
+        io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.LoginResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getLoginMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -230,6 +284,13 @@ public final class UserServiceGrpc {
     public com.example.gatewayuser.GateWayUserRpcProto.GetAllUsersResponse getAllUsers(com.example.gatewayuser.GateWayUserRpcProto.GetAllUsersRequest request) {
       return blockingUnaryCall(
           getChannel(), getGetAllUsersMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.example.gatewayuser.GateWayUserRpcProto.LoginResponse login(com.example.gatewayuser.GateWayUserRpcProto.LoginRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getLoginMethod(), getCallOptions(), request);
     }
   }
 
@@ -269,10 +330,19 @@ public final class UserServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getGetAllUsersMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.example.gatewayuser.GateWayUserRpcProto.LoginResponse> login(
+        com.example.gatewayuser.GateWayUserRpcProto.LoginRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getLoginMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_USER = 0;
   private static final int METHODID_GET_ALL_USERS = 1;
+  private static final int METHODID_LOGIN = 2;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -298,6 +368,10 @@ public final class UserServiceGrpc {
         case METHODID_GET_ALL_USERS:
           serviceImpl.getAllUsers((com.example.gatewayuser.GateWayUserRpcProto.GetAllUsersRequest) request,
               (io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.GetAllUsersResponse>) responseObserver);
+          break;
+        case METHODID_LOGIN:
+          serviceImpl.login((com.example.gatewayuser.GateWayUserRpcProto.LoginRequest) request,
+              (io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.LoginResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -362,6 +436,7 @@ public final class UserServiceGrpc {
               .setSchemaDescriptor(new UserServiceFileDescriptorSupplier())
               .addMethod(getGetUserMethod())
               .addMethod(getGetAllUsersMethod())
+              .addMethod(getLoginMethod())
               .build();
         }
       }

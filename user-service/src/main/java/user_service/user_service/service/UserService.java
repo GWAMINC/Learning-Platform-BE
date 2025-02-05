@@ -7,19 +7,23 @@ import io.grpc.stub.StreamObserver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import user_service.user_service.repository.UserRepository;
+import user_service.user_service.utils.JwtUtil;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UserService extends UserServiceGrpc.UserServiceImplBase {
     private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
 
     @Autowired
     private LoggingService loggingService;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -68,6 +72,38 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
 
         // Tạo response
         GetAllUsersResponse response = GetAllUsersResponse.newBuilder().addAllUsers(users).build();
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+    @Override
+    public void login(LoginRequest request, StreamObserver<LoginResponse> responseObserver) {
+        Optional<Map<String, Object>> userOptional = userRepository.findByEmail(request.getEmail());
+
+        if (userOptional.isPresent()) {
+            Map<String, Object> user = userOptional.get();
+            String storedPassword = (String) user.get("password");
+
+            if (storedPassword.equals(request.getPassword())) {
+                int userId = (int) user.get("id");
+                String token = jwtUtil.generateToken((String) user.get("email"), userId);
+
+                LoginResponse response = LoginResponse.newBuilder()
+                        .setSuccess(true)
+                        .setMessage("Login successful")
+                        .setToken(token)
+                        .build();
+
+                responseObserver.onNext(response);
+                responseObserver.onCompleted();
+                return;
+            }
+        }
+
+        LoginResponse response = LoginResponse.newBuilder()
+                .setSuccess(false)
+                .setMessage("Invalid email or password")
+                .build();
+
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }

@@ -1,6 +1,14 @@
 server:
   port: 8080
 
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - PreserveHostHeader
+      forwarded:
+        enabled: true
+
 #spring:
 #  cloud:
 #    gateway:
