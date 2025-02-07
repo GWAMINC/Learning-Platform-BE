@@ -22,7 +22,7 @@ import static io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall;
  */
 @jakarta.annotation.Generated(
     value = "by gRPC proto compiler (version 1.9.1)",
-    comments = "Source: user_course_rpc.proto")
+    comments = "Source: User_Course_Rpc.proto")
 public final class UserCourseServiceGrpc {
 
   private UserCourseServiceGrpc() {}
