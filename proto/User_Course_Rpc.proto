@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package usercourse;
+
+option java_package = "com.example.usercourse";
+option java_outer_classname = "UserCourseRpcProto";
+
+// Service định nghĩa các RPC
+service UserCourseService {
+  // User gọi để lấy thông tin khóa học từ Course Service
+  rpc GetCourseInfo(GetCourseRequest) returns (GetCourseResponse);
+
+  // User gọi để đăng ký khóa học
+  rpc RegisterCourse(RegisterCourseRequest) returns (RegisterCourseResponse);
+}
+
+// Message định nghĩa yêu cầu và phản hồi cho GetCourseInfo
+message GetCourseRequest {
+  string course_id = 1; // ID của khóa học
+}
+
+message GetCourseResponse {
+  string course_id = 1;
+  string course_name = 2;
+  string description = 3;
+}
+
+// Message định nghĩa yêu cầu và phản hồi cho RegisterCourse
+message RegisterCourseRequest {
+  string user_id = 1; // ID của người dùng
+  string course_id = 2; // ID của khóa học
+}
+
+message RegisterCourseResponse {
+  string status = 1; // Ví dụ: "SUCCESS" hoặc "FAILED"
+  string message = 2; // Thông điệp phản hồi
+}
