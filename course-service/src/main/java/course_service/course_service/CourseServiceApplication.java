@@ -7,10 +7,16 @@ import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 @EnableRabbit
 public class CourseServiceApplication implements CommandLineRunner  {
+	private final ApplicationContext applicationContext;
+
+	public CourseServiceApplication(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(CourseServiceApplication.class, args);
@@ -20,8 +26,9 @@ public class CourseServiceApplication implements CommandLineRunner  {
 	public void run(String... args) throws Exception {
 		// Chỉ khởi động gRPC server khi không chạy dưới môi trường Maven build
 		if (!isRunningInBuildMode()) {
+			CourseService courseService = applicationContext.getBean(CourseService.class);
 			Server server = ServerBuilder.forPort(50051)
-					.addService(new CourseService())
+					.addService(courseService)
 					.build()
 					.start();
 
