@@ -39,17 +39,17 @@ public class JwtAuthenticationFilter implements WebFilter {
             return chain.filter(exchange);
         }
 
-//        String authorizationHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-//        System.out.println("📢 Authorization Header: " + authorizationHeader);
+        String authorizationHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        System.out.println("📢 Authorization Header: " + authorizationHeader);
         String token = null;
         HttpCookie jwtCookie = request.getCookies().getFirst("token");
         if (jwtCookie != null) {
             token = jwtCookie.getValue();
         }
 
-//        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-//            return unauthorizedResponse(exchange);
-//        }
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return unauthorizedResponse(exchange);
+        }
         if (token == null) {
             return unauthorizedResponse(exchange);
         }
