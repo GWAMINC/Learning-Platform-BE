@@ -34,4 +34,16 @@ public class UserRepository {
             return Optional.empty();
         }
     }
+    public Optional<Map<String, Object>> findByUsername(String username) {
+        String sql = "SELECT * FROM users WHERE username = ?";
+        try {
+            return Optional.of(jdbcTemplate.queryForMap(sql, username));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+    public void addUser(String username, String email, String password, String role) {
+        String sql = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, username, email, password, role);
+    }
 }

@@ -126,6 +126,38 @@ public final class UserServiceGrpc {
      }
      return getLoginMethod;
   }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getRegisterMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.RegisterRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.RegisterResponse> METHOD_REGISTER = getRegisterMethod();
+
+  private static volatile io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.RegisterRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.RegisterResponse> getRegisterMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.RegisterRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.RegisterResponse> getRegisterMethod() {
+    io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.RegisterRequest, com.example.gatewayuser.GateWayUserRpcProto.RegisterResponse> getRegisterMethod;
+    if ((getRegisterMethod = UserServiceGrpc.getRegisterMethod) == null) {
+      synchronized (UserServiceGrpc.class) {
+        if ((getRegisterMethod = UserServiceGrpc.getRegisterMethod) == null) {
+          UserServiceGrpc.getRegisterMethod = getRegisterMethod = 
+              io.grpc.MethodDescriptor.<com.example.gatewayuser.GateWayUserRpcProto.RegisterRequest, com.example.gatewayuser.GateWayUserRpcProto.RegisterResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "user.UserService", "Register"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.gatewayuser.GateWayUserRpcProto.RegisterRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.gatewayuser.GateWayUserRpcProto.RegisterResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new UserServiceMethodDescriptorSupplier("Register"))
+                  .build();
+          }
+        }
+     }
+     return getRegisterMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -178,6 +210,13 @@ public final class UserServiceGrpc {
       asyncUnimplementedUnaryCall(getLoginMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void register(com.example.gatewayuser.GateWayUserRpcProto.RegisterRequest request,
+        io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.RegisterResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getRegisterMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -201,6 +240,13 @@ public final class UserServiceGrpc {
                 com.example.gatewayuser.GateWayUserRpcProto.LoginRequest,
                 com.example.gatewayuser.GateWayUserRpcProto.LoginResponse>(
                   this, METHODID_LOGIN)))
+          .addMethod(
+            getRegisterMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.example.gatewayuser.GateWayUserRpcProto.RegisterRequest,
+                com.example.gatewayuser.GateWayUserRpcProto.RegisterResponse>(
+                  this, METHODID_REGISTER)))
           .build();
     }
   }
@@ -249,6 +295,14 @@ public final class UserServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getLoginMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void register(com.example.gatewayuser.GateWayUserRpcProto.RegisterRequest request,
+        io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.RegisterResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getRegisterMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -291,6 +345,13 @@ public final class UserServiceGrpc {
     public com.example.gatewayuser.GateWayUserRpcProto.LoginResponse login(com.example.gatewayuser.GateWayUserRpcProto.LoginRequest request) {
       return blockingUnaryCall(
           getChannel(), getLoginMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.example.gatewayuser.GateWayUserRpcProto.RegisterResponse register(com.example.gatewayuser.GateWayUserRpcProto.RegisterRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getRegisterMethod(), getCallOptions(), request);
     }
   }
 
@@ -338,11 +399,20 @@ public final class UserServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getLoginMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.example.gatewayuser.GateWayUserRpcProto.RegisterResponse> register(
+        com.example.gatewayuser.GateWayUserRpcProto.RegisterRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getRegisterMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_USER = 0;
   private static final int METHODID_GET_ALL_USERS = 1;
   private static final int METHODID_LOGIN = 2;
+  private static final int METHODID_REGISTER = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -372,6 +442,10 @@ public final class UserServiceGrpc {
         case METHODID_LOGIN:
           serviceImpl.login((com.example.gatewayuser.GateWayUserRpcProto.LoginRequest) request,
               (io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.LoginResponse>) responseObserver);
+          break;
+        case METHODID_REGISTER:
+          serviceImpl.register((com.example.gatewayuser.GateWayUserRpcProto.RegisterRequest) request,
+              (io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.RegisterResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -437,6 +511,7 @@ public final class UserServiceGrpc {
               .addMethod(getGetUserMethod())
               .addMethod(getGetAllUsersMethod())
               .addMethod(getLoginMethod())
+              .addMethod(getRegisterMethod())
               .build();
         }
       }
