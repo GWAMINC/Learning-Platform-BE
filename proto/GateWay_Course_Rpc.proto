@@ -41,3 +41,62 @@ service CourseService {
   rpc GetCourse (GetCourseRequest) returns (GetCourseResponse);
   rpc GetAllCourses (GetAllCoursesRequest) returns (GetAllCoursesResponse);
 }
+
+// Định nghĩa Course Category
+message CourseCategory {
+  int32 id = 1;
+  int32 course_id = 2;
+  int32 category_id = 3;
+}
+
+message CreateCourseCategoryRequest {
+  int32 course_id = 1;
+  int32 category_id = 2;
+}
+
+message CreateCourseCategoryResponse {
+  bool success = 1;
+}
+
+message GetCourseCategoryRequest {
+  int32 id = 1;
+}
+
+message GetCourseCategoryResponse {
+  CourseCategory courseCategory = 1;
+}
+
+message GetCourseCategoryByCourseIdRequest {
+  int32 course_id = 1;
+}
+
+message GetCourseCategoryByCourseIdResponse {
+  repeated CourseCategory courseCategories = 1;
+}
+
+message UpdateCourseCategoryRequest {
+  int32 id = 1;
+  int32 course_id = 2;
+  int32 category_id = 3;
+}
+
+message UpdateCourseCategoryResponse {
+  CourseCategory courseCategory = 1;
+}
+
+message DeleteCourseCategoryRequest {
+  int32 id = 1;
+}
+
+message DeleteCourseCategoryResponse {
+  bool success = 1;
+}
+
+// Service cho CourseCategory
+service CourseCategoryService {
+  rpc CreateCourseCategory (CreateCourseCategoryRequest) returns (CreateCourseCategoryResponse);
+  rpc GetCourseCategory (GetCourseCategoryRequest) returns (GetCourseCategoryResponse);
+  rpc GetCourseCategoryByCourseId (GetCourseCategoryByCourseIdRequest) returns (GetCourseCategoryByCourseIdResponse);
+  rpc UpdateCourseCategory (UpdateCourseCategoryRequest) returns (UpdateCourseCategoryResponse);
+  rpc DeleteCourseCategory (DeleteCourseCategoryRequest) returns (DeleteCourseCategoryResponse);
+}
