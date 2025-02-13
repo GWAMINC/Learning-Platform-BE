@@ -88,5 +88,34 @@ public class CourseService extends CourseServiceGrpc.CourseServiceImplBase {
         responseObserver.onCompleted();
     }
 
+    @Override
+    public void enrollCourse(EnrollRequest request, StreamObserver<EnrollResponse> responseObserver) {
+        int userId = request.getUserId();
+        int courseId = request.getCourseId();
 
+        // Kiểm tra xem người dùng đã đăng ký khóa học chưa
+        boolean isEnrolled = courseRepository.isUserEnrolled(userId, courseId);
+        if (isEnrolled) {
+            // Nếu đã đăng ký, trả về thông báo lỗi
+            EnrollResponse response = EnrollResponse.newBuilder()
+                    .setSuccess(false)
+                    .setMessage("Bạn đã đăng ký khóa học này rồi!")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+            return;
+        }
+
+        // Nếu chưa đăng ký, tiến hành lưu vào DB
+        boolean success = courseRepository.enrollUser(userId, courseId);
+        String message = success ? "Đăng ký khóa học thành công!" : "Đăng ký thất bại!";
+
+        EnrollResponse response = EnrollResponse.newBuilder()
+                .setSuccess(success)
+                .setMessage(message)
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
 }

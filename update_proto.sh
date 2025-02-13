@@ -37,7 +37,7 @@ for SERVICE in "${SERVICES[@]}"; do
     if grep -q "$PROTO_FILE" "$SERVICE/proto-dependencies.txt"; then
       echo "Generating code for $PROTO_FILE in $SERVICE..."
       protoc --proto_path=proto --java_out="$SERVICE/src/main/java" "$PROTO_FILE"
-      protoc --proto_path=proto --java_out="$SERVICE/src/main/java" --grpc-java_out="$SERVICE/src/main/java" --plugin=protoc-gen-grpc-java="$GRPC_PLUGIN" "$PROTO_FILE"
+      protoc --proto_path=proto --java_out="$SERVICE/src/main/java" --grpc-java_out="$SERVICE/src/main/java" --plugin=protoc-gen-grpc-java="$RPC_PLUGIN" "$PROTO_FILE"
 
       echo "Replacing javax.annotation.Generated with jakarta.annotation.Generated in $SERVICE..."
       find "$SERVICE/src/main/java" -type f -name "*.java" -exec sed -i 's/javax\.annotation\.Generated/jakarta.annotation.Generated/g' {} +

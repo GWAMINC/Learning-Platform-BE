@@ -3605,6 +3605,1111 @@ public final class GateWayCourseRpcProto {
 
   }
 
+  public interface EnrollRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:course.EnrollRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>int32 user_id = 1;</code>
+     * @return The userId.
+     */
+    int getUserId();
+
+    /**
+     * <code>int32 course_id = 2;</code>
+     * @return The courseId.
+     */
+    int getCourseId();
+  }
+  /**
+   * <pre>
+   * Request đăng ký khóa học
+   * </pre>
+   *
+   * Protobuf type {@code course.EnrollRequest}
+   */
+  public static final class EnrollRequest extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:course.EnrollRequest)
+      EnrollRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 3,
+        /* suffix= */ "",
+        EnrollRequest.class.getName());
+    }
+    // Use EnrollRequest.newBuilder() to construct.
+    private EnrollRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private EnrollRequest() {
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.example.gatewaycourse.GateWayCourseRpcProto.internal_static_course_EnrollRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.example.gatewaycourse.GateWayCourseRpcProto.internal_static_course_EnrollRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest.class, com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest.Builder.class);
+    }
+
+    public static final int USER_ID_FIELD_NUMBER = 1;
+    private int userId_ = 0;
+    /**
+     * <code>int32 user_id = 1;</code>
+     * @return The userId.
+     */
+    @java.lang.Override
+    public int getUserId() {
+      return userId_;
+    }
+
+    public static final int COURSE_ID_FIELD_NUMBER = 2;
+    private int courseId_ = 0;
+    /**
+     * <code>int32 course_id = 2;</code>
+     * @return The courseId.
+     */
+    @java.lang.Override
+    public int getCourseId() {
+      return courseId_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (userId_ != 0) {
+        output.writeInt32(1, userId_);
+      }
+      if (courseId_ != 0) {
+        output.writeInt32(2, courseId_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (userId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, userId_);
+      }
+      if (courseId_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, courseId_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest)) {
+        return super.equals(obj);
+      }
+      com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest other = (com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest) obj;
+
+      if (getUserId()
+          != other.getUserId()) return false;
+      if (getCourseId()
+          != other.getCourseId()) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + USER_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getUserId();
+      hash = (37 * hash) + COURSE_ID_FIELD_NUMBER;
+      hash = (53 * hash) + getCourseId();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Request đăng ký khóa học
+     * </pre>
+     *
+     * Protobuf type {@code course.EnrollRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:course.EnrollRequest)
+        com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.example.gatewaycourse.GateWayCourseRpcProto.internal_static_course_EnrollRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.example.gatewaycourse.GateWayCourseRpcProto.internal_static_course_EnrollRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest.class, com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest.Builder.class);
+      }
+
+      // Construct using com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        userId_ = 0;
+        courseId_ = 0;
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.example.gatewaycourse.GateWayCourseRpcProto.internal_static_course_EnrollRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest getDefaultInstanceForType() {
+        return com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest build() {
+        com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest buildPartial() {
+        com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest result = new com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.userId_ = userId_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.courseId_ = courseId_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest) {
+          return mergeFrom((com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest other) {
+        if (other == com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest.getDefaultInstance()) return this;
+        if (other.getUserId() != 0) {
+          setUserId(other.getUserId());
+        }
+        if (other.getCourseId() != 0) {
+          setCourseId(other.getCourseId());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                userId_ = input.readInt32();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 16: {
+                courseId_ = input.readInt32();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 16
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private int userId_ ;
+      /**
+       * <code>int32 user_id = 1;</code>
+       * @return The userId.
+       */
+      @java.lang.Override
+      public int getUserId() {
+        return userId_;
+      }
+      /**
+       * <code>int32 user_id = 1;</code>
+       * @param value The userId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUserId(int value) {
+
+        userId_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 user_id = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUserId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        userId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int courseId_ ;
+      /**
+       * <code>int32 course_id = 2;</code>
+       * @return The courseId.
+       */
+      @java.lang.Override
+      public int getCourseId() {
+        return courseId_;
+      }
+      /**
+       * <code>int32 course_id = 2;</code>
+       * @param value The courseId to set.
+       * @return This builder for chaining.
+       */
+      public Builder setCourseId(int value) {
+
+        courseId_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 course_id = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearCourseId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        courseId_ = 0;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:course.EnrollRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:course.EnrollRequest)
+    private static final com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest();
+    }
+
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<EnrollRequest>
+        PARSER = new com.google.protobuf.AbstractParser<EnrollRequest>() {
+      @java.lang.Override
+      public EnrollRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<EnrollRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<EnrollRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface EnrollResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:course.EnrollResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>bool success = 1;</code>
+     * @return The success.
+     */
+    boolean getSuccess();
+
+    /**
+     * <code>string message = 2;</code>
+     * @return The message.
+     */
+    java.lang.String getMessage();
+    /**
+     * <code>string message = 2;</code>
+     * @return The bytes for message.
+     */
+    com.google.protobuf.ByteString
+        getMessageBytes();
+  }
+  /**
+   * <pre>
+   * Response khi đăng ký khóa học
+   * </pre>
+   *
+   * Protobuf type {@code course.EnrollResponse}
+   */
+  public static final class EnrollResponse extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:course.EnrollResponse)
+      EnrollResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 3,
+        /* suffix= */ "",
+        EnrollResponse.class.getName());
+    }
+    // Use EnrollResponse.newBuilder() to construct.
+    private EnrollResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private EnrollResponse() {
+      message_ = "";
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.example.gatewaycourse.GateWayCourseRpcProto.internal_static_course_EnrollResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.example.gatewaycourse.GateWayCourseRpcProto.internal_static_course_EnrollResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse.class, com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse.Builder.class);
+    }
+
+    public static final int SUCCESS_FIELD_NUMBER = 1;
+    private boolean success_ = false;
+    /**
+     * <code>bool success = 1;</code>
+     * @return The success.
+     */
+    @java.lang.Override
+    public boolean getSuccess() {
+      return success_;
+    }
+
+    public static final int MESSAGE_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object message_ = "";
+    /**
+     * <code>string message = 2;</code>
+     * @return The message.
+     */
+    @java.lang.Override
+    public java.lang.String getMessage() {
+      java.lang.Object ref = message_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        message_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string message = 2;</code>
+     * @return The bytes for message.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getMessageBytes() {
+      java.lang.Object ref = message_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        message_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (success_ != false) {
+        output.writeBool(1, success_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(message_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 2, message_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (success_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, success_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(message_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, message_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse)) {
+        return super.equals(obj);
+      }
+      com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse other = (com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse) obj;
+
+      if (getSuccess()
+          != other.getSuccess()) return false;
+      if (!getMessage()
+          .equals(other.getMessage())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getSuccess());
+      hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
+      hash = (53 * hash) + getMessage().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     * Response khi đăng ký khóa học
+     * </pre>
+     *
+     * Protobuf type {@code course.EnrollResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:course.EnrollResponse)
+        com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.example.gatewaycourse.GateWayCourseRpcProto.internal_static_course_EnrollResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.example.gatewaycourse.GateWayCourseRpcProto.internal_static_course_EnrollResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse.class, com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse.Builder.class);
+      }
+
+      // Construct using com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        success_ = false;
+        message_ = "";
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.example.gatewaycourse.GateWayCourseRpcProto.internal_static_course_EnrollResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse getDefaultInstanceForType() {
+        return com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse build() {
+        com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse buildPartial() {
+        com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse result = new com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.success_ = success_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.message_ = message_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse) {
+          return mergeFrom((com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse other) {
+        if (other == com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse.getDefaultInstance()) return this;
+        if (other.getSuccess() != false) {
+          setSuccess(other.getSuccess());
+        }
+        if (!other.getMessage().isEmpty()) {
+          message_ = other.message_;
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                success_ = input.readBool();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 18: {
+                message_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private boolean success_ ;
+      /**
+       * <code>bool success = 1;</code>
+       * @return The success.
+       */
+      @java.lang.Override
+      public boolean getSuccess() {
+        return success_;
+      }
+      /**
+       * <code>bool success = 1;</code>
+       * @param value The success to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSuccess(boolean value) {
+
+        success_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool success = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSuccess() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        success_ = false;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object message_ = "";
+      /**
+       * <code>string message = 2;</code>
+       * @return The message.
+       */
+      public java.lang.String getMessage() {
+        java.lang.Object ref = message_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          message_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string message = 2;</code>
+       * @return The bytes for message.
+       */
+      public com.google.protobuf.ByteString
+          getMessageBytes() {
+        java.lang.Object ref = message_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          message_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string message = 2;</code>
+       * @param value The message to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMessage(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        message_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string message = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMessage() {
+        message_ = getDefaultInstance().getMessage();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string message = 2;</code>
+       * @param value The bytes for message to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMessageBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        message_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:course.EnrollResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:course.EnrollResponse)
+    private static final com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse();
+    }
+
+    public static com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<EnrollResponse>
+        PARSER = new com.google.protobuf.AbstractParser<EnrollResponse>() {
+      @java.lang.Override
+      public EnrollResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<EnrollResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<EnrollResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_course_Course_descriptor;
   private static final 
@@ -3630,6 +4735,16 @@ public final class GateWayCourseRpcProto {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_course_GetAllCoursesResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_course_EnrollRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_course_EnrollRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_course_EnrollResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_course_EnrollResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -3649,12 +4764,16 @@ public final class GateWayCourseRpcProto {
       "CoursesResponse\022\037\n\007courses\030\001 \003(\0132\016.cours" +
       "e.Course\022\022\n\ntotalPages\030\002 \001(\005\022\024\n\014totalCou" +
       "rses\030\003 \001(\005\022\023\n\013currentPage\030\004 \001(\005\022\020\n\010pageS" +
-      "ize\030\005 \001(\0052\237\001\n\rCourseService\022@\n\tGetCourse" +
-      "\022\030.course.GetCourseRequest\032\031.course.GetC" +
-      "ourseResponse\022L\n\rGetAllCourses\022\034.course." +
-      "GetAllCoursesRequest\032\035.course.GetAllCour" +
-      "sesResponseB2\n\031com.example.gatewaycourse" +
-      "B\025GateWayCourseRpcProtob\006proto3"
+      "ize\030\005 \001(\005\"3\n\rEnrollRequest\022\017\n\007user_id\030\001 " +
+      "\001(\005\022\021\n\tcourse_id\030\002 \001(\005\"2\n\016EnrollResponse" +
+      "\022\017\n\007success\030\001 \001(\010\022\017\n\007message\030\002 \001(\t2\336\001\n\rC" +
+      "ourseService\022@\n\tGetCourse\022\030.course.GetCo" +
+      "urseRequest\032\031.course.GetCourseResponse\022L" +
+      "\n\rGetAllCourses\022\034.course.GetAllCoursesRe" +
+      "quest\032\035.course.GetAllCoursesResponse\022=\n\014" +
+      "EnrollCourse\022\025.course.EnrollRequest\032\026.co" +
+      "urse.EnrollResponseB2\n\031com.example.gatew" +
+      "aycourseB\025GateWayCourseRpcProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -3690,6 +4809,18 @@ public final class GateWayCourseRpcProto {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_course_GetAllCoursesResponse_descriptor,
         new java.lang.String[] { "Courses", "TotalPages", "TotalCourses", "CurrentPage", "PageSize", });
+    internal_static_course_EnrollRequest_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_course_EnrollRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_course_EnrollRequest_descriptor,
+        new java.lang.String[] { "UserId", "CourseId", });
+    internal_static_course_EnrollResponse_descriptor =
+      getDescriptor().getMessageTypes().get(6);
+    internal_static_course_EnrollResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_course_EnrollResponse_descriptor,
+        new java.lang.String[] { "Success", "Message", });
     descriptor.resolveAllFeaturesImmutable();
   }
 

@@ -36,8 +36,23 @@ message GetAllCoursesResponse {
   int32 pageSize = 5;
 }
 
+// Request đăng ký khóa học
+message EnrollRequest {
+  int32 user_id = 1;
+  int32 course_id = 2;
+}
+
+// Response khi đăng ký khóa học
+message EnrollResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+
 // Service cho Course
 service CourseService {
   rpc GetCourse (GetCourseRequest) returns (GetCourseResponse);
   rpc GetAllCourses (GetAllCoursesRequest) returns (GetAllCoursesResponse);
+  // Đăng ký khóa học
+  rpc EnrollCourse (EnrollRequest) returns (EnrollResponse);
 }

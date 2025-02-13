@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/course")
 public class CourseServiceController {
@@ -79,7 +81,32 @@ public class CourseServiceController {
             return ResponseEntity.status(500).body("{\"error\":\"Failed to fetch courses\"}");
         }
     }
+    @PostMapping("/enroll")
+    public ResponseEntity<?> enrollCourse(@RequestBody Map<String, Object> requestBody) {
+        try {
+            // Lấy dữ liệu từ request body và ép kiểu
+            int userId = (int) requestBody.get("userId");
+            int courseId = (int) requestBody.get("courseId");
 
+            // Tạo request gRPC
+            GateWayCourseRpcProto.EnrollRequest enrollRequest = GateWayCourseRpcProto.EnrollRequest.newBuilder()
+                    .setUserId(userId)
+                    .setCourseId(courseId)
+                    .build();
+
+            // Gửi request đến enroll-service
+            EnrollResponse response = courseServiceStub.enrollCourse(enrollRequest);
+            String json = JsonFormat.printer().print(response);
+
+            loggingService.logAPIActivity(200, "enrollCourse", response.toString());
+            return ResponseEntity.ok().header("Content-Type", "application/json").body(json);
+        } catch (ClassCastException e) {
+            return ResponseEntity.status(400).body("{\"error\":\"Invalid data format. userId and courseId must be integers.\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to enroll course\"}");
+        }
+    }
 
     @PreDestroy
     public void shutdown() {
