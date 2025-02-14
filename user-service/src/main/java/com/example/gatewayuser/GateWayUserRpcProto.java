@@ -6424,6 +6424,1099 @@ public final class GateWayUserRpcProto {
 
   }
 
+  public interface ForgotPasswordRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:user.ForgotPasswordRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>string email = 1;</code>
+     * @return The email.
+     */
+    java.lang.String getEmail();
+    /**
+     * <code>string email = 1;</code>
+     * @return The bytes for email.
+     */
+    com.google.protobuf.ByteString
+        getEmailBytes();
+  }
+  /**
+   * Protobuf type {@code user.ForgotPasswordRequest}
+   */
+  public static final class ForgotPasswordRequest extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:user.ForgotPasswordRequest)
+      ForgotPasswordRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 3,
+        /* suffix= */ "",
+        ForgotPasswordRequest.class.getName());
+    }
+    // Use ForgotPasswordRequest.newBuilder() to construct.
+    private ForgotPasswordRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private ForgotPasswordRequest() {
+      email_ = "";
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.example.gatewayuser.GateWayUserRpcProto.internal_static_user_ForgotPasswordRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.example.gatewayuser.GateWayUserRpcProto.internal_static_user_ForgotPasswordRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest.class, com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest.Builder.class);
+    }
+
+    public static final int EMAIL_FIELD_NUMBER = 1;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object email_ = "";
+    /**
+     * <code>string email = 1;</code>
+     * @return The email.
+     */
+    @java.lang.Override
+    public java.lang.String getEmail() {
+      java.lang.Object ref = email_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        email_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string email = 1;</code>
+     * @return The bytes for email.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getEmailBytes() {
+      java.lang.Object ref = email_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        email_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(email_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, email_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(email_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, email_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest)) {
+        return super.equals(obj);
+      }
+      com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest other = (com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest) obj;
+
+      if (!getEmail()
+          .equals(other.getEmail())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + EMAIL_FIELD_NUMBER;
+      hash = (53 * hash) + getEmail().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code user.ForgotPasswordRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:user.ForgotPasswordRequest)
+        com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.example.gatewayuser.GateWayUserRpcProto.internal_static_user_ForgotPasswordRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.example.gatewayuser.GateWayUserRpcProto.internal_static_user_ForgotPasswordRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest.class, com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest.Builder.class);
+      }
+
+      // Construct using com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        email_ = "";
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.example.gatewayuser.GateWayUserRpcProto.internal_static_user_ForgotPasswordRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest getDefaultInstanceForType() {
+        return com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest build() {
+        com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest buildPartial() {
+        com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest result = new com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.email_ = email_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest) {
+          return mergeFrom((com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest other) {
+        if (other == com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest.getDefaultInstance()) return this;
+        if (!other.getEmail().isEmpty()) {
+          email_ = other.email_;
+          bitField0_ |= 0x00000001;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 10: {
+                email_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 10
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private java.lang.Object email_ = "";
+      /**
+       * <code>string email = 1;</code>
+       * @return The email.
+       */
+      public java.lang.String getEmail() {
+        java.lang.Object ref = email_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          email_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string email = 1;</code>
+       * @return The bytes for email.
+       */
+      public com.google.protobuf.ByteString
+          getEmailBytes() {
+        java.lang.Object ref = email_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          email_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string email = 1;</code>
+       * @param value The email to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEmail(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        email_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string email = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearEmail() {
+        email_ = getDefaultInstance().getEmail();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string email = 1;</code>
+       * @param value The bytes for email to set.
+       * @return This builder for chaining.
+       */
+      public Builder setEmailBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        email_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:user.ForgotPasswordRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:user.ForgotPasswordRequest)
+    private static final com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest();
+    }
+
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ForgotPasswordRequest>
+        PARSER = new com.google.protobuf.AbstractParser<ForgotPasswordRequest>() {
+      @java.lang.Override
+      public ForgotPasswordRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<ForgotPasswordRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ForgotPasswordRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface ForgotPasswordResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:user.ForgotPasswordResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>bool success = 1;</code>
+     * @return The success.
+     */
+    boolean getSuccess();
+
+    /**
+     * <code>string message = 2;</code>
+     * @return The message.
+     */
+    java.lang.String getMessage();
+    /**
+     * <code>string message = 2;</code>
+     * @return The bytes for message.
+     */
+    com.google.protobuf.ByteString
+        getMessageBytes();
+  }
+  /**
+   * Protobuf type {@code user.ForgotPasswordResponse}
+   */
+  public static final class ForgotPasswordResponse extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:user.ForgotPasswordResponse)
+      ForgotPasswordResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    static {
+      com.google.protobuf.RuntimeVersion.validateProtobufGencodeVersion(
+        com.google.protobuf.RuntimeVersion.RuntimeDomain.PUBLIC,
+        /* major= */ 4,
+        /* minor= */ 29,
+        /* patch= */ 3,
+        /* suffix= */ "",
+        ForgotPasswordResponse.class.getName());
+    }
+    // Use ForgotPasswordResponse.newBuilder() to construct.
+    private ForgotPasswordResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+    }
+    private ForgotPasswordResponse() {
+      message_ = "";
+    }
+
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.example.gatewayuser.GateWayUserRpcProto.internal_static_user_ForgotPasswordResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.example.gatewayuser.GateWayUserRpcProto.internal_static_user_ForgotPasswordResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse.class, com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse.Builder.class);
+    }
+
+    public static final int SUCCESS_FIELD_NUMBER = 1;
+    private boolean success_ = false;
+    /**
+     * <code>bool success = 1;</code>
+     * @return The success.
+     */
+    @java.lang.Override
+    public boolean getSuccess() {
+      return success_;
+    }
+
+    public static final int MESSAGE_FIELD_NUMBER = 2;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object message_ = "";
+    /**
+     * <code>string message = 2;</code>
+     * @return The message.
+     */
+    @java.lang.Override
+    public java.lang.String getMessage() {
+      java.lang.Object ref = message_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        message_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string message = 2;</code>
+     * @return The bytes for message.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getMessageBytes() {
+      java.lang.Object ref = message_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        message_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (success_ != false) {
+        output.writeBool(1, success_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(message_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 2, message_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (success_ != false) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(1, success_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(message_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, message_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse)) {
+        return super.equals(obj);
+      }
+      com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse other = (com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse) obj;
+
+      if (getSuccess()
+          != other.getSuccess()) return false;
+      if (!getMessage()
+          .equals(other.getMessage())) return false;
+      if (!getUnknownFields().equals(other.getUnknownFields())) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      hash = (37 * hash) + SUCCESS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+          getSuccess());
+      hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
+      hash = (53 * hash) + getMessage().hashCode();
+      hash = (29 * hash) + getUnknownFields().hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code user.ForgotPasswordResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:user.ForgotPasswordResponse)
+        com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.example.gatewayuser.GateWayUserRpcProto.internal_static_user_ForgotPasswordResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.example.gatewayuser.GateWayUserRpcProto.internal_static_user_ForgotPasswordResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse.class, com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse.Builder.class);
+      }
+
+      // Construct using com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse.newBuilder()
+      private Builder() {
+
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        bitField0_ = 0;
+        success_ = false;
+        message_ = "";
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.example.gatewayuser.GateWayUserRpcProto.internal_static_user_ForgotPasswordResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse getDefaultInstanceForType() {
+        return com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse build() {
+        com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse buildPartial() {
+        com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse result = new com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse(this);
+        if (bitField0_ != 0) { buildPartial0(result); }
+        onBuilt();
+        return result;
+      }
+
+      private void buildPartial0(com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse result) {
+        int from_bitField0_ = bitField0_;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.success_ = success_;
+        }
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.message_ = message_;
+        }
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse) {
+          return mergeFrom((com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse other) {
+        if (other == com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse.getDefaultInstance()) return this;
+        if (other.getSuccess() != false) {
+          setSuccess(other.getSuccess());
+        }
+        if (!other.getMessage().isEmpty()) {
+          message_ = other.message_;
+          bitField0_ |= 0x00000002;
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                success_ = input.readBool();
+                bitField0_ |= 0x00000001;
+                break;
+              } // case 8
+              case 18: {
+                message_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000002;
+                break;
+              } // case 18
+              default: {
+                if (!super.parseUnknownField(input, extensionRegistry, tag)) {
+                  done = true; // was an endgroup tag
+                }
+                break;
+              } // default:
+            } // switch (tag)
+          } // while (!done)
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.unwrapIOException();
+        } finally {
+          onChanged();
+        } // finally
+        return this;
+      }
+      private int bitField0_;
+
+      private boolean success_ ;
+      /**
+       * <code>bool success = 1;</code>
+       * @return The success.
+       */
+      @java.lang.Override
+      public boolean getSuccess() {
+        return success_;
+      }
+      /**
+       * <code>bool success = 1;</code>
+       * @param value The success to set.
+       * @return This builder for chaining.
+       */
+      public Builder setSuccess(boolean value) {
+
+        success_ = value;
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>bool success = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearSuccess() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        success_ = false;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object message_ = "";
+      /**
+       * <code>string message = 2;</code>
+       * @return The message.
+       */
+      public java.lang.String getMessage() {
+        java.lang.Object ref = message_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          message_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string message = 2;</code>
+       * @return The bytes for message.
+       */
+      public com.google.protobuf.ByteString
+          getMessageBytes() {
+        java.lang.Object ref = message_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          message_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string message = 2;</code>
+       * @param value The message to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMessage(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        message_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string message = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearMessage() {
+        message_ = getDefaultInstance().getMessage();
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string message = 2;</code>
+       * @param value The bytes for message to set.
+       * @return This builder for chaining.
+       */
+      public Builder setMessageBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        message_ = value;
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:user.ForgotPasswordResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:user.ForgotPasswordResponse)
+    private static final com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse();
+    }
+
+    public static com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<ForgotPasswordResponse>
+        PARSER = new com.google.protobuf.AbstractParser<ForgotPasswordResponse>() {
+      @java.lang.Override
+      public ForgotPasswordResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        Builder builder = newBuilder();
+        try {
+          builder.mergeFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(builder.buildPartial());
+        } catch (com.google.protobuf.UninitializedMessageException e) {
+          throw e.asInvalidProtocolBufferException().setUnfinishedMessage(builder.buildPartial());
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(e)
+              .setUnfinishedMessage(builder.buildPartial());
+        }
+        return builder.buildPartial();
+      }
+    };
+
+    public static com.google.protobuf.Parser<ForgotPasswordResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<ForgotPasswordResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_user_User_descriptor;
   private static final 
@@ -6469,6 +7562,16 @@ public final class GateWayUserRpcProto {
   private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_user_RegisterResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_user_ForgotPasswordRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_user_ForgotPasswordRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_user_ForgotPasswordResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_user_ForgotPasswordResponse_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -6491,15 +7594,19 @@ public final class GateWayUserRpcProto {
       "(\t\022\r\n\005token\030\003 \001(\t\"R\n\017RegisterRequest\022\020\n\010" +
       "username\030\001 \001(\t\022\r\n\005email\030\002 \001(\t\022\020\n\010passwor" +
       "d\030\003 \001(\t\022\014\n\004role\030\004 \001(\t\"4\n\020RegisterRespons" +
-      "e\022\017\n\007success\030\001 \001(\010\022\017\n\007message\030\002 \001(\t2\366\001\n\013" +
-      "UserService\0226\n\007GetUser\022\024.user.GetUserReq" +
-      "uest\032\025.user.GetUserResponse\022B\n\013GetAllUse" +
-      "rs\022\030.user.GetAllUsersRequest\032\031.user.GetA" +
-      "llUsersResponse\0220\n\005Login\022\022.user.LoginReq" +
-      "uest\032\023.user.LoginResponse\0229\n\010Register\022\025." +
-      "user.RegisterRequest\032\026.user.RegisterResp" +
-      "onseB.\n\027com.example.gatewayuserB\023GateWay" +
-      "UserRpcProtob\006proto3"
+      "e\022\017\n\007success\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\"&\n\025F" +
+      "orgotPasswordRequest\022\r\n\005email\030\001 \001(\t\":\n\026F" +
+      "orgotPasswordResponse\022\017\n\007success\030\001 \001(\010\022\017" +
+      "\n\007message\030\002 \001(\t2\303\002\n\013UserService\0226\n\007GetUs" +
+      "er\022\024.user.GetUserRequest\032\025.user.GetUserR" +
+      "esponse\022B\n\013GetAllUsers\022\030.user.GetAllUser" +
+      "sRequest\032\031.user.GetAllUsersResponse\0220\n\005L" +
+      "ogin\022\022.user.LoginRequest\032\023.user.LoginRes" +
+      "ponse\0229\n\010Register\022\025.user.RegisterRequest" +
+      "\032\026.user.RegisterResponse\022K\n\016ForgotPasswo" +
+      "rd\022\033.user.ForgotPasswordRequest\032\034.user.F" +
+      "orgotPasswordResponseB.\n\027com.example.gat" +
+      "ewayuserB\023GateWayUserRpcProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -6558,6 +7665,18 @@ public final class GateWayUserRpcProto {
     internal_static_user_RegisterResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_user_RegisterResponse_descriptor,
+        new java.lang.String[] { "Success", "Message", });
+    internal_static_user_ForgotPasswordRequest_descriptor =
+      getDescriptor().getMessageTypes().get(9);
+    internal_static_user_ForgotPasswordRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_user_ForgotPasswordRequest_descriptor,
+        new java.lang.String[] { "Email", });
+    internal_static_user_ForgotPasswordResponse_descriptor =
+      getDescriptor().getMessageTypes().get(10);
+    internal_static_user_ForgotPasswordResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_user_ForgotPasswordResponse_descriptor,
         new java.lang.String[] { "Success", "Message", });
     descriptor.resolveAllFeaturesImmutable();
   }

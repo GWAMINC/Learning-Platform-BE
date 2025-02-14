@@ -1,9 +1,11 @@
 package user_service.user_service.service;
 
+import com.example.common.MessageOuterClass;
 import com.example.gatewayuser.GateWayUserRpcProto;
 import com.example.gatewayuser.UserServiceGrpc;
 import com.example.gatewayuser.GateWayUserRpcProto.*;
 import io.grpc.stub.StreamObserver;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import user_service.user_service.repository.UserRepository;
@@ -14,6 +16,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
+import static user_service.user_service.utils.RandomPassword.generatePassword;
+
 @Service
 public class UserService extends UserServiceGrpc.UserServiceImplBase {
     private final UserRepository userRepository;
@@ -21,6 +25,8 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
 
     @Autowired
     private LoggingService loggingService;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     public UserService(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
@@ -137,6 +143,54 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
             responseObserver.onNext(response);
             responseObserver.onCompleted();
         }
+    }
+    @Override
+    public void forgotPassword(ForgotPasswordRequest request, StreamObserver<ForgotPasswordResponse> responseObserver) {
+        Optional<Map<String, Object>> userOptional = userRepository.findByEmail(request.getEmail());
+
+        if (userOptional.isPresent()) {
+            Map<String, Object> user = userOptional.get();
+            String email = (String) user.get("email");
+
+            // Tạo mật khẩu ngẫu nhiên
+            String newPassword = generatePassword();
+
+            // Cập nhật mật khẩu mới vào database
+            userRepository.updatePassword(email, newPassword);
+
+            // Gửi mật khẩu mới qua RabbitMQ
+            sendNewPasswordEmail(email, newPassword);
+
+            ForgotPasswordResponse response = ForgotPasswordResponse.newBuilder()
+                    .setSuccess(true)
+                    .setMessage("New password sent to email")
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } else {
+            ForgotPasswordResponse response = ForgotPasswordResponse.newBuilder()
+                    .setSuccess(false)
+                    .setMessage("Email not found")
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+    }
+
+    private void sendNewPasswordEmail(String email, String newPassword) {
+        // Tạo message bằng Protobuf
+        MessageOuterClass.Message message = MessageOuterClass.Message.newBuilder()
+                .setReceiver(email)
+                .setContent("Your new password is: " + newPassword)
+                .build();
+
+        // Sử dụng phương thức toByteArray() để mã hóa message thành byte array
+        byte[] messageBytes = message.toByteArray();
+
+        // Gửi message qua RabbitMQ
+        rabbitTemplate.convertAndSend("emailExchange", "emailRoutingKey", messageBytes);
     }
 
     @Override

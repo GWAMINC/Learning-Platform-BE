@@ -158,6 +158,38 @@ public final class UserServiceGrpc {
      }
      return getRegisterMethod;
   }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getForgotPasswordMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse> METHOD_FORGOT_PASSWORD = getForgotPasswordMethod();
+
+  private static volatile io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse> getForgotPasswordMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse> getForgotPasswordMethod() {
+    io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest, com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse> getForgotPasswordMethod;
+    if ((getForgotPasswordMethod = UserServiceGrpc.getForgotPasswordMethod) == null) {
+      synchronized (UserServiceGrpc.class) {
+        if ((getForgotPasswordMethod = UserServiceGrpc.getForgotPasswordMethod) == null) {
+          UserServiceGrpc.getForgotPasswordMethod = getForgotPasswordMethod = 
+              io.grpc.MethodDescriptor.<com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest, com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "user.UserService", "ForgotPassword"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new UserServiceMethodDescriptorSupplier("ForgotPassword"))
+                  .build();
+          }
+        }
+     }
+     return getForgotPasswordMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -217,6 +249,13 @@ public final class UserServiceGrpc {
       asyncUnimplementedUnaryCall(getRegisterMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void forgotPassword(com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest request,
+        io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getForgotPasswordMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -247,6 +286,13 @@ public final class UserServiceGrpc {
                 com.example.gatewayuser.GateWayUserRpcProto.RegisterRequest,
                 com.example.gatewayuser.GateWayUserRpcProto.RegisterResponse>(
                   this, METHODID_REGISTER)))
+          .addMethod(
+            getForgotPasswordMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest,
+                com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse>(
+                  this, METHODID_FORGOT_PASSWORD)))
           .build();
     }
   }
@@ -303,6 +349,14 @@ public final class UserServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getRegisterMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void forgotPassword(com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest request,
+        io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getForgotPasswordMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -352,6 +406,13 @@ public final class UserServiceGrpc {
     public com.example.gatewayuser.GateWayUserRpcProto.RegisterResponse register(com.example.gatewayuser.GateWayUserRpcProto.RegisterRequest request) {
       return blockingUnaryCall(
           getChannel(), getRegisterMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse forgotPassword(com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getForgotPasswordMethod(), getCallOptions(), request);
     }
   }
 
@@ -407,12 +468,21 @@ public final class UserServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getRegisterMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse> forgotPassword(
+        com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getForgotPasswordMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_USER = 0;
   private static final int METHODID_GET_ALL_USERS = 1;
   private static final int METHODID_LOGIN = 2;
   private static final int METHODID_REGISTER = 3;
+  private static final int METHODID_FORGOT_PASSWORD = 4;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -446,6 +516,10 @@ public final class UserServiceGrpc {
         case METHODID_REGISTER:
           serviceImpl.register((com.example.gatewayuser.GateWayUserRpcProto.RegisterRequest) request,
               (io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.RegisterResponse>) responseObserver);
+          break;
+        case METHODID_FORGOT_PASSWORD:
+          serviceImpl.forgotPassword((com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest) request,
+              (io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -512,6 +586,7 @@ public final class UserServiceGrpc {
               .addMethod(getGetAllUsersMethod())
               .addMethod(getLoginMethod())
               .addMethod(getRegisterMethod())
+              .addMethod(getForgotPasswordMethod())
               .build();
         }
       }
