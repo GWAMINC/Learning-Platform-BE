@@ -7,6 +7,7 @@ import io.grpc.stub.StreamObserver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import course_service.course_service.repository.CourseRepository;
+import course_service.course_service.repository.CourseStudentRepository;
 
 import java.util.List;
 import java.util.Map;
@@ -15,20 +16,19 @@ import java.util.Map;
 @Service
 public class CourseService extends CourseServiceGrpc.CourseServiceImplBase {
     private final CourseRepository courseRepository;
-
+    private final CourseStudentRepository courseStudentRepository;
     @Autowired
     private LoggingService loggingService;
 
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository, CourseStudentRepository courseStudentRepository) {
         this.courseRepository = courseRepository;
+        this.courseStudentRepository = courseStudentRepository;
     }
 
     @Override
     public void getCourse(GateWayCourseRpcProto.GetCourseRequest request, StreamObserver<GateWayCourseRpcProto.GetCourseResponse> responseObserver) {
         // Lấy dữ liệu từ database
         try {
-
-
             Map<String, Object> result = courseRepository.findCourseById(request.getId());
             if (result == null || result.isEmpty()) {
                 responseObserver.onError(new RuntimeException("Course not found"));
@@ -88,5 +88,34 @@ public class CourseService extends CourseServiceGrpc.CourseServiceImplBase {
         responseObserver.onCompleted();
     }
 
+    @Override
+    public void enrollCourse(EnrollRequest request, StreamObserver<EnrollResponse> responseObserver) {
+        int userId = request.getUserId();
+        int courseId = request.getCourseId();
 
+        // Kiểm tra xem người dùng đã đăng ký khóa học chưa
+        boolean isEnrolled = courseStudentRepository.isUserEnrolled(userId, courseId);
+        if (isEnrolled) {
+            // Nếu đã đăng ký, trả về thông báo lỗi
+            EnrollResponse response = EnrollResponse.newBuilder()
+                    .setSuccess(false)
+                    .setMessage("Bạn đã đăng ký khóa học này rồi!")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+            return;
+        }
+
+        // Nếu chưa đăng ký, tiến hành lưu vào DB
+        boolean success = courseStudentRepository.enrollUser(userId, courseId);
+        String message = success ? "Đăng ký khóa học thành công!" : "Đăng ký thất bại!";
+
+        EnrollResponse response = EnrollResponse.newBuilder()
+                .setSuccess(success)
+                .setMessage(message)
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
 }

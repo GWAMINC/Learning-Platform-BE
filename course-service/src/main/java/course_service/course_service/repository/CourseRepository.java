@@ -29,4 +29,5 @@ public class CourseRepository {
         String sql = "SELECT COUNT(*) FROM Courses";
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
+
 }
