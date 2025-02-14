@@ -42,8 +42,8 @@ public class JwtAuthenticationFilter implements WebFilter {
         if (request.getPath().toString().equals("/api/user/register")) {
             return chain.filter(exchange);
         }
-//        String authorizationHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-//        System.out.println("📢 Authorization Header: " + authorizationHeader);
+        String authorizationHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        System.out.println("📢 Authorization Header: " + authorizationHeader);
     
         String token = null;
         HttpCookie jwtCookie = request.getCookies().getFirst("token");

@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package category;
+
+option java_package = "com.example.gatewaycategory";
+option java_outer_classname = "GateWayCategoryRpcProto";
+
+// Định nghĩa Category
+message Category {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+// Request và Response
+message CreateCategoryRequest {
+  string name = 1;
+  string description = 2;
+}
+
+message CreateCategoryResponse {
+  string status = 1;
+  string message = 2;
+}
+
+message GetCategoryRequest {
+  int32 id = 1;
+}
+
+message GetCategoryResponse {
+  Category category = 1;
+}
+
+message GetAllCategoriesRequest {
+}
+
+message GetAllCategoriesResponse {
+  repeated Category categories = 1;
+}
+
+message UpdateCategoryRequest {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+message UpdateCategoryResponse {
+  Category category = 1;
+}
+
+message DeleteCategoryRequest {
+  int32 id = 1;
+}
+
+message DeleteCategoryResponse {
+  string status = 1;
+  string message = 2;
+}
+
+// Service cho Category
+service CategoryService {
+  rpc CreateCategory (CreateCategoryRequest) returns (CreateCategoryResponse);
+  rpc GetCategory (GetCategoryRequest) returns (GetCategoryResponse);
+  rpc GetAllCategories (GetAllCategoriesRequest) returns (GetAllCategoriesResponse);
+  rpc UpdateCategory (UpdateCategoryRequest) returns (UpdateCategoryResponse);
+  rpc DeleteCategory (DeleteCategoryRequest) returns (DeleteCategoryResponse);
+}
+
