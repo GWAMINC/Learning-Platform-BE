@@ -41,7 +41,10 @@ public class UserServiceController {
 //                .build();
         this.userServiceStub = UserServiceGrpc.newBlockingStub(userServiceChannel);
     }
-
+    @GetMapping("/hello")
+    public ResponseEntity<String> getHello() {
+        return ResponseEntity.ok("Helloaaaaaaaaqa");
+    }
     @GetMapping("/{id}")
     public ResponseEntity<String> getUserById(@PathVariable int id) {
         try {
@@ -85,6 +88,28 @@ public class UserServiceController {
             e.printStackTrace();
             return ResponseEntity.status(500).body("{\"error\":\"Failed to fetch users\"}");
         }
+    }
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody Map<String, Object> requestBody) {
+        try {
+            GateWayUserRpcProto.RegisterRequest registerRequest = GateWayUserRpcProto.RegisterRequest.newBuilder()
+                    .setUsername(requestBody.get("username").toString())
+                    .setEmail(requestBody.get("email").toString())
+                    .setPassword(requestBody.get("password").toString())
+                    .setRole(requestBody.get("role").toString())
+                    .build();
+
+            // Gọi gRPC để đăng ký người dùng
+            GateWayUserRpcProto.RegisterResponse response = userServiceStub.register(registerRequest);
+
+            // Trả về message từ gRPC response
+            return ResponseEntity.status(response.getSuccess() ? 200 : 400)
+                    .body(Map.of("success", response.getSuccess(), "message", response.getMessage()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of("success", false, "message", "Internal server error"));
+        }
+
     }
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, Object> requestBody) {

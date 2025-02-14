@@ -12,6 +12,7 @@ import user_service.user_service.utils.JwtUtil;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 public class UserService extends UserServiceGrpc.UserServiceImplBase {
@@ -24,6 +25,10 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
     public UserService(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
+    }
+    private boolean isValidPassword(String password) {
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$";
+        return Pattern.matches(passwordPattern, password);
     }
 
     @Override
@@ -75,6 +80,65 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void register(RegisterRequest request, StreamObserver<RegisterResponse> responseObserver) {
+        try {
+            // Kiểm tra username đã tồn tại chưa
+            Optional<Map<String, Object>> userByUsername = userRepository.findByUsername(request.getUsername());
+            if (userByUsername.isPresent()) {
+                RegisterResponse response = RegisterResponse.newBuilder()
+                        .setSuccess(false)
+                        .setMessage("Username already exists")
+                        .build();
+                responseObserver.onNext(response);
+                responseObserver.onCompleted();
+                return;
+            }
+
+            // Kiểm tra email đã tồn tại chưa
+            Optional<Map<String, Object>> userByEmail = userRepository.findByEmail(request.getEmail());
+            if (userByEmail.isPresent()) {
+                RegisterResponse response = RegisterResponse.newBuilder()
+                        .setSuccess(false)
+                        .setMessage("Email already exists")
+                        .build();
+                responseObserver.onNext(response);
+                responseObserver.onCompleted();
+                return;
+            }
+
+            // Kiểm tra password có hợp lệ không
+            if (!isValidPassword(request.getPassword())) {
+                RegisterResponse response = RegisterResponse.newBuilder()
+                        .setSuccess(false)
+                        .setMessage("Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, and a number")
+                        .build();
+                responseObserver.onNext(response);
+                responseObserver.onCompleted();
+                return;
+            }
+
+            // Thêm user mới vào database
+            userRepository.addUser(request.getUsername(), request.getEmail(), request.getPassword(), request.getRole());
+
+            RegisterResponse response = RegisterResponse.newBuilder()
+                    .setSuccess(true)
+                    .setMessage("User registered successfully")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            e.printStackTrace();
+            RegisterResponse response = RegisterResponse.newBuilder()
+                    .setSuccess(false)
+                    .setMessage("Internal server error: " + e.getMessage())
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+    }
+
     @Override
     public void login(LoginRequest request, StreamObserver<LoginResponse> responseObserver) {
         Optional<Map<String, Object>> userOptional = userRepository.findByEmail(request.getEmail());

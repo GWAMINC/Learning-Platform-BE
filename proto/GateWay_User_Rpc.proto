@@ -42,9 +42,22 @@ message LoginResponse {
   string token = 3; // JWT token nếu đăng nhập thành công
 }
 
+message RegisterRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+  string role = 4;
+}
+
+message RegisterResponse {
+  bool success = 1;
+  string message = 2;
+}
+
 // Service cho User
 service UserService {
   rpc GetUser (GetUserRequest) returns (GetUserResponse);
   rpc GetAllUsers (GetAllUsersRequest) returns (GetAllUsersResponse);
   rpc Login (LoginRequest) returns (LoginResponse);
+  rpc Register (RegisterRequest) returns (RegisterResponse);
 }
