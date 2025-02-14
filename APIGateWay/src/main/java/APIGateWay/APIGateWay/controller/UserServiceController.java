@@ -41,10 +41,7 @@ public class UserServiceController {
 //                .build();
         this.userServiceStub = UserServiceGrpc.newBlockingStub(userServiceChannel);
     }
-    @GetMapping("/hello")
-    public ResponseEntity<String> getHello() {
-        return ResponseEntity.ok("Helloaaaaaaaaqa");
-    }
+
     @GetMapping("/{id}")
     public ResponseEntity<String> getUserById(@PathVariable int id) {
         try {
@@ -110,6 +107,24 @@ public class UserServiceController {
             return ResponseEntity.status(500).body(Map.of("success", false, "message", "Internal server error"));
         }
 
+    }
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody Map<String, Object> requestBody) {
+        try {
+            GateWayUserRpcProto.ForgotPasswordRequest forgotPasswordRequest = GateWayUserRpcProto.ForgotPasswordRequest.newBuilder()
+                    .setEmail(requestBody.get("email").toString())
+                    .build();
+
+            // Gọi gRPC để yêu cầu reset mật khẩu
+            GateWayUserRpcProto.ForgotPasswordResponse response = userServiceStub.forgotPassword(forgotPasswordRequest);
+
+            // Trả về message từ gRPC response
+            return ResponseEntity.status(response.getSuccess() ? 200 : 400)
+                    .body(Map.of("success", response.getSuccess(), "message", response.getMessage()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of("success", false, "message", "Internal server error"));
+        }
     }
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, Object> requestBody) {

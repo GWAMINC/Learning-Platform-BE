@@ -37,6 +37,7 @@ public class WebConfig {
                 .authorizeExchange(exchange -> exchange
                         .pathMatchers("/api/user/login").permitAll()
                         .pathMatchers("/api/user/register").permitAll()
+                        .pathMatchers("/api/user/forgot-password").permitAll()
                         .anyExchange().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION);
