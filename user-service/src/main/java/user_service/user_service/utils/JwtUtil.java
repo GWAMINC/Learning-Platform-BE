@@ -13,10 +13,11 @@ import java.util.Map;
 public class JwtUtil {
     private final String SECRET_KEY = "1cbaee3794baa86215098188f54d3adaaefc3c7b49ed28dc475cc29a4ac4fe05";
 
-    public String generateToken(String email, int userId) {
+    public String generateToken(String email, int userId,String role) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("id", userId);
         claims.put("email", email);
+        claims.put("role", role);
 
         return Jwts.builder()
                 .setClaims(claims)

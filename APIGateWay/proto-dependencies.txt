@@ -1,3 +1,4 @@
 proto/Message.proto
 proto/GateWay_User_Rpc.proto
 proto/GateWay_Course_Rpc.proto
+proto/course/category/GateWay_Category_Rpc.proto

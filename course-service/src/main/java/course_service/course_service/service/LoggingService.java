@@ -14,6 +14,10 @@ public class LoggingService {
         logger.info("Course-service | Status: {} | Action: {} | Metadata: {}", statusCode, action, metadata);
     }
 
+    public void logCategoryActivity(int statusCode, String action, String metadata) {
+        logger.info("Category-service | Status: {} | Action: {} | Metadata: {}", statusCode, action, metadata);
+    }
+
     public void logError(Exception e, String action) {
         int statusCode = 500; // Mặc định là 500 Internal Server Error
 

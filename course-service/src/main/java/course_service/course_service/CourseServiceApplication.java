@@ -1,5 +1,6 @@
 package course_service.course_service;
 
+import course_service.course_service.service.CategoryService;
 import course_service.course_service.service.CourseService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
@@ -27,8 +28,10 @@ public class CourseServiceApplication implements CommandLineRunner  {
 		// Chỉ khởi động gRPC server khi không chạy dưới môi trường Maven build
 		if (!isRunningInBuildMode()) {
 			CourseService courseService = applicationContext.getBean(CourseService.class);
+			CategoryService categoryService = applicationContext.getBean(CategoryService.class);
 			Server server = ServerBuilder.forPort(50051)
 					.addService(courseService)
+					.addService(categoryService)
 					.build()
 					.start();
 

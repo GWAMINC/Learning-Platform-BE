@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.function.Function;
 
 @Component
@@ -12,6 +13,10 @@ public class JwtUtil {
 
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public String extractRoles(String token) {;
+        return extractClaim(token, claims -> claims.get("role", String.class));
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
