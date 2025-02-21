@@ -1,11 +1,11 @@
 spring:
-  main:
-    web-application-type: none
   data:
     mongodb:
-      uri: mongodb://root:rootpassword@localhost:27017/chatdb?authSource=admin
+      uri: mongodb+srv://anhvh243:Kv9RzWTuamVcTlif@cluster0.xgxi5.mongodb.net/chatdb
 
+server:
+  port: 8084
 
-logging:
-  level:
-    org.springframework: DEBUG
+#logging:
+#  level:
+#    org.springframework: DEBUG

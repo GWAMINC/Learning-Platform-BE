@@ -56,6 +56,8 @@ public class WebConfig {
         corsConfig.setAllowedHeaders(Arrays.asList("*")); // Cho phép tất cả header
         corsConfig.setAllowCredentials(true); // Quan trọng: Cho phép gửi Cookie JWT từ FE
 
+        corsConfig.setExposedHeaders(Arrays.asList("Authorization", "Content-Type"));
+
         source.registerCorsConfiguration("/**", corsConfig);
         return source;
     }

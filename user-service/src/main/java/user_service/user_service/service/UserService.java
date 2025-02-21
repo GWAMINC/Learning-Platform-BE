@@ -203,12 +203,14 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
 
             if (storedPassword.equals(request.getPassword())) {
                 int userId = (int) user.get("id");
+                String username = (String) user.get("username");
                 String token = jwtUtil.generateToken((String) user.get("email"), userId, (String) user.get("role"));
 
                 LoginResponse response = LoginResponse.newBuilder()
                         .setSuccess(true)
                         .setMessage("Login successful")
                         .setToken(token)
+                        .setUsername(username)
                         .build();
 
                 responseObserver.onNext(response);

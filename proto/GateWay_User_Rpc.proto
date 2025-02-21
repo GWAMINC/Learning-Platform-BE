@@ -40,6 +40,7 @@ message LoginResponse {
   bool success = 1;
   string message = 2;
   string token = 3; // JWT token nếu đăng nhập thành công
+  string username = 4;
 }
 
 message RegisterRequest {

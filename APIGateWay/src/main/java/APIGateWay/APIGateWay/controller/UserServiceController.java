@@ -152,7 +152,7 @@ public class UserServiceController {
 
             return ResponseEntity.ok()
                     .header(HttpHeaders.SET_COOKIE, jwtCookie.toString()) // Set cookie
-                    .body(Map.of("success", true, "message", "Login successful"));
+                    .body(Map.of("success", true, "message", "Login successful", "username", response.getUsername()));
 
         } catch (Exception e) {
             e.printStackTrace();
