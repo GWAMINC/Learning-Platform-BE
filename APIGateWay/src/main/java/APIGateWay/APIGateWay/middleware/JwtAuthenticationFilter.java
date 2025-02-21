@@ -56,9 +56,9 @@ public class JwtAuthenticationFilter implements WebFilter {
             token = jwtCookie.getValue();
         }
 
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            return unauthorizedResponse(exchange);
-        }
+//        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+//            return unauthorizedResponse(exchange);
+//        }
         if (token == null) {
             return unauthorizedResponse(exchange);
         }

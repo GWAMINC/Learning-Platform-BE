@@ -1,10 +1,11 @@
 services:
   rabbitmq:
-    image: rabbitmq:management
+    image: rabbitmq:3.11-management
     container_name: rabbitmq
     ports:
       - "15762:15672" # Giao diện quản trị RabbitMQ
       - "5672:5672"   # Port mặc định để các ứng dụng kết nối tới RabbitMQ
+#      - "61613:61613"  # STOMP WebSocket
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
@@ -124,12 +125,26 @@ services:
       context: ./chat-service
     container_name: chat-service
     environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://root:rootpassword@mongodb:27017/chatdb?authSource=admin
+      - SPRING_DATA_MONGODB_URI=mongodb+srv://anhvh243:Kv9RzWTuamVcTlif@cluster0.xgxi5.mongodb.net/chatdb
+#      - SPRING_RABBITMQ_HOST=rabbitmq
+#      - SPRING_RABBITMQ_PORT=5672  # AMQP cho queue
+#      - SPRING_RABBITMQ_STOMP_PORT=61613  # STOMP WebSocket
     ports:
-#      - 8084:8084
-      - 50053:50053 # gRPC
+      - 8084:8084
     networks:
       - microservices-network
+
+  socket-service:
+    build:
+      context: ./socket-service
+    container_name: socket-service
+    environment:
+      - MONGO_URI=mongodb+srv://anhvh243:Kv9RzWTuamVcTlif@cluster0.xgxi5.mongodb.net/chatdb
+    ports:
+      - 5001:5001
+    networks:
+      - microservices-network
+
 
   api-gateway:
     build:

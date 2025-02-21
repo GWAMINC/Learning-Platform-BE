@@ -4161,6 +4161,18 @@ public final class GateWayUserRpcProto {
      */
     com.google.protobuf.ByteString
         getTokenBytes();
+
+    /**
+     * <code>string username = 4;</code>
+     * @return The username.
+     */
+    java.lang.String getUsername();
+    /**
+     * <code>string username = 4;</code>
+     * @return The bytes for username.
+     */
+    com.google.protobuf.ByteString
+        getUsernameBytes();
   }
   /**
    * Protobuf type {@code user.LoginResponse}
@@ -4186,6 +4198,7 @@ public final class GateWayUserRpcProto {
     private LoginResponse() {
       message_ = "";
       token_ = "";
+      username_ = "";
     }
 
     public static final com.google.protobuf.Descriptors.Descriptor
@@ -4298,6 +4311,45 @@ public final class GateWayUserRpcProto {
       }
     }
 
+    public static final int USERNAME_FIELD_NUMBER = 4;
+    @SuppressWarnings("serial")
+    private volatile java.lang.Object username_ = "";
+    /**
+     * <code>string username = 4;</code>
+     * @return The username.
+     */
+    @java.lang.Override
+    public java.lang.String getUsername() {
+      java.lang.Object ref = username_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        username_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string username = 4;</code>
+     * @return The bytes for username.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString
+        getUsernameBytes() {
+      java.lang.Object ref = username_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        username_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -4321,6 +4373,9 @@ public final class GateWayUserRpcProto {
       if (!com.google.protobuf.GeneratedMessage.isStringEmpty(token_)) {
         com.google.protobuf.GeneratedMessage.writeString(output, 3, token_);
       }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(username_)) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 4, username_);
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -4339,6 +4394,9 @@ public final class GateWayUserRpcProto {
       }
       if (!com.google.protobuf.GeneratedMessage.isStringEmpty(token_)) {
         size += com.google.protobuf.GeneratedMessage.computeStringSize(3, token_);
+      }
+      if (!com.google.protobuf.GeneratedMessage.isStringEmpty(username_)) {
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(4, username_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSize = size;
@@ -4361,6 +4419,8 @@ public final class GateWayUserRpcProto {
           .equals(other.getMessage())) return false;
       if (!getToken()
           .equals(other.getToken())) return false;
+      if (!getUsername()
+          .equals(other.getUsername())) return false;
       if (!getUnknownFields().equals(other.getUnknownFields())) return false;
       return true;
     }
@@ -4379,6 +4439,8 @@ public final class GateWayUserRpcProto {
       hash = (53 * hash) + getMessage().hashCode();
       hash = (37 * hash) + TOKEN_FIELD_NUMBER;
       hash = (53 * hash) + getToken().hashCode();
+      hash = (37 * hash) + USERNAME_FIELD_NUMBER;
+      hash = (53 * hash) + getUsername().hashCode();
       hash = (29 * hash) + getUnknownFields().hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -4513,6 +4575,7 @@ public final class GateWayUserRpcProto {
         success_ = false;
         message_ = "";
         token_ = "";
+        username_ = "";
         return this;
       }
 
@@ -4555,6 +4618,9 @@ public final class GateWayUserRpcProto {
         if (((from_bitField0_ & 0x00000004) != 0)) {
           result.token_ = token_;
         }
+        if (((from_bitField0_ & 0x00000008) != 0)) {
+          result.username_ = username_;
+        }
       }
 
       @java.lang.Override
@@ -4580,6 +4646,11 @@ public final class GateWayUserRpcProto {
         if (!other.getToken().isEmpty()) {
           token_ = other.token_;
           bitField0_ |= 0x00000004;
+          onChanged();
+        }
+        if (!other.getUsername().isEmpty()) {
+          username_ = other.username_;
+          bitField0_ |= 0x00000008;
           onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
@@ -4623,6 +4694,11 @@ public final class GateWayUserRpcProto {
                 bitField0_ |= 0x00000004;
                 break;
               } // case 26
+              case 34: {
+                username_ = input.readStringRequireUtf8();
+                bitField0_ |= 0x00000008;
+                break;
+              } // case 34
               default: {
                 if (!super.parseUnknownField(input, extensionRegistry, tag)) {
                   done = true; // was an endgroup tag
@@ -4832,6 +4908,78 @@ public final class GateWayUserRpcProto {
         checkByteStringIsUtf8(value);
         token_ = value;
         bitField0_ |= 0x00000004;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object username_ = "";
+      /**
+       * <code>string username = 4;</code>
+       * @return The username.
+       */
+      public java.lang.String getUsername() {
+        java.lang.Object ref = username_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          username_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string username = 4;</code>
+       * @return The bytes for username.
+       */
+      public com.google.protobuf.ByteString
+          getUsernameBytes() {
+        java.lang.Object ref = username_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          username_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string username = 4;</code>
+       * @param value The username to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUsername(
+          java.lang.String value) {
+        if (value == null) { throw new NullPointerException(); }
+        username_ = value;
+        bitField0_ |= 0x00000008;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string username = 4;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearUsername() {
+        username_ = getDefaultInstance().getUsername();
+        bitField0_ = (bitField0_ & ~0x00000008);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string username = 4;</code>
+       * @param value The bytes for username to set.
+       * @return This builder for chaining.
+       */
+      public Builder setUsernameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) { throw new NullPointerException(); }
+        checkByteStringIsUtf8(value);
+        username_ = value;
+        bitField0_ |= 0x00000008;
         onChanged();
         return this;
       }
@@ -7589,24 +7737,25 @@ public final class GateWayUserRpcProto {
       "onse\022\030\n\004user\030\001 \001(\0132\n.user.User\"\024\n\022GetAll" +
       "UsersRequest\"0\n\023GetAllUsersResponse\022\031\n\005u" +
       "sers\030\001 \003(\0132\n.user.User\"/\n\014LoginRequest\022\r" +
-      "\n\005email\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"@\n\rLogin" +
+      "\n\005email\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"R\n\rLogin" +
       "Response\022\017\n\007success\030\001 \001(\010\022\017\n\007message\030\002 \001" +
-      "(\t\022\r\n\005token\030\003 \001(\t\"R\n\017RegisterRequest\022\020\n\010" +
-      "username\030\001 \001(\t\022\r\n\005email\030\002 \001(\t\022\020\n\010passwor" +
-      "d\030\003 \001(\t\022\014\n\004role\030\004 \001(\t\"4\n\020RegisterRespons" +
-      "e\022\017\n\007success\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\"&\n\025F" +
-      "orgotPasswordRequest\022\r\n\005email\030\001 \001(\t\":\n\026F" +
-      "orgotPasswordResponse\022\017\n\007success\030\001 \001(\010\022\017" +
-      "\n\007message\030\002 \001(\t2\303\002\n\013UserService\0226\n\007GetUs" +
-      "er\022\024.user.GetUserRequest\032\025.user.GetUserR" +
-      "esponse\022B\n\013GetAllUsers\022\030.user.GetAllUser" +
-      "sRequest\032\031.user.GetAllUsersResponse\0220\n\005L" +
-      "ogin\022\022.user.LoginRequest\032\023.user.LoginRes" +
-      "ponse\0229\n\010Register\022\025.user.RegisterRequest" +
-      "\032\026.user.RegisterResponse\022K\n\016ForgotPasswo" +
-      "rd\022\033.user.ForgotPasswordRequest\032\034.user.F" +
-      "orgotPasswordResponseB.\n\027com.example.gat" +
-      "ewayuserB\023GateWayUserRpcProtob\006proto3"
+      "(\t\022\r\n\005token\030\003 \001(\t\022\020\n\010username\030\004 \001(\t\"R\n\017R" +
+      "egisterRequest\022\020\n\010username\030\001 \001(\t\022\r\n\005emai" +
+      "l\030\002 \001(\t\022\020\n\010password\030\003 \001(\t\022\014\n\004role\030\004 \001(\t\"" +
+      "4\n\020RegisterResponse\022\017\n\007success\030\001 \001(\010\022\017\n\007" +
+      "message\030\002 \001(\t\"&\n\025ForgotPasswordRequest\022\r" +
+      "\n\005email\030\001 \001(\t\":\n\026ForgotPasswordResponse\022" +
+      "\017\n\007success\030\001 \001(\010\022\017\n\007message\030\002 \001(\t2\303\002\n\013Us" +
+      "erService\0226\n\007GetUser\022\024.user.GetUserReque" +
+      "st\032\025.user.GetUserResponse\022B\n\013GetAllUsers" +
+      "\022\030.user.GetAllUsersRequest\032\031.user.GetAll" +
+      "UsersResponse\0220\n\005Login\022\022.user.LoginReque" +
+      "st\032\023.user.LoginResponse\0229\n\010Register\022\025.us" +
+      "er.RegisterRequest\032\026.user.RegisterRespon" +
+      "se\022K\n\016ForgotPassword\022\033.user.ForgotPasswo" +
+      "rdRequest\032\034.user.ForgotPasswordResponseB" +
+      ".\n\027com.example.gatewayuserB\023GateWayUserR" +
+      "pcProtob\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -7653,7 +7802,7 @@ public final class GateWayUserRpcProto {
     internal_static_user_LoginResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_user_LoginResponse_descriptor,
-        new java.lang.String[] { "Success", "Message", "Token", });
+        new java.lang.String[] { "Success", "Message", "Token", "Username", });
     internal_static_user_RegisterRequest_descriptor =
       getDescriptor().getMessageTypes().get(7);
     internal_static_user_RegisterRequest_fieldAccessorTable = new
