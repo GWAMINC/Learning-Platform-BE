@@ -126,6 +126,38 @@ public final class CourseServiceGrpc {
      }
      return getEnrollCourseMethod;
   }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getViewEnrollCourseMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseRequest,
+      com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseResponse> METHOD_VIEW_ENROLL_COURSE = getViewEnrollCourseMethod();
+
+  private static volatile io.grpc.MethodDescriptor<com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseRequest,
+      com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseResponse> getViewEnrollCourseMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseRequest,
+      com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseResponse> getViewEnrollCourseMethod() {
+    io.grpc.MethodDescriptor<com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseRequest, com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseResponse> getViewEnrollCourseMethod;
+    if ((getViewEnrollCourseMethod = CourseServiceGrpc.getViewEnrollCourseMethod) == null) {
+      synchronized (CourseServiceGrpc.class) {
+        if ((getViewEnrollCourseMethod = CourseServiceGrpc.getViewEnrollCourseMethod) == null) {
+          CourseServiceGrpc.getViewEnrollCourseMethod = getViewEnrollCourseMethod = 
+              io.grpc.MethodDescriptor.<com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseRequest, com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "course.CourseService", "ViewEnrollCourse"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new CourseServiceMethodDescriptorSupplier("ViewEnrollCourse"))
+                  .build();
+          }
+        }
+     }
+     return getViewEnrollCourseMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -181,6 +213,16 @@ public final class CourseServiceGrpc {
       asyncUnimplementedUnaryCall(getEnrollCourseMethod(), responseObserver);
     }
 
+    /**
+     * <pre>
+     *  Lay danh sach khoa hoc ma nguoi dung dang dang ky
+     * </pre>
+     */
+    public void viewEnrollCourse(com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseRequest request,
+        io.grpc.stub.StreamObserver<com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getViewEnrollCourseMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -204,6 +246,13 @@ public final class CourseServiceGrpc {
                 com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest,
                 com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse>(
                   this, METHODID_ENROLL_COURSE)))
+          .addMethod(
+            getViewEnrollCourseMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseRequest,
+                com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseResponse>(
+                  this, METHODID_VIEW_ENROLL_COURSE)))
           .build();
     }
   }
@@ -255,6 +304,17 @@ public final class CourseServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getEnrollCourseMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     * <pre>
+     *  Lay danh sach khoa hoc ma nguoi dung dang dang ky
+     * </pre>
+     */
+    public void viewEnrollCourse(com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseRequest request,
+        io.grpc.stub.StreamObserver<com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getViewEnrollCourseMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -300,6 +360,16 @@ public final class CourseServiceGrpc {
     public com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse enrollCourse(com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest request) {
       return blockingUnaryCall(
           getChannel(), getEnrollCourseMethod(), getCallOptions(), request);
+    }
+
+    /**
+     * <pre>
+     *  Lay danh sach khoa hoc ma nguoi dung dang dang ky
+     * </pre>
+     */
+    public com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseResponse viewEnrollCourse(com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getViewEnrollCourseMethod(), getCallOptions(), request);
     }
   }
 
@@ -350,11 +420,23 @@ public final class CourseServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getEnrollCourseMethod(), getCallOptions()), request);
     }
+
+    /**
+     * <pre>
+     *  Lay danh sach khoa hoc ma nguoi dung dang dang ky
+     * </pre>
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseResponse> viewEnrollCourse(
+        com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getViewEnrollCourseMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_COURSE = 0;
   private static final int METHODID_GET_ALL_COURSES = 1;
   private static final int METHODID_ENROLL_COURSE = 2;
+  private static final int METHODID_VIEW_ENROLL_COURSE = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -384,6 +466,10 @@ public final class CourseServiceGrpc {
         case METHODID_ENROLL_COURSE:
           serviceImpl.enrollCourse((com.example.gatewaycourse.GateWayCourseRpcProto.EnrollRequest) request,
               (io.grpc.stub.StreamObserver<com.example.gatewaycourse.GateWayCourseRpcProto.EnrollResponse>) responseObserver);
+          break;
+        case METHODID_VIEW_ENROLL_COURSE:
+          serviceImpl.viewEnrollCourse((com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseRequest) request,
+              (io.grpc.stub.StreamObserver<com.example.gatewaycourse.GateWayCourseRpcProto.GetViewEnrollCourseResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -449,6 +535,7 @@ public final class CourseServiceGrpc {
               .addMethod(getGetCourseMethod())
               .addMethod(getGetAllCoursesMethod())
               .addMethod(getEnrollCourseMethod())
+              .addMethod(getViewEnrollCourseMethod())
               .build();
         }
       }

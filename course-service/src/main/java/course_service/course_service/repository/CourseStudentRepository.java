@@ -3,6 +3,9 @@ package course_service.course_service.repository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+import java.util.Map;
+
 @Repository
 public class CourseStudentRepository {
 
@@ -24,5 +27,10 @@ public class CourseStudentRepository {
     public boolean enrollUser(int userId, int courseId) {
         String sql = "INSERT INTO CourseStudent (student_id, course_id) VALUES (?, ?)";
         return jdbcTemplate.update(sql, userId, courseId) > 0;
+    }
+
+    public List<Map<String, Object>> viewEnrollCourse(int userId) {
+        String sql = "SELECT Courses.* From Courses Inner join CourseStudent on Courses.id = CourseStudent.course_id where student_id = ?";
+        return jdbcTemplate.queryForList(sql, userId);
     }
 }

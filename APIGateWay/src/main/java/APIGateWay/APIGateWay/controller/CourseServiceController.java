@@ -235,6 +235,32 @@ public class CourseServiceController {
         }
     }
 
+    @PostMapping("/enrolled")
+    public ResponseEntity<?> getViewEnrolledCourses(@RequestBody Map<String, Object> requestBody) {
+        try {
+            Object userIdObj = requestBody.get("userId");
+            if (userIdObj == null) {
+                return ResponseEntity.badRequest().body("{\"error\":\"Missing userId\"}");
+            }
+            int userId = (userIdObj instanceof Number) ? ((Number) userIdObj).intValue() : Integer.parseInt(userIdObj.toString());
+            System.out.println("Request Body: " + userId);
+            // Gửi request với thông tin
+            GetViewEnrollCourseRequest request = GetViewEnrollCourseRequest.newBuilder()
+                    .setId(userId)
+                    .build();
+
+            GetViewEnrollCourseResponse response = courseServiceStub.viewEnrollCourse(request);
+
+            String json = JsonFormat.printer().print(response);
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json")
+                    .body(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to fetch courses\"}");
+        }
+    }
+
     @PreDestroy
     public void shutdown() {
         // Đóng kết nối khi ứng dụng dừng
