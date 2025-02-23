@@ -25,4 +25,9 @@ public class CourseStudentRepository {
         String sql = "INSERT INTO CourseStudent (student_id, course_id) VALUES (?, ?)";
         return jdbcTemplate.update(sql, userId, courseId) > 0;
     }
+
+    public boolean UnenrollCourse(int userId, int courseId) {
+        String sql = "DELETE FROM CourseStudent WHERE student_id = ? AND course_id = ?";
+        return jdbcTemplate.update(sql, userId, courseId) > 0;
+    }
 }

@@ -47,7 +47,17 @@ message EnrollResponse {
   bool success = 1;
   string message = 2;
 }
+// Request hủy đăng ký khóa học
+message UnEnrollRequest {
+  int32 user_id = 1;
+  int32 course_id = 2;
+}
 
+// Response khi hủy đăng ký khóa học
+message UnEnrollResponse {
+  bool success = 1;
+  string message = 2;
+}
 
 // Service cho Course
 service CourseService {
@@ -55,4 +65,5 @@ service CourseService {
   rpc GetAllCourses (GetAllCoursesRequest) returns (GetAllCoursesResponse);
   // Đăng ký khóa học
   rpc EnrollCourse (EnrollRequest) returns (EnrollResponse);
+  rpc UnEnrollCourse (UnEnrollRequest) returns (UnEnrollResponse);
 }
