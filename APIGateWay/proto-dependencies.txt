@@ -2,3 +2,6 @@ proto/Message.proto
 proto/GateWay_User_Rpc.proto
 proto/GateWay_Course_Rpc.proto
 proto/course/category/GateWay_Category_Rpc.proto
+proto/course/unit/GateWay_Unit_Rpc.proto
+proto/course/lesson/GateWay_Lesson_Rpc.proto
+proto/course/courseCategory/GateWay_CourseCategory_Rpc.proto

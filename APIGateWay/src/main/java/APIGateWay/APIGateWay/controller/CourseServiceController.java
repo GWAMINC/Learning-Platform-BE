@@ -7,6 +7,12 @@ import com.example.gatewaycategory.CategoryServiceGrpc;
 import com.example.gatewaycourse.GateWayCourseRpcProto;
 import com.example.gatewaycourse.CourseServiceGrpc;
 import com.example.gatewaycourse.GateWayCourseRpcProto.*;
+import com.example.gatewaycoursecategory.CourseCategoryServiceGrpc;
+import com.example.gatewaycoursecategory.GateWayCourseCategoryRpcProto.*;
+import com.example.gatewaylesson.GateWayLessonRpcProto.*;
+import com.example.gatewaylesson.LessonServiceGrpc;
+import com.example.gatewayunit.UnitServiceGrpc;
+import com.example.gatewayunit.GateWayUnitRpcProto.*;
 import com.google.protobuf.util.JsonFormat;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -24,6 +30,9 @@ public class CourseServiceController {
     private final ManagedChannel courseServiceChannel;
     private final CourseServiceGrpc.CourseServiceBlockingStub courseServiceStub;
     private final CategoryServiceGrpc.CategoryServiceBlockingStub categoryServiceStub;
+    private final UnitServiceGrpc.UnitServiceBlockingStub unitServiceStub;
+    private final LessonServiceGrpc.LessonServiceBlockingStub lessonServiceStub;
+    private final CourseCategoryServiceGrpc.CourseCategoryServiceBlockingStub courseCategoryServiceStub;
 
     @Autowired
     private LoggingService loggingService;
@@ -43,7 +52,94 @@ public class CourseServiceController {
 //                .build();
         this.courseServiceStub = CourseServiceGrpc.newBlockingStub(courseServiceChannel);
         this.categoryServiceStub = CategoryServiceGrpc.newBlockingStub(courseServiceChannel);
+        this.unitServiceStub = UnitServiceGrpc.newBlockingStub(courseServiceChannel);
+        this.lessonServiceStub = LessonServiceGrpc.newBlockingStub(courseServiceChannel);
+        this.courseCategoryServiceStub = CourseCategoryServiceGrpc.newBlockingStub(courseServiceChannel);
     }
+
+    @PostMapping("/create")
+    public ResponseEntity<?> createCourse(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+        try {
+            // Kiểm tra xem người dùng có quyền teacher không
+            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+                return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to create course\"}");
+            }
+
+            String title = (String) requestBody.get("title");
+            String description = (String) requestBody.get("description");
+
+            CreateCourseRequest createCourseRequest = CreateCourseRequest.newBuilder()
+                    .setTitle(title)
+                    .setDescription(description)
+                    .build();
+
+            CreateCourseResponse response = courseServiceStub.createCourse(createCourseRequest);
+            String json = JsonFormat.printer().print(response);
+
+            loggingService.logAPIActivity(200, "createCourse", response.toString());
+            return ResponseEntity.ok().header("Content-Type", "application/json").body(json);
+        } catch (ClassCastException e) {
+            return ResponseEntity.status(400).body("{\"error\":\"Invalid data format. title and description must be strings.\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to create course\"}");
+        }
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<?> updateCourse(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+        try {
+            // Kiểm tra xem người dùng có quyền teacher không
+            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+                return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to update course\"}");
+            }
+
+            int id = (int) requestBody.get("id");
+            String title = (String) requestBody.get("title");
+            String description = (String) requestBody.get("description");
+
+            UpdateCourseRequest updateCourseRequest = UpdateCourseRequest.newBuilder()
+                    .setId(id)
+                    .setTitle(title)
+                    .setDescription(description)
+                    .build();
+
+            UpdateCourseResponse response = courseServiceStub.updateCourse(updateCourseRequest);
+            String json = JsonFormat.printer().print(response);
+
+            loggingService.logAPIActivity(200, "updateCourse", response.toString());
+            return ResponseEntity.ok().header("Content-Type", "application/json").body(json);
+        } catch (ClassCastException e) {
+            return ResponseEntity.status(400).body("{\"error\":\"Invalid data format. id must be integer, title and description must be strings.\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to update course\"}");
+        }
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteCourse(@RequestHeader("Authorization") String token, @RequestParam int id) {
+        try {
+            // Kiểm tra xem người dùng có quyền teacher không
+            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+                return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to delete course\"}");
+            }
+
+            DeleteCourseRequest deleteCourseRequest = DeleteCourseRequest.newBuilder()
+                    .setId(id)
+                    .build();
+
+            DeleteCourseResponse response = courseServiceStub.deleteCourse(deleteCourseRequest);
+            String json = JsonFormat.printer().print(response);
+
+            loggingService.logAPIActivity(200, "deleteCourse", response.toString());
+            return ResponseEntity.ok().header("Content-Type", "application/json").body(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to delete course\"}");
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<String> getCourseById(@PathVariable int id) {
         try {
@@ -232,6 +328,287 @@ public class CourseServiceController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body("{\"error\":\"Failed to delete category\"}");
+        }
+    }
+    @PostMapping("course_category/create")
+    public ResponseEntity<?> createCourseCategories(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+        try {
+            // Kiểm tra xem người dùng có quyền teacher không
+            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+                return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to create unit\"}");
+            }
+
+            int courseId = (int) requestBody.get("courseId");
+            List<Integer> categoryIds = null;
+            if (requestBody.get("categoriesId") instanceof List<?>) {
+                categoryIds = ((List<?>) requestBody.get("categoriesId"))
+                        .stream()
+                        .filter(item -> item instanceof Integer) // Đảm bảo chỉ lấy số nguyên
+                        .map(item -> (Integer) item)
+                        .toList();
+            }
+
+            CreateCourseCategoriesRequest.Builder request = CreateCourseCategoriesRequest.newBuilder()
+                    .addAllCategoryId(categoryIds)
+                    .setCourseId(courseId);
+            CreateCourseCategoriesResponse response = courseCategoryServiceStub.createCourseCategories(request.build());
+            String json = JsonFormat.printer().print(response);
+            return ResponseEntity.ok().header("Content-Type", "application/json").body(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to create course categories\"}");
+        }
+    }
+    @DeleteMapping("course_category/delete")
+    public ResponseEntity<?> deleteCourseCategory(@RequestHeader("Authorization") String token, @RequestParam int id) {
+        try {
+            // Kiểm tra xem người dùng có quyền teacher không
+            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+                return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to delete course category\"}");
+            }
+
+            DeleteCourseCategoryRequest request = DeleteCourseCategoryRequest.newBuilder()
+                    .setId(id)
+                    .build();
+
+            DeleteCourseCategoryResponse response = courseCategoryServiceStub.deleteCourseCategory(request);
+            String json = JsonFormat.printer().print(response);
+            return ResponseEntity.ok().header("Content-Type", "application/json").body(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to delete course category\"}");
+        }
+    }
+
+    @PostMapping("/unit/create")
+    public ResponseEntity<?> createUnit(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+        try {
+            // Kiểm tra xem người dùng có quyền teacher không
+            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+                return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to create unit\"}");
+            }
+
+            String name = (String) requestBody.get("name");
+            int courseId = (int) requestBody.get("courseId");
+
+            CreateUnitRequest createUnitRequest = CreateUnitRequest.newBuilder()
+                    .setName(name)
+                    .setCourseId(courseId)
+                    .build();
+
+            CreateUnitResponse response = unitServiceStub.createUnit(createUnitRequest);
+            String json = JsonFormat.printer().print(response);
+
+            loggingService.logAPIActivity(200, "createUnit", response.toString());
+            return ResponseEntity.ok().header("Content-Type", "application/json").body(json);
+        } catch (ClassCastException e) {
+            return ResponseEntity.status(400).body("{\"error\":\"Invalid data format. name must be string, courseId must be integer.\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to create unit\"}");
+        }
+    }
+
+    @GetMapping("/unit/all")
+    public ResponseEntity<String> getUnitsByCourse(@RequestParam int courseId) {
+        try {
+            GetUnitsByCourseRequest request = GetUnitsByCourseRequest.newBuilder()
+                    .setCourseId(courseId)
+                    .build();
+
+            GetUnitsByCourseResponse response = unitServiceStub.getUnitsByCourse(request);
+
+            String json = JsonFormat.printer().print(response);
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json")
+                    .body(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to fetch units\"}");
+        }
+    }
+
+    @PostMapping("/unit/update")
+    public ResponseEntity<?> updateUnit(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+        try {
+            // Kiểm tra xem người dùng có quyền teacher không
+            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+                return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to update unit\"}");
+            }
+
+            int id = (int) requestBody.get("id");
+            String name = (String) requestBody.get("name");
+            int courseId = (int) requestBody.get("courseId");
+
+            UpdateUnitRequest updateUnitRequest = UpdateUnitRequest.newBuilder()
+                    .setId(id)
+                    .setName(name)
+                    .setCourseId(courseId)
+                    .build();
+
+            UpdateUnitResponse response = unitServiceStub.updateUnit(updateUnitRequest);
+            String json = JsonFormat.printer().print(response);
+
+            loggingService.logAPIActivity(200, "updateUnit", response.toString());
+            return ResponseEntity.ok().header("Content-Type", "application/json").body(json);
+        } catch (ClassCastException e) {
+            return ResponseEntity.status(400).body("{\"error\":\"Invalid data format. id must be integer, name must be string, courseId must be integer.\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to update unit\"}");
+        }
+    }
+
+    @DeleteMapping("/unit/delete")
+    public ResponseEntity<?> deleteUnit(@RequestHeader("Authorization") String token, @RequestParam int id) {
+        try {
+            // Kiểm tra xem người dùng có quyền teacher không
+            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+                return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to delete unit\"}");
+            }
+
+            DeleteUnitRequest deleteUnitRequest = DeleteUnitRequest.newBuilder()
+                    .setId(id)
+                    .build();
+
+            DeleteUnitResponse response = unitServiceStub.deleteUnit(deleteUnitRequest);
+            String json = JsonFormat.printer().print(response);
+
+            loggingService.logAPIActivity(200, "deleteUnit", response.toString());
+            return ResponseEntity.ok().header("Content-Type", "application/json").body(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to delete unit\"}");
+        }
+    }
+
+    @PostMapping("/lesson/create")
+    public ResponseEntity<?> createLesson(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+        try {
+            // Kiểm tra xem người dùng có quyền teacher không
+            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+                return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to create lesson\"}");
+            }
+
+            String name = (String) requestBody.get("name");
+            String content = (String) requestBody.get("content");
+            int unitId = (int) requestBody.get("unitId");
+
+            CreateLessonRequest createLessonRequest = CreateLessonRequest.newBuilder()
+                    .setName(name)
+                    .setContent(content)
+                    .setCourseUnitId(unitId)
+                    .build();
+
+            CreateLessonResponse response = lessonServiceStub.createLesson(createLessonRequest);
+            String json = JsonFormat.printer().print(response);
+
+            loggingService.logAPIActivity(200, "createLesson", response.toString());
+            return ResponseEntity.ok().header("Content-Type", "application/json").body(json);
+        } catch (ClassCastException e) {
+            return ResponseEntity.status(400).body("{\"error\":\"Invalid data format. name and description must be strings, unitId must be integer.\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to create lesson\"}");
+        }
+    }
+
+    @GetMapping("/lesson/{id}")
+    public ResponseEntity<String> getLessonById(@PathVariable int id) {
+        try {
+            GetLessonRequest request = GetLessonRequest.newBuilder()
+                    .setId(id)
+                    .build();
+
+            GetLessonResponse response = lessonServiceStub.getLesson(request);
+
+            String json = JsonFormat.printer().print(response);
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json")
+                    .body(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to fetch lesson\"}");
+        }
+    }
+
+    @GetMapping("/lesson/all")
+    public ResponseEntity<String> getAllLessonsByUnit(@RequestParam int unitId) {
+        try {
+            GetAllLessonsByUnitRequest request = GetAllLessonsByUnitRequest.newBuilder()
+                    .setCourseUnitId(unitId)
+                    .build();
+
+            GetAllLessonsByUnitResponse response = lessonServiceStub.getAllLessonsByUnit(request);
+
+            String json = JsonFormat.printer().print(response);
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json")
+                    .body(json);
+        } catch (Exception e) {
+            if (e.getMessage().equals("Lesson not found")) {
+                return ResponseEntity.status(404).body("{\"error\":\"Lesson not found\"}");
+            }
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to fetch lesson\"}");
+        }
+    }
+
+    @PostMapping("/lesson/update")
+    public ResponseEntity<?> updateLesson(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+        try {
+            // Kiểm tra xem người dùng có quyền teacher không
+            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+                return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to update lesson\"}");
+            }
+            int id = (int) requestBody.get("id");
+            String name = (String) requestBody.get("name");
+            String content = (String) requestBody.get("content");
+            int unitId = (int) requestBody.get("unitId");
+            int orderNumber = (int) requestBody.get("orderNumber");
+
+            UpdateLessonRequest updateLessonRequest = UpdateLessonRequest.newBuilder()
+                    .setId(id)
+                    .setName(name)
+                    .setContent(content)
+                    .setCourseUnitId(unitId)
+                    .setOrderNumber(orderNumber)
+                    .build();
+
+            UpdateLessonResponse response = lessonServiceStub.updateLesson(updateLessonRequest);
+            String json = JsonFormat.printer().print(response);
+
+            loggingService.logAPIActivity(200, "updateLesson", response.toString());
+            return ResponseEntity.ok().header("Content-Type", "application/json").body(json);
+        } catch (ClassCastException e) {
+            return ResponseEntity.status(400).body("{\"error\":\"Invalid data format. id must be integer, name and content must be strings, unitId must be integer.\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to update lesson\"}");
+        }
+    }
+
+    @DeleteMapping("/lesson/delete")
+    public ResponseEntity<?> deleteLesson(@RequestHeader("Authorization") String token, @RequestParam int id) {
+        try {
+            // Kiểm tra xem người dùng có quyền teacher không
+            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+                return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to delete lesson\"}");
+            }
+
+            DeleteLessonRequest deleteLessonRequest = DeleteLessonRequest.newBuilder()
+                    .setId(id)
+                    .build();
+
+            DeleteLessonResponse response = lessonServiceStub.deleteLesson(deleteLessonRequest);
+            String json = JsonFormat.printer().print(response);
+
+            loggingService.logAPIActivity(200, "deleteLesson", response.toString());
+            return ResponseEntity.ok().header("Content-Type", "application/json").body(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to delete lesson\"}");
         }
     }
 

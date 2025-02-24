@@ -15,6 +15,35 @@ message Course {
 }
 
 // Request và Response
+message CreateCourseRequest {
+  string title = 1;
+  string description = 2;
+}
+
+message CreateCourseResponse {
+  string status = 1;
+  string message = 2;
+}
+
+message UpdateCourseRequest {
+  int32 id = 1;
+  string title = 2;
+  string description = 3;
+}
+
+message UpdateCourseResponse {
+  Course course = 1;
+}
+
+message DeleteCourseRequest {
+  int32 id = 1;
+}
+
+message DeleteCourseResponse {
+  string status = 1;
+  string message = 2;
+}
+
 message GetCourseRequest {
   int32 id = 1;
 }
@@ -57,10 +86,13 @@ message GetViewEnrollCourseResponse {
 
 // Service cho Course
 service CourseService {
+  rpc CreateCourse (CreateCourseRequest) returns (CreateCourseResponse);
+  rpc UpdateCourse (UpdateCourseRequest) returns (UpdateCourseResponse);
   rpc GetCourse (GetCourseRequest) returns (GetCourseResponse);
   rpc GetAllCourses (GetAllCoursesRequest) returns (GetAllCoursesResponse);
   // Đăng ký khóa học
   rpc EnrollCourse (EnrollRequest) returns (EnrollResponse);
 //  Lay danh sach khoa hoc ma nguoi dung dang dang ky
   rpc ViewEnrollCourse(GetViewEnrollCourseRequest) returns (GetViewEnrollCourseResponse);
+  rpc DeleteCourse (DeleteCourseRequest) returns (DeleteCourseResponse);
 }

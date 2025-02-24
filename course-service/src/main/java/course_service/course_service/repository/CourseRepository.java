@@ -15,6 +15,21 @@ public class CourseRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public boolean createCourse(String title, String description) {
+        String sql = "INSERT INTO Courses (title, description) VALUES (?, ?)";
+        return jdbcTemplate.update(sql, title, description) > 0;
+    }
+
+    public boolean updateCourse(int id, String title, String description) {
+        String sql = "UPDATE Courses SET title = ?, description = ? WHERE id = ?";
+        return jdbcTemplate.update(sql, title, description, id) > 0;
+    }
+
+    public boolean deleteCourse(int id) {
+        String sql = "DELETE FROM Courses WHERE id = ?";
+        return jdbcTemplate.update(sql, id) > 0;
+    }
+
     public Map<String, Object> findCourseById(int id) {
         String sql = "SELECT * FROM Courses WHERE id = ?";
         return jdbcTemplate.queryForMap(sql, id);

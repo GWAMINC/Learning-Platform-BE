@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package unit;
+
+option java_package = "com.example.gatewayunit";
+option java_outer_classname = "GateWayUnitRpcProto";
+
+// Định nghĩa Unit
+message Unit {
+  int32 id = 1;
+  string name = 2;
+  int32 course_id = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+// Request và Response
+message CreateUnitRequest {
+  string name = 1;
+  int32 course_id = 2;
+}
+
+message CreateUnitResponse {
+  string status = 1;
+  string message = 2;
+}
+
+message GetUnitsByCourseRequest {
+  int32 course_id = 1;
+}
+
+message GetUnitsByCourseResponse {
+  repeated Unit units = 1;
+}
+
+message UpdateUnitRequest {
+  int32 id = 1;
+  string name = 2;
+  int32 course_id = 3;
+}
+
+message UpdateUnitResponse {
+  Unit unit = 1;
+}
+
+message DeleteUnitRequest {
+  int32 id = 1;
+}
+
+message DeleteUnitResponse {
+  string status = 1;
+  string message = 2;
+}
+
+service UnitService {
+  rpc CreateUnit(CreateUnitRequest) returns (CreateUnitResponse) {}
+  rpc GetUnitsByCourse(GetUnitsByCourseRequest) returns (GetUnitsByCourseResponse) {}
+  rpc UpdateUnit(UpdateUnitRequest) returns (UpdateUnitResponse) {}
+  rpc DeleteUnit(DeleteUnitRequest) returns (DeleteUnitResponse) {}
+}
