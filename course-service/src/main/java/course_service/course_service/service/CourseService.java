@@ -26,6 +26,75 @@ public class CourseService extends CourseServiceGrpc.CourseServiceImplBase {
     }
 
     @Override
+    public void createCourse(CreateCourseRequest request, StreamObserver<CreateCourseResponse> responseObserver) {
+        try {
+            String title = request.getTitle();
+            String description = request.getDescription();
+            courseRepository.createCourse(title, description);
+            CreateCourseResponse response = CreateCourseResponse.newBuilder()
+                    .setStatus("true")
+                    .setMessage("Create course successfully")
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+            loggingService.logCourseActivity(200, "createCourse", response.toString());
+        } catch (Exception e) {
+            CreateCourseResponse response = CreateCourseResponse.newBuilder()
+                    .setStatus("false")
+                    .setMessage(e.getMessage())
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
+    }
+
+    @Override
+    public void updateCourse(UpdateCourseRequest request, StreamObserver<UpdateCourseResponse> responseObserver) {
+        try {
+            int id = request.getId();
+            String title = request.getTitle();
+            String description = request.getDescription();
+            courseRepository.updateCourse(id, title, description);
+            Course course_response = Course.newBuilder()
+                    .setId(id)
+                    .setTitle(title)
+                    .setDescription(description)
+                    .build();
+
+            UpdateCourseResponse response = UpdateCourseResponse.newBuilder()
+                    .setCourse(course_response)
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+            loggingService.logCourseActivity(200, "updateCourse", response.toString());
+        } catch (Exception e) {
+            responseObserver.onError(new RuntimeException(e.getMessage()));
+            loggingService.logError(new RuntimeException(e.getMessage()), "updateCourse");
+        }
+    }
+
+    @Override
+    public void deleteCourse(DeleteCourseRequest request, StreamObserver<DeleteCourseResponse> responseObserver) {
+        try {
+            int id = request.getId();
+            boolean success = courseRepository.deleteCourse(id);
+            DeleteCourseResponse response = DeleteCourseResponse.newBuilder()
+                    .setStatus("true")
+                    .setMessage("Delete course successfully")
+                    .build();
+
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+            loggingService.logCourseActivity(200, "deleteCourse", response.toString());
+        } catch (Exception e) {
+            responseObserver.onError(new RuntimeException(e.getMessage()));
+            loggingService.logError(new RuntimeException(e.getMessage()), "deleteCourse");
+        }
+    }
+
+    @Override
     public void getCourse(GateWayCourseRpcProto.GetCourseRequest request, StreamObserver<GateWayCourseRpcProto.GetCourseResponse> responseObserver) {
         // Lấy dữ liệu từ database
         try {

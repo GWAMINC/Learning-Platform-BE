@@ -65,8 +65,9 @@ public class CategoryService extends CategoryServiceGrpc.CategoryServiceImplBase
                 responseObserver.onCompleted();
                 loggingService.logCategoryActivity(200, "getCategory", response.toString());
             } else {
-                responseObserver.onError(new Exception("Category not found"));
-                loggingService.logCategoryActivity(404, "getCategory", "Category not found");
+                GetCategoryResponse.Builder response = GetCategoryResponse.newBuilder();
+                responseObserver.onNext(response.build());
+                responseObserver.onCompleted();
             }
         } catch (Exception e) {
             responseObserver.onError(e);

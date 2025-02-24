@@ -1,7 +1,6 @@
 package course_service.course_service;
 
-import course_service.course_service.service.CategoryService;
-import course_service.course_service.service.CourseService;
+import course_service.course_service.service.*;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
@@ -29,9 +28,15 @@ public class CourseServiceApplication implements CommandLineRunner  {
 		if (!isRunningInBuildMode()) {
 			CourseService courseService = applicationContext.getBean(CourseService.class);
 			CategoryService categoryService = applicationContext.getBean(CategoryService.class);
+			UnitService unitService = applicationContext.getBean(UnitService.class);
+			LessonService lessonService = applicationContext.getBean(LessonService.class);
+			CourseCategoryService courseCategoryService = applicationContext.getBean(CourseCategoryService.class);
 			Server server = ServerBuilder.forPort(50051)
 					.addService(courseService)
 					.addService(categoryService)
+					.addService(unitService)
+					.addService(lessonService)
+					.addService(courseCategoryService)
 					.build()
 					.start();
 

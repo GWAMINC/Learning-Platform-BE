@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package courseCategory;
+
+option java_package = "com.example.gatewaycoursecategory";
+option java_outer_classname = "GateWayCourseCategoryRpcProto";
+
+// Định nghĩa CourseCategory
+message CourseCategory {
+  int32 id = 1;
+  int32 course_id = 2;
+  int32 category_id = 3;
+}
+
+// Request và Response
+message CreateCourseCategoriesRequest {
+  int32 course_id = 1;
+  repeated int32 category_id = 2;
+}
+
+message CreateCourseCategoriesResponse {
+  string status = 1;
+  string message = 2;
+}
+
+message GetCategoriesByCourseRequest {
+  int32 course_id = 1;
+}
+
+message GetCategoriesByCourseResponse {
+  repeated CourseCategory courseCategories = 1;
+}
+
+message GetCourseByCategoryRequest {
+  int32 category_id = 1;
+}
+
+message GetCourseByCategoryResponse {
+  repeated CourseCategory courseCategories = 1;
+}
+
+message UpdateCourseCategoryRequest {
+  int32 id = 1;
+  int32 course_id = 2;
+  int32 category_id = 3;
+}
+
+message UpdateCourseCategoryResponse {
+  CourseCategory courseCategory = 1;
+}
+
+message DeleteCourseCategoryRequest {
+  int32 id = 1;
+}
+
+message DeleteCourseCategoryResponse {
+  string status = 1;
+  string message = 2;
+}
+
+service CourseCategoryService {
+  rpc CreateCourseCategories (CreateCourseCategoriesRequest) returns (CreateCourseCategoriesResponse);
+  rpc GetCategoriesByCourse (GetCategoriesByCourseRequest) returns (GetCategoriesByCourseResponse);
+  rpc GetCourseByCategory (GetCourseByCategoryRequest) returns (GetCourseByCategoryResponse);
+  rpc UpdateCourseCategory (UpdateCourseCategoryRequest) returns (UpdateCourseCategoryResponse);
+  rpc DeleteCourseCategory (DeleteCourseCategoryRequest) returns (DeleteCourseCategoryResponse);
+}

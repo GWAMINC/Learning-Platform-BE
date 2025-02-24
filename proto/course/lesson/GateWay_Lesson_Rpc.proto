@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package lesson;
+
+option java_package = "com.example.gatewaylesson";
+option java_outer_classname = "GateWayLessonRpcProto";
+
+// Định nghĩa Lesson
+message Lesson {
+  int32 id = 1;
+  string name = 2;
+  string content = 3;
+  int32 course_unit_id = 4;
+  string created_at = 5;
+  string updated_at = 6;
+  int32 order_number = 7;
+}
+
+// Request và Response
+message CreateLessonRequest {
+  string name = 1;
+  string content = 2;
+  int32 course_unit_id = 3;
+}
+
+message CreateLessonResponse {
+  string status = 1;
+  string message = 2;
+}
+
+message GetLessonRequest {
+  int32 id = 1;
+}
+
+message GetLessonResponse {
+  Lesson lesson = 1;
+}
+
+message GetAllLessonsByUnitRequest {
+  int32 course_unit_id = 1;
+}
+
+message GetAllLessonsByUnitResponse {
+  repeated Lesson lessons = 1;
+}
+
+message UpdateLessonRequest {
+  int32 id = 1;
+  string name = 2;
+  string content = 3;
+  int32 course_unit_id = 4;
+  int32 order_number = 5;
+}
+
+message UpdateLessonResponse {
+  Lesson lesson = 1;
+}
+
+message DeleteLessonRequest {
+  int32 id = 1;
+}
+
+message DeleteLessonResponse {
+  string status = 1;
+  string message = 2;
+}
+
+service LessonService {
+  rpc CreateLesson (CreateLessonRequest) returns (CreateLessonResponse);
+  rpc GetLesson (GetLessonRequest) returns (GetLessonResponse);
+  rpc GetAllLessonsByUnit (GetAllLessonsByUnitRequest) returns (GetAllLessonsByUnitResponse);
+  rpc UpdateLesson (UpdateLessonRequest) returns (UpdateLessonResponse);
+  rpc DeleteLesson (DeleteLessonRequest) returns (DeleteLessonResponse);
+}
+
