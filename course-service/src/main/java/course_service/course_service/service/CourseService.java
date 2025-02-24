@@ -118,4 +118,35 @@ public class CourseService extends CourseServiceGrpc.CourseServiceImplBase {
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void viewEnrollCourse(GetViewEnrollCourseRequest request, StreamObserver<GetViewEnrollCourseResponse> responseObserver) {
+        int userId = request.getId();
+        List<Map<String, Object>> results = courseStudentRepository.viewEnrollCourse(userId);
+
+        if (results == null || results.isEmpty()) {
+            System.out.println("No courses found for userId: " + userId);
+            responseObserver.onNext(GetViewEnrollCourseResponse.newBuilder().build());
+            responseObserver.onCompleted();
+            return;
+        }
+
+        List<GateWayCourseRpcProto.Course> courses = results.stream()
+                .map(row -> GateWayCourseRpcProto.Course.newBuilder()
+                        .setId((Integer) row.get("id"))
+                        .setTitle((String) row.get("title"))
+                        .setDescription((String) row.get("description"))
+                        .setCreatedAt(row.get("created_at") != null ? row.get("created_at").toString() : "")
+                        .setUpdatedAt(row.get("updated_at") != null ? row.get("updated_at").toString() : "")
+                        .build())
+                .toList();
+
+        GetViewEnrollCourseResponse response = GetViewEnrollCourseResponse.newBuilder()
+                .addAllCourses(courses)
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
 }

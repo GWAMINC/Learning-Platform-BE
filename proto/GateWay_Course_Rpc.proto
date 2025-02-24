@@ -47,7 +47,13 @@ message EnrollResponse {
   bool success = 1;
   string message = 2;
 }
+message GetViewEnrollCourseRequest {
+  int32 id = 1;
+}
 
+message GetViewEnrollCourseResponse {
+  repeated Course courses = 1;
+}
 
 // Service cho Course
 service CourseService {
@@ -55,4 +61,6 @@ service CourseService {
   rpc GetAllCourses (GetAllCoursesRequest) returns (GetAllCoursesResponse);
   // Đăng ký khóa học
   rpc EnrollCourse (EnrollRequest) returns (EnrollResponse);
+//  Lay danh sach khoa hoc ma nguoi dung dang dang ky
+  rpc ViewEnrollCourse(GetViewEnrollCourseRequest) returns (GetViewEnrollCourseResponse);
 }
