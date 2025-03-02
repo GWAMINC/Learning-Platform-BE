@@ -33,9 +33,4 @@ public class CourseStudentRepository {
         String sql = "SELECT Courses.* From Courses Inner join CourseStudent on Courses.id = CourseStudent.course_id where student_id = ?";
         return jdbcTemplate.queryForList(sql, userId);
     }
-
-    public boolean UnenrollCourse(int userId, int courseId) {
-        String sql = "DELETE FROM CourseStudent WHERE student_id = ? AND course_id = ?";
-        return jdbcTemplate.update(sql, userId, courseId) > 0;
-    }
 }
