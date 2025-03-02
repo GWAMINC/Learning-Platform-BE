@@ -217,5 +217,20 @@ public class CourseService extends CourseServiceGrpc.CourseServiceImplBase {
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+    @Override
+    public void unEnrollCourse(UnEnrollRequest request, StreamObserver<UnEnrollResponse> responseObserver) {
+        int userId = request.getUserId();
+        int courseId = request.getCourseId();
 
+        boolean success = courseStudentRepository.UnenrollCourse(userId, courseId);
+        String message = success ? "Hủy khóa học thành công!" : "Hủy thất bại!";
+
+        UnEnrollResponse response = UnEnrollResponse.newBuilder()
+                .setSuccess(success)
+                .setMessage(message)
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
 }
