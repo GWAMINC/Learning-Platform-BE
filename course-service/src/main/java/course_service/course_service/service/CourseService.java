@@ -3,6 +3,7 @@ package course_service.course_service.service;
 import com.example.gatewaycourse.GateWayCourseRpcProto;
 import com.example.gatewaycourse.CourseServiceGrpc;
 import com.example.gatewaycourse.GateWayCourseRpcProto.*;
+import course_service.course_service.repository.CourseTeacherRepository;
 import io.grpc.stub.StreamObserver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,15 @@ import java.util.Map;
 public class CourseService extends CourseServiceGrpc.CourseServiceImplBase {
     private final CourseRepository courseRepository;
     private final CourseStudentRepository courseStudentRepository;
+    private final CourseTeacherRepository courseTeacherRepository;
+
     @Autowired
     private LoggingService loggingService;
 
-    public CourseService(CourseRepository courseRepository, CourseStudentRepository courseStudentRepository) {
+    public CourseService(CourseRepository courseRepository, CourseStudentRepository courseStudentRepository, CourseTeacherRepository courseTeacherRepository) {
         this.courseRepository = courseRepository;
         this.courseStudentRepository = courseStudentRepository;
+        this.courseTeacherRepository = courseTeacherRepository;
     }
 
     @Override
@@ -228,6 +232,28 @@ public class CourseService extends CourseServiceGrpc.CourseServiceImplBase {
         UnEnrollResponse response = UnEnrollResponse.newBuilder()
                 .setSuccess(success)
                 .setMessage(message)
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+    @Override
+    public void viewTeacherCourse(ViewTeacherRequest request, StreamObserver<ViewTeacherResponse> responseObserver) {
+        int teacher_id = request.getTeacherId();
+
+        List<Map<String, Object>> results = courseTeacherRepository.viewTeacherCourse(teacher_id);
+        List<GateWayCourseRpcProto.Course> courses = results.stream()
+                .map(row -> GateWayCourseRpcProto.Course.newBuilder()
+                        .setId((Integer) row.get("id"))
+                        .setTitle((String) row.get("title"))
+                        .setDescription((String) row.get("description"))
+                        .setCreatedAt(row.get("created_at") != null ? row.get("created_at").toString() : "")
+                        .setUpdatedAt(row.get("updated_at") != null ? row.get("updated_at").toString() : "")
+                        .build())
+                .toList();
+
+        ViewTeacherResponse response = ViewTeacherResponse.newBuilder()
+                .addAllCourses(courses)
                 .build();
 
         responseObserver.onNext(response);
