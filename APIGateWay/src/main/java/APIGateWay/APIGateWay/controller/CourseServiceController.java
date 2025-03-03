@@ -664,6 +664,32 @@ public class CourseServiceController {
         }
     }
 
+    @PostMapping("/viewteacher")
+    public ResponseEntity<?> viewTeacherCourse(@RequestBody Map<String, Object> requestBody) {
+        try {
+            Object teacher_id = requestBody.get("teacher_id");
+            if (teacher_id == null) {
+                return ResponseEntity.badRequest().body("{\"error\":\"Missing userId\"}");
+            }
+            int teacherId = (teacher_id instanceof Number) ? ((Number) teacher_id).intValue() : Integer.parseInt(teacher_id.toString());
+            System.out.println("Request Body: " + teacher_id);
+            // Gửi request với thông tin
+            ViewTeacherRequest request = ViewTeacherRequest.newBuilder()
+                    .setTeacherId(teacherId)
+                    .build();
+
+            ViewTeacherResponse response = courseServiceStub.viewTeacherCourse(request);
+
+            String json = JsonFormat.printer().print(response);
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json")
+                    .body(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to fetch courses\"}");
+        }
+    }
+
     @PreDestroy
     public void shutdown() {
         // Đóng kết nối khi ứng dụng dừng

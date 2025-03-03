@@ -95,6 +95,13 @@ message UnEnrollResponse {
   string message = 2;
 }
 
+message ViewTeacherRequest{
+  int32 teacher_id = 1;
+}
+message ViewTeacherResponse {
+  repeated Course courses = 1;
+}
+
 // Service cho Course
 service CourseService {
   rpc CreateCourse (CreateCourseRequest) returns (CreateCourseResponse);
@@ -108,5 +115,6 @@ service CourseService {
 //  Lay danh sach khoa hoc ma nguoi dung dang dang ky
   rpc ViewEnrollCourse(GetViewEnrollCourseRequest) returns (GetViewEnrollCourseResponse);
   rpc DeleteCourse (DeleteCourseRequest) returns (DeleteCourseResponse);
-
+//  danh sach khoa hoc ma giang vien da tao
+  rpc ViewTeacherCourse(ViewTeacherRequest) returns (ViewTeacherResponse);
 }
