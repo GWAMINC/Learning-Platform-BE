@@ -31,12 +31,14 @@ public class CourseServiceApplication implements CommandLineRunner  {
 			UnitService unitService = applicationContext.getBean(UnitService.class);
 			LessonService lessonService = applicationContext.getBean(LessonService.class);
 			CourseCategoryService courseCategoryService = applicationContext.getBean(CourseCategoryService.class);
+			CouponService couponService = applicationContext.getBean(CouponService.class);
 			Server server = ServerBuilder.forPort(50051)
 					.addService(courseService)
 					.addService(categoryService)
 					.addService(unitService)
 					.addService(lessonService)
 					.addService(courseCategoryService)
+					.addService(couponService)
 					.build()
 					.start();
 

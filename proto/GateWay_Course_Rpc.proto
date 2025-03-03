@@ -84,15 +84,22 @@ message GetViewEnrollCourseResponse {
   repeated Course courses = 1;
 }
 
+message GetCoursesByCategoriesRequest {
+  repeated int32 categoryId = 1;
+}
+
+message GetCoursesByCategoriesResponse {
+  repeated Course courses = 1;
+}
+
 // Service cho Course
 service CourseService {
   rpc CreateCourse (CreateCourseRequest) returns (CreateCourseResponse);
   rpc UpdateCourse (UpdateCourseRequest) returns (UpdateCourseResponse);
   rpc GetCourse (GetCourseRequest) returns (GetCourseResponse);
   rpc GetAllCourses (GetAllCoursesRequest) returns (GetAllCoursesResponse);
-  // Đăng ký khóa học
+  rpc GetCoursesByCategories (GetCoursesByCategoriesRequest) returns (GetCoursesByCategoriesResponse);
   rpc EnrollCourse (EnrollRequest) returns (EnrollResponse);
-//  Lay danh sach khoa hoc ma nguoi dung dang dang ky
   rpc ViewEnrollCourse(GetViewEnrollCourseRequest) returns (GetViewEnrollCourseResponse);
   rpc DeleteCourse (DeleteCourseRequest) returns (DeleteCourseResponse);
 }

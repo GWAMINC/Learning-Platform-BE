@@ -4,6 +4,8 @@ import APIGateWay.APIGateWay.service.LoggingService;
 import APIGateWay.APIGateWay.utils.JwtUtil;
 import com.example.gatewaycategory.GateWayCategoryRpcProto.*;
 import com.example.gatewaycategory.CategoryServiceGrpc;
+import com.example.gatewaycoupon.CouponServiceGrpc;
+import com.example.gatewaycoupon.GateWayCouponRpcProto.*;
 import com.example.gatewaycourse.GateWayCourseRpcProto;
 import com.example.gatewaycourse.CourseServiceGrpc;
 import com.example.gatewaycourse.GateWayCourseRpcProto.*;
@@ -33,6 +35,7 @@ public class CourseServiceController {
     private final UnitServiceGrpc.UnitServiceBlockingStub unitServiceStub;
     private final LessonServiceGrpc.LessonServiceBlockingStub lessonServiceStub;
     private final CourseCategoryServiceGrpc.CourseCategoryServiceBlockingStub courseCategoryServiceStub;
+    private final CouponServiceGrpc.CouponServiceBlockingStub couponServiceStub;
 
     @Autowired
     private LoggingService loggingService;
@@ -55,6 +58,7 @@ public class CourseServiceController {
         this.unitServiceStub = UnitServiceGrpc.newBlockingStub(courseServiceChannel);
         this.lessonServiceStub = LessonServiceGrpc.newBlockingStub(courseServiceChannel);
         this.courseCategoryServiceStub = CourseCategoryServiceGrpc.newBlockingStub(courseServiceChannel);
+        this.couponServiceStub = CouponServiceGrpc.newBlockingStub(courseServiceChannel);
     }
 
     @PostMapping("/create")
@@ -176,6 +180,24 @@ public class CourseServiceController {
                     .build();
 
             GetAllCoursesResponse response = courseServiceStub.getAllCourses(request);
+
+            String json = JsonFormat.printer().print(response);
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json")
+                    .body(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to fetch courses\"}");
+        }
+    }
+    @GetMapping("/categories_courses")
+    public ResponseEntity<String> getCoursesByCategories(@RequestParam List<Integer> categoryIds) {
+        try {
+            GetCoursesByCategoriesRequest request = GetCoursesByCategoriesRequest.newBuilder()
+                    .addAllCategoryId(categoryIds)
+                    .build();
+
+            GetCoursesByCategoriesResponse response = courseServiceStub.getCoursesByCategories(request);
 
             String json = JsonFormat.printer().print(response);
             return ResponseEntity.ok()
@@ -635,6 +657,148 @@ public class CourseServiceController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body("{\"error\":\"Failed to fetch courses\"}");
+        }
+    }
+
+    @PostMapping("/coupon/create")
+    public ResponseEntity<?> createCoupon(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+        try {
+            if (!jwtUtil.extractRoles(token.substring(7)).equals("admin")) {
+                return ResponseEntity.status(403).body("{\"error\":\"You do not have permission to create coupon\"}");
+            }
+
+            String code = (String) requestBody.get("code");
+            Double discount = (Double) requestBody.get("discount");
+            String expirationDate = (String) requestBody.get("expirationDate");
+            int createdBy = (int) requestBody.get("createdBy");
+
+            CreateCouponRequest createCouponRequest = CreateCouponRequest.newBuilder()
+                    .setCode(code)
+                    .setDiscountPercentage(discount)
+                    .setExpirationDate(expirationDate)
+                    .setCreatedBy(createdBy)
+                    .build();
+
+            CreateCouponResponse response = couponServiceStub.createCoupon(createCouponRequest);
+            String json = JsonFormat.printer().print(response);
+
+            loggingService.logAPIActivity(200, "createCoupon", response.toString());
+            return ResponseEntity.ok().header("Content-Type", "application/json").body(json);
+        } catch (ClassCastException e) {
+            return ResponseEntity.status(400).body("{\"error\":\"Invalid data format. code must be string, discount must be float, expirationDate must be string.\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to create coupon\"}");
+        }
+    }
+
+    @GetMapping("/coupon/{id}")
+    public ResponseEntity<String> getCouponById(@PathVariable int id) {
+        try {
+            GetCouponRequest request = GetCouponRequest.newBuilder()
+                    .setId(id)
+                    .build();
+
+            GetCouponResponse response = couponServiceStub.getCoupon(request);
+
+            String json = JsonFormat.printer().print(response);
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json")
+                    .body(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to fetch coupon\"}");
+        }
+    }
+
+    @GetMapping("/coupon/code")
+    public ResponseEntity<String> getCouponByCode(@RequestParam String code) {
+        try {
+            GetCouponByCodeRequest request = GetCouponByCodeRequest.newBuilder()
+                    .setCode(code)
+                    .build();
+
+            GetCouponByCodeResponse response = couponServiceStub.getCouponByCode(request);
+
+            String json = JsonFormat.printer().print(response);
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json")
+                    .body(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to fetch coupon\"}");
+        }
+    }
+
+    @GetMapping("/coupon/all")
+    public ResponseEntity<String> getAllCoupons() {
+        try {
+            GetAllCouponsRequest request = GetAllCouponsRequest.newBuilder().build();
+            GetAllCouponsResponse response = couponServiceStub.getAllCoupons(request);
+
+            String json = JsonFormat.printer().print(response);
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json")
+                    .body(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to fetch coupons\"}");
+        }
+    }
+
+    @PostMapping("/coupon/update")
+    public ResponseEntity<?> updateCoupon(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+        try {
+            if (!jwtUtil.extractRoles(token.substring(7)).equals("admin")) {
+                return ResponseEntity.status(403).body("{\"error\":\"You do not have permission to update coupon\"}");
+            }
+
+            int id = (int) requestBody.get("id");
+            String code = (String) requestBody.get("code");
+            double discount = (double) requestBody.get("discount");
+            String expirationDate = (String) requestBody.get("expirationDate");
+            int createdBy = (int) requestBody.get("createdBy");
+
+            UpdateCouponRequest updateCouponRequest = UpdateCouponRequest.newBuilder()
+                    .setId(id)
+                    .setCode(code)
+                    .setDiscountPercentage(discount)
+                    .setExpirationDate(expirationDate)
+                    .setCreatedBy(createdBy)
+                    .build();
+
+            UpdateCouponResponse response = couponServiceStub.updateCoupon(updateCouponRequest);
+            String json = JsonFormat.printer().print(response);
+
+            loggingService.logAPIActivity(200, "updateCoupon", response.toString());
+            return ResponseEntity.ok().header("Content-Type", "application/json").body(json);
+        } catch (ClassCastException e) {
+            return ResponseEntity.status(400).body("{\"error\":\"Invalid data format. id must be integer, code must be string, discount must be float, expirationDate must be string.\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to update coupon\"}");
+        }
+    }
+
+    @DeleteMapping("/coupon/delete")
+    public ResponseEntity<?> deleteCoupon(@RequestHeader("Authorization") String token, @RequestParam int id) {
+        try {
+            if (!jwtUtil.extractRoles(token.substring(7)).equals("admin")) {
+                return ResponseEntity.status(403).body("{\"error\":\"You do not have permission to delete coupon\"}");
+            }
+
+            DeleteCouponRequest deleteCouponRequest = DeleteCouponRequest.newBuilder()
+                    .setId(id)
+                    .build();
+
+            DeleteCouponResponse response = couponServiceStub.deleteCoupon(deleteCouponRequest);
+            String json = JsonFormat.printer().print(response);
+
+            loggingService.logAPIActivity(200, "deleteCoupon", response.toString());
+            return ResponseEntity.ok().header("Content-Type", "application/json").body(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("{\"error\":\"Failed to delete coupon\"}");
         }
     }
 
