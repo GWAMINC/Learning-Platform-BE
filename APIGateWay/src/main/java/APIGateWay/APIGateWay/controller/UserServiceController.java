@@ -66,6 +66,28 @@ public class UserServiceController {
             return ResponseEntity.status(500).body("{\"error\":\"Failed to fetch user\"}");
         }
     }
+    @PostMapping("/update/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable int id, @RequestBody Map<String, Object> requestBody) {
+        try {
+            GateWayUserRpcProto.updateUserRequest request = GateWayUserRpcProto.updateUserRequest.newBuilder()
+                    .setId(id)
+                    .setUsername(requestBody.get("username").toString())
+                    .setEmail(requestBody.get("email").toString())
+                    .setPassword(requestBody.get("password").toString())
+                    .setRole(requestBody.get("role").toString())
+                    .build();
+
+            // Gửi request đến user-service qua gRPC
+            updateUserResponse response = userServiceStub.updateUser(request);
+
+            // Trả về message từ gRPC response
+            return ResponseEntity.status(response.getSuccess() ? 200 : 400)
+                    .body(Map.of("success", response.getSuccess(), "message", response.getMessage()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of("success", false, "message", "Internal server error"));
+        }
+    }
 
     @GetMapping("/all")
     public ResponseEntity<String> getAllUsers() {
@@ -154,6 +176,50 @@ public class UserServiceController {
                     .header(HttpHeaders.SET_COOKIE, jwtCookie.toString()) // Set cookie
                     .body(Map.of("success", true, "message", "Login successful", "username", response.getUsername()));
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of("success", false, "message", "Internal server error"));
+        }
+    }
+    @GetMapping("profile/{id}")
+    public ResponseEntity<?> getUserProfile(@PathVariable int id) {
+        try {
+            GateWayUserRpcProto.getUserBioRequest request = GateWayUserRpcProto.getUserBioRequest.newBuilder()
+                    .setId(id)
+                    .build();
+
+            // Gọi gRPC để lấy thông tin profile
+            GateWayUserRpcProto.getUserBioResponse response = userServiceStub.getUserBio(request);
+
+            String json = JsonFormat.printer().includingDefaultValueFields().print(response);
+            return ResponseEntity.ok()
+                    .header("Content-Type", "application/json")
+                    .body(json);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(Map.of("success", false, "message", "Internal server error"));
+        }
+    }
+    @PostMapping("update-profile/{id}")
+    public ResponseEntity<?> updateUserProfile(@PathVariable int id, @RequestBody Map<String, Object> requestBody) {
+        try {
+            GateWayUserRpcProto.updateUserBioRequest request = GateWayUserRpcProto.updateUserBioRequest.newBuilder()
+                    .setId(id)
+                    .setFirstName(requestBody.get("first_name").toString())
+                    .setLastName(requestBody.get("last_name").toString())
+                    .setAddress(requestBody.get("address").toString())
+                    .setPhone(requestBody.get("phone").toString())
+                    .setGender(requestBody.get("gender").toString())
+                    .setBirthDate(requestBody.get("birth_date").toString())
+                    .setBio(requestBody.get("bio").toString())
+                    .setAvatar(requestBody.get("avatar").toString())
+                    .build();
+
+            // Gọi gRPC để cập nhật thông tin profile
+            GateWayUserRpcProto.updateUserBioResponse response = userServiceStub.updateUserBio(request);
+
+            return ResponseEntity.status(response.getSuccess() ? 200 : 400)
+                    .body(Map.of("success", response.getSuccess(), "message", response.getMessage()));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body(Map.of("success", false, "message", "Internal server error"));
