@@ -190,6 +190,102 @@ public final class UserServiceGrpc {
      }
      return getForgotPasswordMethod;
   }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getUpdateUserMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.updateUserRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.updateUserResponse> METHOD_UPDATE_USER = getUpdateUserMethod();
+
+  private static volatile io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.updateUserRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.updateUserResponse> getUpdateUserMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.updateUserRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.updateUserResponse> getUpdateUserMethod() {
+    io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.updateUserRequest, com.example.gatewayuser.GateWayUserRpcProto.updateUserResponse> getUpdateUserMethod;
+    if ((getUpdateUserMethod = UserServiceGrpc.getUpdateUserMethod) == null) {
+      synchronized (UserServiceGrpc.class) {
+        if ((getUpdateUserMethod = UserServiceGrpc.getUpdateUserMethod) == null) {
+          UserServiceGrpc.getUpdateUserMethod = getUpdateUserMethod = 
+              io.grpc.MethodDescriptor.<com.example.gatewayuser.GateWayUserRpcProto.updateUserRequest, com.example.gatewayuser.GateWayUserRpcProto.updateUserResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "user.UserService", "updateUser"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.gatewayuser.GateWayUserRpcProto.updateUserRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.gatewayuser.GateWayUserRpcProto.updateUserResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new UserServiceMethodDescriptorSupplier("updateUser"))
+                  .build();
+          }
+        }
+     }
+     return getUpdateUserMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getGetUserBioMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.getUserBioRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.getUserBioResponse> METHOD_GET_USER_BIO = getGetUserBioMethod();
+
+  private static volatile io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.getUserBioRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.getUserBioResponse> getGetUserBioMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.getUserBioRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.getUserBioResponse> getGetUserBioMethod() {
+    io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.getUserBioRequest, com.example.gatewayuser.GateWayUserRpcProto.getUserBioResponse> getGetUserBioMethod;
+    if ((getGetUserBioMethod = UserServiceGrpc.getGetUserBioMethod) == null) {
+      synchronized (UserServiceGrpc.class) {
+        if ((getGetUserBioMethod = UserServiceGrpc.getGetUserBioMethod) == null) {
+          UserServiceGrpc.getGetUserBioMethod = getGetUserBioMethod = 
+              io.grpc.MethodDescriptor.<com.example.gatewayuser.GateWayUserRpcProto.getUserBioRequest, com.example.gatewayuser.GateWayUserRpcProto.getUserBioResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "user.UserService", "getUserBio"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.gatewayuser.GateWayUserRpcProto.getUserBioRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.gatewayuser.GateWayUserRpcProto.getUserBioResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new UserServiceMethodDescriptorSupplier("getUserBio"))
+                  .build();
+          }
+        }
+     }
+     return getGetUserBioMethod;
+  }
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @java.lang.Deprecated // Use {@link #getUpdateUserBioMethod()} instead. 
+  public static final io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.updateUserBioRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.updateUserBioResponse> METHOD_UPDATE_USER_BIO = getUpdateUserBioMethod();
+
+  private static volatile io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.updateUserBioRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.updateUserBioResponse> getUpdateUserBioMethod;
+
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.updateUserBioRequest,
+      com.example.gatewayuser.GateWayUserRpcProto.updateUserBioResponse> getUpdateUserBioMethod() {
+    io.grpc.MethodDescriptor<com.example.gatewayuser.GateWayUserRpcProto.updateUserBioRequest, com.example.gatewayuser.GateWayUserRpcProto.updateUserBioResponse> getUpdateUserBioMethod;
+    if ((getUpdateUserBioMethod = UserServiceGrpc.getUpdateUserBioMethod) == null) {
+      synchronized (UserServiceGrpc.class) {
+        if ((getUpdateUserBioMethod = UserServiceGrpc.getUpdateUserBioMethod) == null) {
+          UserServiceGrpc.getUpdateUserBioMethod = getUpdateUserBioMethod = 
+              io.grpc.MethodDescriptor.<com.example.gatewayuser.GateWayUserRpcProto.updateUserBioRequest, com.example.gatewayuser.GateWayUserRpcProto.updateUserBioResponse>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(
+                  "user.UserService", "updateUserBio"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.gatewayuser.GateWayUserRpcProto.updateUserBioRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  com.example.gatewayuser.GateWayUserRpcProto.updateUserBioResponse.getDefaultInstance()))
+                  .setSchemaDescriptor(new UserServiceMethodDescriptorSupplier("updateUserBio"))
+                  .build();
+          }
+        }
+     }
+     return getUpdateUserBioMethod;
+  }
 
   /**
    * Creates a new async stub that supports all call types for the service
@@ -256,6 +352,27 @@ public final class UserServiceGrpc {
       asyncUnimplementedUnaryCall(getForgotPasswordMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void updateUser(com.example.gatewayuser.GateWayUserRpcProto.updateUserRequest request,
+        io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.updateUserResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getUpdateUserMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void getUserBio(com.example.gatewayuser.GateWayUserRpcProto.getUserBioRequest request,
+        io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.getUserBioResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetUserBioMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void updateUserBio(com.example.gatewayuser.GateWayUserRpcProto.updateUserBioRequest request,
+        io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.updateUserBioResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(getUpdateUserBioMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -293,6 +410,27 @@ public final class UserServiceGrpc {
                 com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest,
                 com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse>(
                   this, METHODID_FORGOT_PASSWORD)))
+          .addMethod(
+            getUpdateUserMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.example.gatewayuser.GateWayUserRpcProto.updateUserRequest,
+                com.example.gatewayuser.GateWayUserRpcProto.updateUserResponse>(
+                  this, METHODID_UPDATE_USER)))
+          .addMethod(
+            getGetUserBioMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.example.gatewayuser.GateWayUserRpcProto.getUserBioRequest,
+                com.example.gatewayuser.GateWayUserRpcProto.getUserBioResponse>(
+                  this, METHODID_GET_USER_BIO)))
+          .addMethod(
+            getUpdateUserBioMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                com.example.gatewayuser.GateWayUserRpcProto.updateUserBioRequest,
+                com.example.gatewayuser.GateWayUserRpcProto.updateUserBioResponse>(
+                  this, METHODID_UPDATE_USER_BIO)))
           .build();
     }
   }
@@ -357,6 +495,30 @@ public final class UserServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getForgotPasswordMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void updateUser(com.example.gatewayuser.GateWayUserRpcProto.updateUserRequest request,
+        io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.updateUserResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getUpdateUserMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void getUserBio(com.example.gatewayuser.GateWayUserRpcProto.getUserBioRequest request,
+        io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.getUserBioResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getGetUserBioMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void updateUserBio(com.example.gatewayuser.GateWayUserRpcProto.updateUserBioRequest request,
+        io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.updateUserBioResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getUpdateUserBioMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -413,6 +575,27 @@ public final class UserServiceGrpc {
     public com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse forgotPassword(com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest request) {
       return blockingUnaryCall(
           getChannel(), getForgotPasswordMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.example.gatewayuser.GateWayUserRpcProto.updateUserResponse updateUser(com.example.gatewayuser.GateWayUserRpcProto.updateUserRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getUpdateUserMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.example.gatewayuser.GateWayUserRpcProto.getUserBioResponse getUserBio(com.example.gatewayuser.GateWayUserRpcProto.getUserBioRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getGetUserBioMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public com.example.gatewayuser.GateWayUserRpcProto.updateUserBioResponse updateUserBio(com.example.gatewayuser.GateWayUserRpcProto.updateUserBioRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getUpdateUserBioMethod(), getCallOptions(), request);
     }
   }
 
@@ -476,6 +659,30 @@ public final class UserServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getForgotPasswordMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.example.gatewayuser.GateWayUserRpcProto.updateUserResponse> updateUser(
+        com.example.gatewayuser.GateWayUserRpcProto.updateUserRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getUpdateUserMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.example.gatewayuser.GateWayUserRpcProto.getUserBioResponse> getUserBio(
+        com.example.gatewayuser.GateWayUserRpcProto.getUserBioRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getGetUserBioMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<com.example.gatewayuser.GateWayUserRpcProto.updateUserBioResponse> updateUserBio(
+        com.example.gatewayuser.GateWayUserRpcProto.updateUserBioRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getUpdateUserBioMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_USER = 0;
@@ -483,6 +690,9 @@ public final class UserServiceGrpc {
   private static final int METHODID_LOGIN = 2;
   private static final int METHODID_REGISTER = 3;
   private static final int METHODID_FORGOT_PASSWORD = 4;
+  private static final int METHODID_UPDATE_USER = 5;
+  private static final int METHODID_GET_USER_BIO = 6;
+  private static final int METHODID_UPDATE_USER_BIO = 7;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -520,6 +730,18 @@ public final class UserServiceGrpc {
         case METHODID_FORGOT_PASSWORD:
           serviceImpl.forgotPassword((com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordRequest) request,
               (io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.ForgotPasswordResponse>) responseObserver);
+          break;
+        case METHODID_UPDATE_USER:
+          serviceImpl.updateUser((com.example.gatewayuser.GateWayUserRpcProto.updateUserRequest) request,
+              (io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.updateUserResponse>) responseObserver);
+          break;
+        case METHODID_GET_USER_BIO:
+          serviceImpl.getUserBio((com.example.gatewayuser.GateWayUserRpcProto.getUserBioRequest) request,
+              (io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.getUserBioResponse>) responseObserver);
+          break;
+        case METHODID_UPDATE_USER_BIO:
+          serviceImpl.updateUserBio((com.example.gatewayuser.GateWayUserRpcProto.updateUserBioRequest) request,
+              (io.grpc.stub.StreamObserver<com.example.gatewayuser.GateWayUserRpcProto.updateUserBioResponse>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -587,6 +809,9 @@ public final class UserServiceGrpc {
               .addMethod(getLoginMethod())
               .addMethod(getRegisterMethod())
               .addMethod(getForgotPasswordMethod())
+              .addMethod(getUpdateUserMethod())
+              .addMethod(getGetUserBioMethod())
+              .addMethod(getUpdateUserBioMethod())
               .build();
         }
       }

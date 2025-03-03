@@ -7,10 +7,13 @@ import com.example.gatewayuser.GateWayUserRpcProto.*;
 import io.grpc.stub.StreamObserver;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import user_service.user_service.repository.UserRepository;
 import user_service.user_service.utils.JwtUtil;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -63,6 +66,56 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
         responseObserver.onNext(response);
         responseObserver.onCompleted();
         loggingService.logUserActivity(200, "getUser", response.toString());
+    }
+    @Override
+    public void updateUser(updateUserRequest request, StreamObserver<updateUserResponse> responseObserver) {
+        try {
+            // Kiểm tra user có tồn tại không
+            Map<String, Object> user = userRepository.findUserById(request.getId());
+            if (user.isEmpty()) {
+                responseObserver.onNext(updateUserResponse.newBuilder()
+                        .setSuccess(false)
+                        .setMessage("User not found")
+                        .build());
+                responseObserver.onCompleted();
+                return;
+            }
+
+            // Kiểm tra password có hợp lệ không
+            if (request.getPassword() != null && !isValidPassword(request.getPassword())) {
+                updateUserResponse response = updateUserResponse.newBuilder()
+                        .setSuccess(false)
+                        .setMessage("Password must be at least 8 characters long, contain an uppercase letter, a lowercase letter, and a number")
+                        .build();
+                responseObserver.onNext(response);
+                responseObserver.onCompleted();
+                return;
+            }
+
+            // Cập nhật thông tin user
+            userRepository.updateUser(
+                    request.getId(),
+                    request.getUsername(),
+                    request.getEmail(),
+                    request.getPassword(),
+                    request.getRole()
+            );
+
+            updateUserResponse response = updateUserResponse.newBuilder()
+                    .setSuccess(true)
+                    .setMessage("User updated successfully")
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch (Exception e) {
+            e.printStackTrace();
+            updateUserResponse response = updateUserResponse.newBuilder()
+                    .setSuccess(false)
+                    .setMessage("Internal server error: " + e.getMessage())
+                    .build();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        }
     }
 
     @Override
@@ -227,4 +280,103 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void getUserBio(GateWayUserRpcProto.getUserBioRequest request, StreamObserver<GateWayUserRpcProto.getUserBioResponse> responseObserver) {
+        Map<String, Object> bioData = userRepository.getBio(request.getId());
+
+        GateWayUserRpcProto.Bio.Builder bioBuilder = GateWayUserRpcProto.Bio.newBuilder();
+        if (bioData != null) {
+            bioBuilder.setId((int) bioData.get("id"))
+                    .setUserId((int) bioData.get("user_id"))
+                    .setFirstName((String) bioData.get("first_name"))
+                    .setLastName((String) bioData.get("last_name"))
+                    .setAddress((String) bioData.get("address"))
+                    .setPhone((String) bioData.get("phone"))
+                    .setGender((String) bioData.get("gender"))
+                    .setBirthDate(bioData.get("birth_date").toString())
+                    .setBio((String) bioData.get("bio"))
+                    .setAvatar((String) bioData.get("avatar"));
+        }
+
+        GateWayUserRpcProto.getUserBioResponse response = GateWayUserRpcProto.getUserBioResponse.newBuilder()
+                .setBio(bioBuilder)
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+    @Override
+    public void updateUserBio(GateWayUserRpcProto.updateUserBioRequest request, StreamObserver<GateWayUserRpcProto.updateUserBioResponse> responseObserver) {
+        try {
+            Map<String, Object> user = userRepository.findUserById(request.getId());
+            if (user.isEmpty()) {
+                responseObserver.onNext(GateWayUserRpcProto.updateUserBioResponse.newBuilder()
+                        .setSuccess(false)
+                        .setMessage("User not found")
+                        .build());
+                responseObserver.onCompleted();
+                return;
+            }
+
+            String gender = request.getGender();
+            if (gender == null || (!gender.equals("male") && !gender.equals("female") && !gender.equals("other"))) {
+                GateWayUserRpcProto.updateUserBioResponse response = GateWayUserRpcProto.updateUserBioResponse.newBuilder()
+                        .setSuccess(false)
+                        .setMessage("Invalid gender value. Allowed values are: male, female, other.")
+                        .build();
+                responseObserver.onNext(response);
+                responseObserver.onCompleted();
+                return;
+            }
+
+            Map<String, Object> bioData = null;
+            try {
+                bioData = userRepository.getBio(request.getId());
+            } catch (EmptyResultDataAccessException e) {
+                // Không có bio
+            }
+
+            if (bioData == null) {
+                userRepository.addBio(
+                        request.getId(),
+                        request.getFirstName(),
+                        request.getLastName(),
+                        request.getAddress(),
+                        request.getPhone(),
+                        request.getGender(),
+                        request.getBirthDate(),
+                        request.getBio(),
+                        request.getAvatar()
+                );
+            } else {
+                userRepository.updateBio(
+                        request.getId(),
+                        request.getFirstName(),
+                        request.getLastName(),
+                        request.getAddress(),
+                        request.getPhone(),
+                        request.getGender(),
+                        request.getBirthDate(),
+                        request.getBio(),
+                        request.getAvatar()
+                );
+            }
+
+            responseObserver.onNext(GateWayUserRpcProto.updateUserBioResponse.newBuilder()
+                    .setSuccess(true)
+                    .setMessage("Bio updated successfully")
+                    .build());
+            responseObserver.onCompleted();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseObserver.onNext(GateWayUserRpcProto.updateUserBioResponse.newBuilder()
+                    .setSuccess(false)
+                    .setMessage("Internal server error: " + e.getMessage())
+                    .build());
+            responseObserver.onCompleted();
+        }
+    }
+
 }
