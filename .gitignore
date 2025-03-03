@@ -30,3 +30,11 @@ mongo-data
 mysql-coursedb-data/
 mysql-enrolldb-data/
 mysql-userdb-data/
+
+
+# Ignore generated 'com' directories in each service
+APIGateWay/src/main/java/com/
+user-service/src/main/java/com/
+course-service/src/main/java/com/
+chat-service/src/main/java/com/
+enroll-service/src/main/java/com/
