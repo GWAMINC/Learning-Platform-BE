@@ -1,8 +1,8 @@
 package user_service.user_service.controller;
 
 import com.example.common.MessageOuterClass;
-import com.example.usercourse.UserCourseRpcProto;
-import com.example.usercourse.UserCourseServiceGrpc;
+//import com.example.usercourse.UserCourseRpcProto;
+//import com.example.usercourse.UserCourseServiceGrpc;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -45,33 +45,33 @@ public class UserController {
             return "Failed to send message: " + e.getMessage();
         }
     }
-    @GetMapping("/api/user/course-info")
-    public String getCourseInfo(@RequestParam String courseId) {
-        // Kết nối tới gRPC server của CourseService
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("course-service", 50051)
-                .usePlaintext()
-                .build();
-
-        try {
-            // Tạo client gRPC
-            UserCourseServiceGrpc.UserCourseServiceBlockingStub stub =
-                    UserCourseServiceGrpc.newBlockingStub(channel);
-
-            // Tạo request
-            UserCourseRpcProto.GetCourseRequest request = UserCourseRpcProto.GetCourseRequest.newBuilder()
-                    .setCourseId(courseId)
-                    .build();
-
-            // Gửi request và nhận response
-            UserCourseRpcProto.GetCourseResponse response = stub.getCourseInfo(request);
-
-            return "Course Info: " + response.getCourseName();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Failed to fetch course info: " + e.getMessage();
-        } finally {
-            // Đóng kết nối
-            channel.shutdown();
-        }
-    }
+//    @GetMapping("/api/user/course-info")
+//    public String getCourseInfo(@RequestParam String courseId) {
+//        // Kết nối tới gRPC server của CourseService
+//        ManagedChannel channel = ManagedChannelBuilder.forAddress("course-service", 50051)
+//                .usePlaintext()
+//                .build();
+//
+//        try {
+//            // Tạo client gRPC
+//            UserCourseServiceGrpc.UserCourseServiceBlockingStub stub =
+//                    UserCourseServiceGrpc.newBlockingStub(channel);
+//
+//            // Tạo request
+//            UserCourseRpcProto.GetCourseRequest request = UserCourseRpcProto.GetCourseRequest.newBuilder()
+//                    .setCourseId(courseId)
+//                    .build();
+//
+//            // Gửi request và nhận response
+//            UserCourseRpcProto.GetCourseResponse response = stub.getCourseInfo(request);
+//
+//            return "Course Info: " + response.getCourseName();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "Failed to fetch course info: " + e.getMessage();
+//        } finally {
+//            // Đóng kết nối
+//            channel.shutdown();
+//        }
+//    }
 }
