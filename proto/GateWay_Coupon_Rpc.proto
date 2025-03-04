@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package coupon;
+
+option java_package = "com.example.gatewaycoupon";
+option java_outer_classname = "GateWayCouponRpcProto";
+
+// Định nghĩa Coupon
+message Coupon {
+  int32 id = 1;
+  string code = 2;
+  double discount_percentage = 3;
+  string expiration_date = 4;
+  int32 created_by = 5;
+  string created_at = 6;
+}
+
+// Request và Response
+message CreateCouponRequest {
+  string code = 1;
+  double discount_percentage = 2;
+  string expiration_date = 3;
+  int32 created_by = 4;
+}
+
+message CreateCouponResponse {
+  string status = 1;
+  string message = 2;
+}
+
+message GetCouponRequest {
+  int32 id = 1;
+}
+
+message GetCouponResponse {
+  Coupon coupon = 1;
+}
+
+message GetCouponByCodeRequest {
+  string code = 1;
+}
+
+message GetCouponByCodeResponse {
+  Coupon coupon = 1;
+}
+
+message GetAllCouponsRequest {
+}
+
+message GetAllCouponsResponse {
+  repeated Coupon coupons = 1;
+}
+
+message UpdateCouponRequest {
+  int32 id = 1;
+  string code = 2;
+  double discount_percentage = 3;
+  string expiration_date = 4;
+  int32 created_by = 5;
+}
+
+message UpdateCouponResponse {
+  Coupon coupon = 1;
+}
+
+message DeleteCouponRequest {
+  int32 id = 1;
+}
+
+message DeleteCouponResponse {
+  string status = 1;
+  string message = 2;
+}
+
+service CouponService {
+  rpc CreateCoupon (CreateCouponRequest) returns (CreateCouponResponse);
+  rpc GetCoupon (GetCouponRequest) returns (GetCouponResponse);
+  rpc GetCouponByCode (GetCouponByCodeRequest) returns (GetCouponByCodeResponse);
+  rpc GetAllCoupons (GetAllCouponsRequest) returns (GetAllCouponsResponse);
+  rpc UpdateCoupon (UpdateCouponRequest) returns (UpdateCouponResponse);
+  rpc DeleteCoupon (DeleteCouponRequest) returns (DeleteCouponResponse);
+}

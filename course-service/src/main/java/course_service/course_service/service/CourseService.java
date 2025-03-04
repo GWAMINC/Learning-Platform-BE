@@ -259,4 +259,32 @@ public class CourseService extends CourseServiceGrpc.CourseServiceImplBase {
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
+
+    @Override
+    public void getCoursesByCategories(GetCoursesByCategoriesRequest request, StreamObserver<GetCoursesByCategoriesResponse> responseObserver) {
+        List<Integer> categoryIds = request.getCategoryIdList();
+        List<Map<String, Object>> results = courseRepository.findCoursesByCategories(categoryIds);
+
+        if (results == null || results.isEmpty()) {
+            responseObserver.onNext(GetCoursesByCategoriesResponse.newBuilder().build());
+            responseObserver.onCompleted();
+            return;
+        }
+        List<GateWayCourseRpcProto.Course> courses = results.stream()
+                .map(row -> GateWayCourseRpcProto.Course.newBuilder()
+                        .setId((Integer) row.get("id"))
+                        .setTitle((String) row.get("title"))
+                        .setDescription((String) row.get("description"))
+                        .setCreatedAt(row.get("created_at") != null ? row.get("created_at").toString() : "")
+                        .setUpdatedAt(row.get("updated_at") != null ? row.get("updated_at").toString() : "")
+                        .build())
+                .toList();
+
+        GetCoursesByCategoriesResponse response = GetCoursesByCategoriesResponse.newBuilder()
+                .addAllCourses(courses)
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Repository
 public class CourseRepository {
@@ -44,5 +45,17 @@ public class CourseRepository {
         String sql = "SELECT COUNT(*) FROM Courses";
         return jdbcTemplate.queryForObject(sql, Integer.class);
     }
+
+    public List<Map<String, Object>> findCoursesByCategories(List<Integer> categoryIds) {
+        String sql = "SELECT c.* FROM Courses c " +
+                "JOIN CourseCategories cc ON c.id = cc.course_id " +
+                "WHERE cc.category_id IN (" + categoryIds.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(",")) + ") " +
+                "GROUP BY c.id " +
+                "HAVING COUNT(DISTINCT cc.category_id) = " + categoryIds.size();
+        return jdbcTemplate.queryForList(sql);
+    }
+
 
 }
