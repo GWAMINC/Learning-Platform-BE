@@ -102,6 +102,14 @@ message ViewTeacherResponse {
   repeated Course courses = 1;
 }
 
+message GetCoursesByCategoriesRequest {
+  repeated int32 categoryId = 1;
+}
+
+message GetCoursesByCategoriesResponse {
+  repeated Course courses = 1;
+}
+
 // Service cho Course
 service CourseService {
   rpc CreateCourse (CreateCourseRequest) returns (CreateCourseResponse);
@@ -117,4 +125,5 @@ service CourseService {
   rpc DeleteCourse (DeleteCourseRequest) returns (DeleteCourseResponse);
 //  danh sach khoa hoc ma giang vien da tao
   rpc ViewTeacherCourse(ViewTeacherRequest) returns (ViewTeacherResponse);
+  rpc GetCoursesByCategories (GetCoursesByCategoriesRequest) returns (GetCoursesByCategoriesResponse);
 }

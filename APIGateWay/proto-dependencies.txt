@@ -5,3 +5,4 @@ proto/GateWay_Category_Rpc.proto
 proto/GateWay_Unit_Rpc.proto
 proto/GateWay_Lesson_Rpc.proto
 proto/GateWay_CourseCategory_Rpc.proto
+proto/GateWay_Coupon_Rpc.proto
