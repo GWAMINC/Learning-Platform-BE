@@ -15,13 +15,19 @@ import com.example.gatewaylesson.GateWayLessonRpcProto.*;
 import com.example.gatewaylesson.LessonServiceGrpc;
 import com.example.gatewayunit.UnitServiceGrpc;
 import com.example.gatewayunit.GateWayUnitRpcProto.*;
+import com.example.media.MediaRpcProto.*;
+import com.example.media.MediaServiceGrpc;
+import com.google.protobuf.ByteString;
 import com.google.protobuf.util.JsonFormat;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.buffer.DataBufferUtils;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
@@ -36,6 +42,7 @@ public class CourseServiceController {
     private final LessonServiceGrpc.LessonServiceBlockingStub lessonServiceStub;
     private final CourseCategoryServiceGrpc.CourseCategoryServiceBlockingStub courseCategoryServiceStub;
     private final CouponServiceGrpc.CouponServiceBlockingStub couponServiceStub;
+    private final MediaServiceGrpc.MediaServiceBlockingStub mediaServiceStub;
 
     @Autowired
     private LoggingService loggingService;
@@ -59,6 +66,7 @@ public class CourseServiceController {
         this.lessonServiceStub = LessonServiceGrpc.newBlockingStub(courseServiceChannel);
         this.courseCategoryServiceStub = CourseCategoryServiceGrpc.newBlockingStub(courseServiceChannel);
         this.couponServiceStub = CouponServiceGrpc.newBlockingStub(courseServiceChannel);
+        this.mediaServiceStub = MediaServiceGrpc.newBlockingStub(courseServiceChannel);
     }
 
     @PostMapping("/create")
@@ -851,6 +859,42 @@ public class CourseServiceController {
             e.printStackTrace();
             return ResponseEntity.status(500).body("{\"error\":\"Failed to delete coupon\"}");
         }
+    }
+
+    @PostMapping(value = "/media/upload")
+    public Mono<ResponseEntity<Object>> uploadImage(@RequestHeader("Authorization") String token,
+                                                    @RequestPart("file") FilePart filePart,
+                                                    @RequestPart("type") String type) {
+        return DataBufferUtils.join(filePart.content())  // Kết hợp tất cả DataBuffer thành một
+                .map(dataBuffer -> {
+                    byte[] bytes = new byte[dataBuffer.readableByteCount()];
+                    dataBuffer.read(bytes);
+                    DataBufferUtils.release(dataBuffer);
+                    return bytes;
+                })
+                .flatMap(bytes -> {
+
+                    UploadMediaRequest uploadMediaRequest = UploadMediaRequest.newBuilder()
+                            .setData(ByteString.copyFrom(bytes))
+                            .setFileName(filePart.filename())
+                            .setType(type)
+                            .build();
+
+                    UploadMediaResponse response = mediaServiceStub.uploadMedia(uploadMediaRequest);
+                    String json;
+                    try {
+                        json = JsonFormat.printer().print(response);
+                    } catch (Exception e) {
+                        return Mono.just(ResponseEntity.status(500).body((Object) "{\"error\":\"Failed to parse response\"}"));
+                    }
+
+                    loggingService.logAPIActivity(200, "uploadMedia", response.toString());
+                    return Mono.just(ResponseEntity.ok().header("Content-Type", "application/json").body((Object) json));
+                })
+                .onErrorResume(e -> {
+                    e.printStackTrace();
+                    return Mono.just(ResponseEntity.status(500).body((Object) "{\"error\":\"Failed to upload media\"}"));
+                });
     }
 
     @PreDestroy
