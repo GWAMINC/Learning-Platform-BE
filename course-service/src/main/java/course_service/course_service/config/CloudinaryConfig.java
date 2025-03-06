@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class CloudinaryConfig {
 
     private final Dotenv dotenv = Dotenv.configure()
-            .directory("course-service")
+            .filename(".env")
             .load();
 
     @Bean
