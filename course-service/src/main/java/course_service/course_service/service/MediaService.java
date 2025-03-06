@@ -5,10 +5,7 @@ import com.example.media.MediaServiceGrpc;
 import com.example.media.MediaRpcProto.*;
 import course_service.course_service.repository.MediaRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.mock.web.MockMultipartFile;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
