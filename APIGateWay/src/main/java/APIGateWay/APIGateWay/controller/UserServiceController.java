@@ -32,13 +32,13 @@ public class UserServiceController {
     public UserServiceController() {
         // Kết nối tới user-service qua gRPC
         // Chạy Docker container với tên là "user-service"
-//        this.userServiceChannel = ManagedChannelBuilder.forAddress("user-service", 50050)
-//                .usePlaintext()
-//                .build();
-        // Chạy local
-        this.userServiceChannel = ManagedChannelBuilder.forAddress("localhost", 50050)
+        this.userServiceChannel = ManagedChannelBuilder.forAddress("user-service", 50050)
                 .usePlaintext()
                 .build();
+        // Chạy local
+//        this.userServiceChannel = ManagedChannelBuilder.forAddress("localhost", 50050)
+//                .usePlaintext()
+//                .build();
         this.userServiceStub = UserServiceGrpc.newBlockingStub(userServiceChannel);
     }
 
