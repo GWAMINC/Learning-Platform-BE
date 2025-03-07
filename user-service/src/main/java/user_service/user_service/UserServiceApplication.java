@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
+import user_service.user_service.service.PaymentService;
 import user_service.user_service.service.UserService;
 
 @SpringBootApplication
@@ -25,8 +26,10 @@ public class UserServiceApplication implements CommandLineRunner {
 		// Chỉ khởi động gRPC server khi không chạy dưới môi trường Maven build
 		if (!isRunningInBuildMode()) {
 			UserService userService = applicationContext.getBean(UserService.class);
+			PaymentService paymentService = applicationContext.getBean(PaymentService.class);
 			Server server = ServerBuilder.forPort(50050)
 					.addService(userService)
+					.addService(paymentService)
 					.build()
 					.start();
 
