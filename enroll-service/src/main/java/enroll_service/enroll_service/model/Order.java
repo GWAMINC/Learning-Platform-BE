@@ -13,9 +13,9 @@ public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    private Long userId;
+    private Integer userId;
     private BigDecimal totalAmount;
     private String shippingAddress;
     private String notes;

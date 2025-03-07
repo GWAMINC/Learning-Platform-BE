@@ -12,16 +12,19 @@ public class CoursePayment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false)
-    private Long courseId;
+    private Integer courseId;
 
     @Column(nullable = false)
-    private Long userId;
+    private Integer userId;
+
+//    @Column(nullable = false)
+//    private Integer orderId;
 
     @Column(nullable = false)
-    private Long paymentMethodId;   // Thêm phương thức thanh toán
+    private Integer paymentMethodId;   // Thêm phương thức thanh toán
 
     @Column(nullable = false)
     private BigDecimal amount;      // Giá gốc khóa học
@@ -42,7 +45,7 @@ public class CoursePayment {
     private LocalDateTime updatedAt = LocalDateTime.now();
 
     // PayPal-specific fields
-    private Long orderId;
+    private Integer orderId;
     private String paypalOrderId;
     private String paypalStatus;
     private String paypalCheckoutLink;

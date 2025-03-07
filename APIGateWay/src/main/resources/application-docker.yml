@@ -1,0 +1,12 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: payment-service
+          uri: http://payment-service:8083
+          predicates:
+            - Path=/api/payment/**
+        - id: chat-service
+          uri: http://chat-service:8084
+          predicates:
+            - Path=/api/chat/**

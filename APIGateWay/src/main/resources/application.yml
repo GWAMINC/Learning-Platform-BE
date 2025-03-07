@@ -2,35 +2,22 @@ server:
   port: 8080
 
 spring:
+  profiles:
+    active: dev
   cloud:
     gateway:
       default-filters:
         - PreserveHostHeader
       forwarded:
         enabled: true
-      routes:
-        - id: payment-service
-          uri: http://payment-service:8083
-#          uri: http://localhost:8083
-          predicates:
-            - Path=/api/payment/**
-        - id: chat-service
-#          uri: http://chat-service:8084
-          uri: http://localhost:8084
-          predicates:
-            - Path=/api/chat/**
 
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG
-    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: DEBUG
-    org.springframework.cloud.gateway.filter.GlobalFilter: DEBUG
+
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
-  logging:
-    level:
-      org.springframework.boot.actuate: DEBUG
