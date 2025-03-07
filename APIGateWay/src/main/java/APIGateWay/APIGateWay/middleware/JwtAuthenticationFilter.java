@@ -46,6 +46,13 @@ public class JwtAuthenticationFilter implements WebFilter {
         if (request.getPath().toString().equals("/api/user/forgot-password")) {
             return chain.filter(exchange);
         }
+        if (request.getPath().toString().equals("/api/payment/success")) {
+            return chain.filter(exchange);
+        }
+        if (request.getPath().toString().equals("/api/payment/cancel")) {
+            return chain.filter(exchange);
+        }
+
 
         String authorizationHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         System.out.println("📢 Authorization Header: " + authorizationHeader);
