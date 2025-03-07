@@ -102,10 +102,10 @@ services:
     networks:
       - microservices-network
 
-  enroll-service:
+  payment-service:
     build:
       context: ./enroll-service
-    container_name: enroll-service
+    container_name: payment-service
     depends_on:
       - mysql-enrolldb
     environment:
@@ -114,9 +114,15 @@ services:
       - SPRING_DATASOURCE_PASSWORD=userpassword
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQLDialect
+      - PAYPAL_BASE_URL=https://api-m.sandbox.paypal.com
+      - PAYPAL_CLIENT_ID=AU4Z15aMKmvo86Hxw2HWTcysTTVLykyhx1lyiYq52LA__4v3mLto55f4P97tuXNB4FvKOWv0EOfl4rYn
+      - PAYPAL_SECRET=ED08WeNe4e6xJJnvAw6jcRTGs9M8s7VP0ziBKmFpzExzhKYaa2YrVVv7n3MMk8Y9p0_0EZGlEKjEJeBf
+      - PAYPAL_CURRENCY=USD
+      - PAYPAL_RETURN_URL=http://api-gateway:8080/api/payment/success
+      - PAYPAL_CANCEL_URL=http://api-gateway:8080/api/payment/cancel
     ports:
-#      - 8083:8083
-      - 50052:50052 # gRPC
+      - 8083:8083
+#      - 50052:50052 # gRPC
     networks:
       - microservices-network
 
@@ -153,7 +159,7 @@ services:
     depends_on:
       - user-service
       - course-service
-      - enroll-service
+      - payment-service
       - chat-service
     ports:
       - 8080:8080

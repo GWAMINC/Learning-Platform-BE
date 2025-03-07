@@ -38,6 +38,8 @@ public class WebConfig {
                         .pathMatchers("/api/user/login").permitAll()
                         .pathMatchers("/api/user/register").permitAll()
                         .pathMatchers("/api/user/forgot-password").permitAll()
+                        .pathMatchers("/api/payment/success").permitAll()
+                        .pathMatchers("/api/payment/cancel").permitAll()
                         .anyExchange().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION);

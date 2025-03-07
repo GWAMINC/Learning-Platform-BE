@@ -1,8 +1,11 @@
+server:
+  port: 8083
+
 spring:
   main:
-    web-application-type: none
+    web-application-type: servlet
   datasource:
-    url: jdbc:mysql://localhost:3308/enrolldb
+    url: jdbc:mysql://localhost:3309/enrolldb
     username: user
     password: userpassword
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -17,3 +20,11 @@ spring:
 logging:
   level:
     org.springframework: DEBUG
+
+paypal:
+  base-url: https://api-m.sandbox.paypal.com
+  client-id: AU4Z15aMKmvo86Hxw2HWTcysTTVLykyhx1lyiYq52LA__4v3mLto55f4P97tuXNB4FvKOWv0EOfl4rYn
+  secret: ED08WeNe4e6xJJnvAw6jcRTGs9M8s7VP0ziBKmFpzExzhKYaa2YrVVv7n3MMk8Y9p0_0EZGlEKjEJeBf
+  currency: USD
+  return-url: http://localhost:8080/api/payment/success
+  cancel-url: http://localhost:8080/api/payment/cancel
