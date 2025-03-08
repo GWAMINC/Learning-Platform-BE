@@ -3,6 +3,8 @@ package course_service.course_service.repository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -36,9 +38,9 @@ public class CategoryRepository {
     }
 
     public Optional<Map<String, Object>> updateCategory(int id, String name, String description) {
-        String sql = "UPDATE Categories SET name = ?, description = ? WHERE id = ?";
+        String sql = "UPDATE Categories SET name = ?, description = ?, updated_at = ? WHERE id = ?";
         try {
-            jdbcTemplate.update(sql, name, description, id);
+            jdbcTemplate.update(sql, name, description, Timestamp.valueOf(LocalDateTime.now()), id);
             return findCategoryById(id);
         } catch (Exception e) {
             return Optional.empty();

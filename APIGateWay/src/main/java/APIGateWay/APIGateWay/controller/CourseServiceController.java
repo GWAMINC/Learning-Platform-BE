@@ -53,13 +53,13 @@ public class CourseServiceController {
     public CourseServiceController() {
         // Kết nối tới course-service qua gRPC
         // Chạy Docker container với tên là "course-service"
-//        this.courseServiceChannel = ManagedChannelBuilder.forAddress("course-service", 50051)
-//                .usePlaintext()
-//                .build();
-        // Chạy local
-        this.courseServiceChannel = ManagedChannelBuilder.forAddress("localhost", 50051)
+        this.courseServiceChannel = ManagedChannelBuilder.forAddress("course-service", 50051)
                 .usePlaintext()
                 .build();
+        // Chạy local
+//        this.courseServiceChannel = ManagedChannelBuilder.forAddress("localhost", 50051)
+//                .usePlaintext()
+//                .build();
         this.courseServiceStub = CourseServiceGrpc.newBlockingStub(courseServiceChannel);
         this.categoryServiceStub = CategoryServiceGrpc.newBlockingStub(courseServiceChannel);
         this.unitServiceStub = UnitServiceGrpc.newBlockingStub(courseServiceChannel);

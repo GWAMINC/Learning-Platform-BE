@@ -59,6 +59,8 @@ public class CategoryService extends CategoryServiceGrpc.CategoryServiceImplBase
                         .setId((int) category.get().get("id"))
                         .setName((String) category.get().get("name"))
                         .setDescription((String) category.get().get("description"))
+                        .setCreatedAt(category.get().get("created_at").toString())
+                        .setUpdatedAt(category.get().get("updated_at").toString())
                         .build();
                 GetCategoryResponse response = GetCategoryResponse.newBuilder()
                         .setCategory(category_response)
@@ -87,6 +89,8 @@ public class CategoryService extends CategoryServiceGrpc.CategoryServiceImplBase
                         .setId((int) category.get("id"))
                         .setName((String) category.get("name"))
                         .setDescription((String) category.get("description"))
+                        .setCreatedAt(category.get("created_at").toString())
+                        .setUpdatedAt(category.get("updated_at").toString())
                         .build();
                 response.addCategories(category_response);
             }
