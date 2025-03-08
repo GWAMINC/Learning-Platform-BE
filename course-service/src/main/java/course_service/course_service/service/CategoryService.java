@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class CategoryService extends CategoryServiceGrpc.CategoryServiceImplBase {
     private final CategoryRepository categoryRepository;
@@ -109,6 +111,7 @@ public class CategoryService extends CategoryServiceGrpc.CategoryServiceImplBase
                         .setId((int) updated.get().get("id"))
                         .setName((String) updated.get().get("name"))
                         .setDescription((String) updated.get().get("description"))
+                        .setUpdatedAt(LocalDateTime.now().toString())
                         .build();
                 UpdateCategoryResponse response = UpdateCategoryResponse.newBuilder()
                         .setCategory(category_response)

@@ -53,13 +53,13 @@ public class CourseServiceController {
     public CourseServiceController() {
         // Kết nối tới course-service qua gRPC
         // Chạy Docker container với tên là "course-service"
-        this.courseServiceChannel = ManagedChannelBuilder.forAddress("course-service", 50051)
-                .usePlaintext()
-                .build();
-        // Chạy local
-//        this.courseServiceChannel = ManagedChannelBuilder.forAddress("localhost", 50051)
+//        this.courseServiceChannel = ManagedChannelBuilder.forAddress("course-service", 50051)
 //                .usePlaintext()
 //                .build();
+        // Chạy local
+        this.courseServiceChannel = ManagedChannelBuilder.forAddress("localhost", 50051)
+                .usePlaintext()
+                .build();
         this.courseServiceStub = CourseServiceGrpc.newBlockingStub(courseServiceChannel);
         this.categoryServiceStub = CategoryServiceGrpc.newBlockingStub(courseServiceChannel);
         this.unitServiceStub = UnitServiceGrpc.newBlockingStub(courseServiceChannel);
@@ -70,10 +70,10 @@ public class CourseServiceController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> createCourse(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<?> createCourse(@CookieValue("token") String token, @RequestBody Map<String, Object> requestBody) {
         try {
             // Kiểm tra xem người dùng có quyền teacher không
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+            if (!jwtUtil.extractRoles(token).equals("teacher")) {
                 return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to create course\"}");
             }
 
@@ -99,10 +99,10 @@ public class CourseServiceController {
     }
 
     @PostMapping("/update")
-    public ResponseEntity<?> updateCourse(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<?> updateCourse(@CookieValue("token") String token, @RequestBody Map<String, Object> requestBody) {
         try {
             // Kiểm tra xem người dùng có quyền teacher không
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+            if (!jwtUtil.extractRoles(token).equals("teacher")) {
                 return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to update course\"}");
             }
 
@@ -130,10 +130,10 @@ public class CourseServiceController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteCourse(@RequestHeader("Authorization") String token, @RequestParam int id) {
+    public ResponseEntity<?> deleteCourse(@CookieValue("token") String token, @RequestParam int id) {
         try {
             // Kiểm tra xem người dùng có quyền teacher không
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+            if (!jwtUtil.extractRoles(token).equals("teacher")) {
                 return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to delete course\"}");
             }
 
@@ -244,10 +244,10 @@ public class CourseServiceController {
     }
 
     @PostMapping("/category/create")
-    public ResponseEntity<?> createCategory(@RequestHeader("Authorization") String token,@RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<?> createCategory(@CookieValue("token") String token,@RequestBody Map<String, Object> requestBody) {
         try {
             // Kiểm tra xem người dùng có quyền admin không
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("admin")) {
+            if (!jwtUtil.extractRoles(token).equals("admin")) {
                 return ResponseEntity.status(403).body("{\"error\":\"You do not have permission to create category\"}");
             }
 
@@ -308,10 +308,10 @@ public class CourseServiceController {
     }
 
     @PostMapping("/category/update")
-    public ResponseEntity<?> updateCategory(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<?> updateCategory(@CookieValue("token") String token, @RequestBody Map<String, Object> requestBody) {
         try {
             // Kiểm tra xem người dùng có quyền admin không
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("admin")) {
+            if (!jwtUtil.extractRoles(token).equals("admin")) {
                 return ResponseEntity.status(403).body("{\"error\":\"You do not have permission to update category\"}");
             }
 
@@ -339,10 +339,10 @@ public class CourseServiceController {
     }
 
     @DeleteMapping("/category/delete")
-    public ResponseEntity<?> deleteCategory(@RequestHeader("Authorization") String token, @RequestParam int id) {
+    public ResponseEntity<?> deleteCategory(@CookieValue("token") String token, @RequestParam int id) {
         try {
             // Kiểm tra xem người dùng có quyền admin không
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("admin")) {
+            if (!jwtUtil.extractRoles(token).equals("admin")) {
                 return ResponseEntity.status(403).body("{\"error\":\"You do not have permission to delete category\"}");
             }
 
@@ -361,10 +361,10 @@ public class CourseServiceController {
         }
     }
     @PostMapping("course_category/create")
-    public ResponseEntity<?> createCourseCategories(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<?> createCourseCategories(@CookieValue("token") String token, @RequestBody Map<String, Object> requestBody) {
         try {
             // Kiểm tra xem người dùng có quyền teacher không
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+            if (!jwtUtil.extractRoles(token).equals("teacher")) {
                 return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to create unit\"}");
             }
 
@@ -391,10 +391,10 @@ public class CourseServiceController {
         }
     }
     @DeleteMapping("course_category/delete")
-    public ResponseEntity<?> deleteCourseCategory(@RequestHeader("Authorization") String token, @RequestParam int id) {
+    public ResponseEntity<?> deleteCourseCategory(@CookieValue("token") String token, @RequestParam int id) {
         try {
             // Kiểm tra xem người dùng có quyền teacher không
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+            if (!jwtUtil.extractRoles(token).equals("teacher")) {
                 return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to delete course category\"}");
             }
 
@@ -412,10 +412,10 @@ public class CourseServiceController {
     }
 
     @PostMapping("/unit/create")
-    public ResponseEntity<?> createUnit(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<?> createUnit(@CookieValue("token") String token, @RequestBody Map<String, Object> requestBody) {
         try {
             // Kiểm tra xem người dùng có quyền teacher không
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+            if (!jwtUtil.extractRoles(token).equals("teacher")) {
                 return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to create unit\"}");
             }
 
@@ -460,10 +460,10 @@ public class CourseServiceController {
     }
 
     @PostMapping("/unit/update")
-    public ResponseEntity<?> updateUnit(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<?> updateUnit(@CookieValue("token") String token, @RequestBody Map<String, Object> requestBody) {
         try {
             // Kiểm tra xem người dùng có quyền teacher không
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+            if (!jwtUtil.extractRoles(token).equals("teacher")) {
                 return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to update unit\"}");
             }
 
@@ -491,10 +491,10 @@ public class CourseServiceController {
     }
 
     @DeleteMapping("/unit/delete")
-    public ResponseEntity<?> deleteUnit(@RequestHeader("Authorization") String token, @RequestParam int id) {
+    public ResponseEntity<?> deleteUnit(@CookieValue("token") String token, @RequestParam int id) {
         try {
             // Kiểm tra xem người dùng có quyền teacher không
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+            if (!jwtUtil.extractRoles(token).equals("teacher")) {
                 return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to delete unit\"}");
             }
 
@@ -514,10 +514,10 @@ public class CourseServiceController {
     }
 
     @PostMapping("/lesson/create")
-    public ResponseEntity<?> createLesson(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<?> createLesson(@CookieValue("token") String token, @RequestBody Map<String, Object> requestBody) {
         try {
             // Kiểm tra xem người dùng có quyền teacher không
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+            if (!jwtUtil.extractRoles(token).equals("teacher")) {
                 return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to create lesson\"}");
             }
 
@@ -586,10 +586,10 @@ public class CourseServiceController {
     }
 
     @PostMapping("/lesson/update")
-    public ResponseEntity<?> updateLesson(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<?> updateLesson(@CookieValue("token") String token, @RequestBody Map<String, Object> requestBody) {
         try {
             // Kiểm tra xem người dùng có quyền teacher không
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+            if (!jwtUtil.extractRoles(token).equals("teacher")) {
                 return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to update lesson\"}");
             }
             int id = (int) requestBody.get("id");
@@ -620,10 +620,10 @@ public class CourseServiceController {
     }
 
     @DeleteMapping("/lesson/delete")
-    public ResponseEntity<?> deleteLesson(@RequestHeader("Authorization") String token, @RequestParam int id) {
+    public ResponseEntity<?> deleteLesson(@CookieValue("token") String token, @RequestParam int id) {
         try {
             // Kiểm tra xem người dùng có quyền teacher không
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("teacher")) {
+            if (!jwtUtil.extractRoles(token).equals("teacher")) {
                 return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to delete lesson\"}");
             }
 
@@ -720,9 +720,9 @@ public class CourseServiceController {
         }
     }
     @PostMapping("/coupon/create")
-    public ResponseEntity<?> createCoupon(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<?> createCoupon(@CookieValue("token") String token, @RequestBody Map<String, Object> requestBody) {
         try {
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("admin")) {
+            if (!jwtUtil.extractRoles(token).equals("admin")) {
                 return ResponseEntity.status(403).body("{\"error\":\"You do not have permission to create coupon\"}");
             }
 
@@ -806,9 +806,9 @@ public class CourseServiceController {
     }
 
     @PostMapping("/coupon/update")
-    public ResponseEntity<?> updateCoupon(@RequestHeader("Authorization") String token, @RequestBody Map<String, Object> requestBody) {
+    public ResponseEntity<?> updateCoupon(@CookieValue("token") String token, @RequestBody Map<String, Object> requestBody) {
         try {
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("admin")) {
+            if (!jwtUtil.extractRoles(token).equals("admin")) {
                 return ResponseEntity.status(403).body("{\"error\":\"You do not have permission to update coupon\"}");
             }
 
@@ -840,9 +840,9 @@ public class CourseServiceController {
     }
 
     @DeleteMapping("/coupon/delete")
-    public ResponseEntity<?> deleteCoupon(@RequestHeader("Authorization") String token, @RequestParam int id) {
+    public ResponseEntity<?> deleteCoupon(@CookieValue("token") String token, @RequestParam int id) {
         try {
-            if (!jwtUtil.extractRoles(token.substring(7)).equals("admin")) {
+            if (!jwtUtil.extractRoles(token).equals("admin")) {
                 return ResponseEntity.status(403).body("{\"error\":\"You do not have permission to delete coupon\"}");
             }
 
@@ -862,7 +862,7 @@ public class CourseServiceController {
     }
 
     @PostMapping(value = "/media/upload")
-    public Mono<ResponseEntity<Object>> uploadImage(@RequestHeader("Authorization") String token,
+    public Mono<ResponseEntity<Object>> uploadImage(@CookieValue("token") String token,
                                                     @RequestPart("file") FilePart filePart,
                                                     @RequestPart("type") String type) {
         return DataBufferUtils.join(filePart.content())  // Kết hợp tất cả DataBuffer thành một
