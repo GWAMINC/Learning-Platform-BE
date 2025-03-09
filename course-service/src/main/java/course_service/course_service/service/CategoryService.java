@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class CategoryService extends CategoryServiceGrpc.CategoryServiceImplBase {
     private final CategoryRepository categoryRepository;
@@ -57,6 +59,8 @@ public class CategoryService extends CategoryServiceGrpc.CategoryServiceImplBase
                         .setId((int) category.get().get("id"))
                         .setName((String) category.get().get("name"))
                         .setDescription((String) category.get().get("description"))
+                        .setCreatedAt(category.get().get("created_at").toString())
+                        .setUpdatedAt(category.get().get("updated_at").toString())
                         .build();
                 GetCategoryResponse response = GetCategoryResponse.newBuilder()
                         .setCategory(category_response)
@@ -85,6 +89,8 @@ public class CategoryService extends CategoryServiceGrpc.CategoryServiceImplBase
                         .setId((int) category.get("id"))
                         .setName((String) category.get("name"))
                         .setDescription((String) category.get("description"))
+                        .setCreatedAt(category.get("created_at").toString())
+                        .setUpdatedAt(category.get("updated_at").toString())
                         .build();
                 response.addCategories(category_response);
             }
@@ -109,6 +115,7 @@ public class CategoryService extends CategoryServiceGrpc.CategoryServiceImplBase
                         .setId((int) updated.get().get("id"))
                         .setName((String) updated.get().get("name"))
                         .setDescription((String) updated.get().get("description"))
+                        .setUpdatedAt(LocalDateTime.now().toString())
                         .build();
                 UpdateCategoryResponse response = UpdateCategoryResponse.newBuilder()
                         .setCategory(category_response)
