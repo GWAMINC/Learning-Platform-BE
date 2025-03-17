@@ -4,19 +4,23 @@ import APIGateWay.APIGateWay.service.LoggingService;
 import com.example.gatewayuser.GateWayUserRpcProto;
 import com.example.gatewayuser.UserServiceGrpc;
 import com.example.gatewayuser.GateWayUserRpcProto.*;
+import com.google.protobuf.ByteString;
 import com.google.protobuf.util.JsonFormat;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
+import org.springframework.http.*;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Mono;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.Base64;
 import java.util.Map;
 
 @RestController
@@ -200,30 +204,60 @@ public class UserServiceController {
             return ResponseEntity.status(500).body(Map.of("success", false, "message", "Internal server error"));
         }
     }
-    @PostMapping("update-profile/{id}")
-    public ResponseEntity<?> updateUserProfile(@PathVariable int id, @RequestBody Map<String, Object> requestBody) {
-        try {
-            GateWayUserRpcProto.updateUserBioRequest request = GateWayUserRpcProto.updateUserBioRequest.newBuilder()
-                    .setId(id)
-                    .setFirstName(requestBody.get("first_name").toString())
-                    .setLastName(requestBody.get("last_name").toString())
-                    .setAddress(requestBody.get("address").toString())
-                    .setPhone(requestBody.get("phone").toString())
-                    .setGender(requestBody.get("gender").toString())
-                    .setBirthDate(requestBody.get("birth_date").toString())
-                    .setBio(requestBody.get("bio").toString())
-                    .setAvatar(requestBody.get("avatar").toString())
-                    .build();
+    @PostMapping(value = "edit-profile/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Mono<ResponseEntity<?>> updateUserProfile(
+            @PathVariable int id,
+            @RequestPart("first_name") String firstName,
+            @RequestPart("last_name") String lastName,
+            @RequestPart("address") String address,
+            @RequestPart("phone") String phone,
+            @RequestPart("gender") String gender,
+            @RequestPart("birth_date") String birthDate,
+            @RequestPart("bio") String bio,
+            @RequestPart(value = "avatar", required = false) Mono<FilePart> avatar) {
 
-            // Gọi gRPC để cập nhật thông tin profile
-            GateWayUserRpcProto.updateUserBioResponse response = userServiceStub.updateUserBio(request);
+        return avatar
+                .flatMap(filePart -> filePart.content().collectList().map(dataBufferList -> {
+                    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                    dataBufferList.forEach(buffer -> {
+                        byte[] bytes = new byte[buffer.readableByteCount()];
+                        buffer.read(bytes);
+                        try {
+                            outputStream.write(bytes);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                    return ByteString.copyFrom(outputStream.toByteArray());
+                }))
+                .defaultIfEmpty(ByteString.EMPTY)
+                .map(avatarByteString -> {
+                    GateWayUserRpcProto.updateUserBioRequest request = GateWayUserRpcProto.updateUserBioRequest.newBuilder()
+                            .setId(id)
+                            .setFirstName(firstName)
+                            .setLastName(lastName)
+                            .setAddress(address)
+                            .setPhone(phone)
+                            .setGender(gender)
+                            .setBirthDate(birthDate)
+                            .setBio(bio)
+                            .setAvatar(avatarByteString)
+                            .build();
 
-            return ResponseEntity.status(response.getSuccess() ? 200 : 400)
-                    .body(Map.of("success", response.getSuccess(), "message", response.getMessage()));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body(Map.of("success", false, "message", "Internal server error"));
-        }
+                    GateWayUserRpcProto.updateUserBioResponse response = userServiceStub.updateUserBio(request);
+
+                    // Convert the response to JSON
+                    String jsonResponse;
+                    try {
+                        jsonResponse = JsonFormat.printer().includingDefaultValueFields().print(response);
+                    } catch (Exception e) {
+                        return ResponseEntity.status(500).body(Map.of("success", false, "message", "Failed to parse response"));
+                    }
+
+                    return ResponseEntity.status(response.getSuccess() ? 200 : 400)
+                            .header("Content-Type", "application/json")
+                            .body(jsonResponse);
+                });
     }
 
     @GetMapping("/protected-endpoint")

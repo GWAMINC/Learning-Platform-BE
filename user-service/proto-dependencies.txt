@@ -1,3 +1,5 @@
 proto/Message.proto
 proto/GateWay_User_Rpc.proto
 proto/Payment.proto
+proto/GateWay_Course_Rpc.proto
+proto/Media.proto
