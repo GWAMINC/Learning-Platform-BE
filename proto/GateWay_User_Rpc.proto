@@ -27,8 +27,15 @@ message Bio {
   string birth_date = 8; // Use string to represent DATE values
   string bio = 9;
   string avatar = 10;
+  repeated Course enrolled_courses = 11;
 }
-
+message Course {
+  int32 id = 1;
+  string title = 2;
+  string description = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
 // Request và Response
 message GetUserRequest {
   int32 id = 1;
@@ -102,11 +109,12 @@ message updateUserBioRequest {
   string gender = 6;
   string birth_date = 7;
   string bio = 8;
-  string avatar = 9;
+  bytes avatar = 9;
 }
 message updateUserBioResponse {
   bool success = 1;
   string message = 2;
+  Bio bio = 3;
 }
 // Service cho User
 service UserService {
