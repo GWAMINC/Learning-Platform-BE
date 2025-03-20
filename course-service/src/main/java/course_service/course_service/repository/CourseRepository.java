@@ -16,9 +16,10 @@ public class CourseRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public boolean createCourse(String title, String description) {
+    public int createCourse(String title, String description) {
         String sql = "INSERT INTO Courses (title, description) VALUES (?, ?)";
-        return jdbcTemplate.update(sql, title, description) > 0;
+        jdbcTemplate.update(sql, title, description);
+        return jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
     }
 
     public boolean updateCourse(int id, String title, String description) {

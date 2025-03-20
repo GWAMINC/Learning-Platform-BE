@@ -101,6 +101,17 @@ CREATE TABLE Coupons (
                          created_at DATETIME DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS Price (
+                      id INT AUTO_INCREMENT PRIMARY KEY,
+                      course_id INT NOT NULL,
+                      price DECIMAL(15, 2) NOT NULL,
+                      discount_price DECIMAL(15, 2) NOT NULL,
+                      currency VARCHAR(10) NOT NULL,
+                      created_at DATETIME DEFAULT NOW(),
+                      updated_at DATETIME DEFAULT NOW(),
+                      FOREIGN KEY (course_id) REFERENCES Courses(id) ON DELETE CASCADE
+);
+
 -- CourseStudent Table (Mối quan hệ giữa khóa học và sinh viên)
 CREATE TABLE IF NOT EXISTS CourseStudent (
                                              course_id INT NOT NULL,
@@ -126,3 +137,6 @@ ALTER TABLE Media
     ADD COLUMN public_id VARCHAR(255),
     ADD COLUMN filename VARCHAR(255),
     DROP COLUMN description;
+
+ALTER TABLE Coupons
+    ADD COLUMN user_type INT NOT NULL DEFAULT 0;
