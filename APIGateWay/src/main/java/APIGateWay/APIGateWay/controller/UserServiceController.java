@@ -35,7 +35,7 @@ public class UserServiceController {
 
     public UserServiceController() {
         // Kết nối tới user-service qua gRPC
-        // Chạy Docker container với tên là "user-service"
+//         Chạy Docker container với tên là "user-service"
         this.userServiceChannel = ManagedChannelBuilder.forAddress("user-service", 50050)
                 .usePlaintext()
                 .build();

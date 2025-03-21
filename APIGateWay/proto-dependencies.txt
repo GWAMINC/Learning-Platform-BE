@@ -7,3 +7,5 @@ proto/GateWay_Lesson_Rpc.proto
 proto/GateWay_CourseCategory_Rpc.proto
 proto/GateWay_Coupon_Rpc.proto
 proto/Media.proto
+proto/GateWay_Price_Rpc.proto
+proto/GateWay_Review_Rpc.proto

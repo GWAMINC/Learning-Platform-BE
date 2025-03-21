@@ -21,8 +21,7 @@ message CreateCourseRequest {
 }
 
 message CreateCourseResponse {
-  string status = 1;
-  string message = 2;
+  Course course = 1;
 }
 
 message UpdateCourseRequest {

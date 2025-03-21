@@ -33,6 +33,8 @@ public class CourseServiceApplication implements CommandLineRunner  {
 			CourseCategoryService courseCategoryService = applicationContext.getBean(CourseCategoryService.class);
 			CouponService couponService = applicationContext.getBean(CouponService.class);
 			MediaService mediaService = applicationContext.getBean(MediaService.class);
+			PriceService priceService = applicationContext.getBean(PriceService.class);
+			ReviewService reviewService = applicationContext.getBean(ReviewService.class);
 			Server server = ServerBuilder.forPort(50051)
 					.addService(courseService)
 					.addService(categoryService)
@@ -41,6 +43,8 @@ public class CourseServiceApplication implements CommandLineRunner  {
 					.addService(courseCategoryService)
 					.addService(couponService)
 					.addService(mediaService)
+					.addService(priceService)
+					.addService(reviewService)
 					.build()
 					.start();
 

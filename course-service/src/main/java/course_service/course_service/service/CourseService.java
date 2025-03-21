@@ -34,22 +34,26 @@ public class CourseService extends CourseServiceGrpc.CourseServiceImplBase {
         try {
             String title = request.getTitle();
             String description = request.getDescription();
-            courseRepository.createCourse(title, description);
+            int courseId = courseRepository.createCourse(title, description);
+            Map<String, Object> result = courseRepository.findCourseById(courseId);
+
+            Course course = Course.newBuilder()
+                    .setId((Integer) result.get("id"))
+                    .setTitle((String) result.get("title"))
+                    .setDescription((String) result.get("description"))
+                    .setCreatedAt(result.get("created_at").toString())
+                    .setUpdatedAt(result.get("updated_at").toString())
+                    .build();
+
             CreateCourseResponse response = CreateCourseResponse.newBuilder()
-                    .setStatus("true")
-                    .setMessage("Create course successfully")
+                    .setCourse(course)
                     .build();
 
             responseObserver.onNext(response);
             responseObserver.onCompleted();
             loggingService.logCourseActivity(200, "createCourse", response.toString());
         } catch (Exception e) {
-            CreateCourseResponse response = CreateCourseResponse.newBuilder()
-                    .setStatus("false")
-                    .setMessage(e.getMessage())
-                    .build();
-            responseObserver.onNext(response);
-            responseObserver.onCompleted();
+            responseObserver.onError(e);
         }
     }
 

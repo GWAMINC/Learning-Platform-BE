@@ -13,10 +13,15 @@ import com.example.gatewaycoursecategory.CourseCategoryServiceGrpc;
 import com.example.gatewaycoursecategory.GateWayCourseCategoryRpcProto.*;
 import com.example.gatewaylesson.GateWayLessonRpcProto.*;
 import com.example.gatewaylesson.LessonServiceGrpc;
+import com.example.gatewayprice.PriceServiceGrpc;
+import com.example.gatewayprice.GateWayPriceRpcProto.*;
+import com.example.gatewayreview.GateWayReviewRpcProto.*;
+import com.example.gatewayreview.ReviewServiceGrpc;
 import com.example.gatewayunit.UnitServiceGrpc;
 import com.example.gatewayunit.GateWayUnitRpcProto.*;
 import com.example.media.MediaRpcProto.*;
 import com.example.media.MediaServiceGrpc;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.util.JsonFormat;
 import io.grpc.ManagedChannel;
@@ -29,6 +34,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,6 +50,8 @@ public class CourseServiceController {
     private final CourseCategoryServiceGrpc.CourseCategoryServiceBlockingStub courseCategoryServiceStub;
     private final CouponServiceGrpc.CouponServiceBlockingStub couponServiceStub;
     private final MediaServiceGrpc.MediaServiceBlockingStub mediaServiceStub;
+    private final PriceServiceGrpc.PriceServiceBlockingStub priceServiceStub;
+    private final ReviewServiceGrpc.ReviewServiceBlockingStub reviewServiceStub;
 
     @Autowired
     private LoggingService loggingService;
@@ -67,32 +76,63 @@ public class CourseServiceController {
         this.courseCategoryServiceStub = CourseCategoryServiceGrpc.newBlockingStub(courseServiceChannel);
         this.couponServiceStub = CouponServiceGrpc.newBlockingStub(courseServiceChannel);
         this.mediaServiceStub = MediaServiceGrpc.newBlockingStub(courseServiceChannel);
+        this.priceServiceStub = PriceServiceGrpc.newBlockingStub(courseServiceChannel);
+        this.reviewServiceStub = ReviewServiceGrpc.newBlockingStub(courseServiceChannel);
     }
 
     @PostMapping("/create")
     public ResponseEntity<?> createCourse(@CookieValue("token") String token, @RequestBody Map<String, Object> requestBody) {
         try {
             // Kiểm tra xem người dùng có quyền teacher không
-            if (!jwtUtil.extractRoles(token).equals("teacher")) {
+            if (!jwtUtil.extractRoles(token).equals("teacher") && !jwtUtil.extractRoles(token).equals("admin")) {
                 return ResponseEntity.status(401).body("{\"error\":\"You do not have permission to create course\"}");
             }
 
             String title = (String) requestBody.get("title");
             String description = (String) requestBody.get("description");
+            ArrayList<Integer> categories = (ArrayList<Integer>) requestBody.get("categories");
+            String price = (String) requestBody.get("price");
+            String currency = (String) requestBody.get("currency");
+
+            System.out.println(title);
+            System.out.println(description);
+            System.out.println(categories);
+            System.out.println(price);
 
             CreateCourseRequest createCourseRequest = CreateCourseRequest.newBuilder()
                     .setTitle(title)
                     .setDescription(description)
                     .build();
+            CreateCourseResponse course_response = courseServiceStub.createCourse(createCourseRequest);
 
-            CreateCourseResponse response = courseServiceStub.createCourse(createCourseRequest);
-            String json = JsonFormat.printer().print(response);
+            CreateCourseCategoriesRequest createCourseCategoriesRequest = CreateCourseCategoriesRequest.newBuilder()
+                    .setCourseId(course_response.getCourse().getId())
+                    .addAllCategoryId(categories)
+                    .build();
 
-            loggingService.logAPIActivity(200, "createCourse", response.toString());
-            return ResponseEntity.ok().header("Content-Type", "application/json").body(json);
+            CreatePriceRequest createPriceRequest = CreatePriceRequest.newBuilder()
+                    .setCourseId(course_response.getCourse().getId())
+                    .setPrice(Double.parseDouble(price))
+                    .setCurrency(currency)
+                    .build();
+
+            CreatePriceResponse price_response = priceServiceStub.createPrice(createPriceRequest);
+            CreateCourseCategoriesResponse categories_response = courseCategoryServiceStub.createCourseCategories(createCourseCategoriesRequest);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("course", JsonFormat.printer().print(course_response));
+            response.put("categories", JsonFormat.printer().print(categories_response));
+            response.put("price", JsonFormat.printer().print(price_response));
+
+            String jsonResponse = new ObjectMapper().writeValueAsString(response);
+
+            loggingService.logAPIActivity(200, "createCourse", jsonResponse);
+            return ResponseEntity.ok().header("Content-Type", "application/json").body(jsonResponse);
         } catch (ClassCastException e) {
+            System.err.println(e.getMessage());
             return ResponseEntity.status(400).body("{\"error\":\"Invalid data format. title and description must be strings.\"}");
         } catch (Exception e) {
+            System.err.println(e.getMessage());
             e.printStackTrace();
             return ResponseEntity.status(500).body("{\"error\":\"Failed to create course\"}");
         }
@@ -186,10 +226,43 @@ public class CourseServiceController {
                     .setPage(page)
                     .setSize(size)
                     .build();
+            GetAllCoursesResponse courses = courseServiceStub.getAllCourses(request);
+            List<Map<String, Object>> courseInfos = new ArrayList<>();
+            for (Course course : courses.getCoursesList()) {
+                Map<String,Object> courseInfo = new HashMap<>();
+                courseInfo.put("id", course.getId());
+                courseInfo.put("title", course.getTitle());
 
-            GetAllCoursesResponse response = courseServiceStub.getAllCourses(request);
+                GetCategoriesByCourseRequest getCategoriesByCourseRequest = GetCategoriesByCourseRequest.newBuilder()
+                        .setCourseId(course.getId())
+                        .build();
+                GetCategoriesByCourseResponse categories = courseCategoryServiceStub.getCategoriesByCourse(getCategoriesByCourseRequest);
+                courseInfo.put("categories", categories.getCourseCategoriesList().stream().map(CourseCategory::getCategoryId).toList());
 
-            String json = JsonFormat.printer().print(response);
+                GetUnitsByCourseRequest getUnitsByCourseRequest = GetUnitsByCourseRequest.newBuilder()
+                        .setCourseId(course.getId())
+                        .build();
+                GetUnitsByCourseResponse units = unitServiceStub.getUnitsByCourse(getUnitsByCourseRequest);
+                courseInfo.put("unitCount", units.getUnitsList().size());
+
+                GetReviewByCourseRequest getReviewByCourseRequest = GetReviewByCourseRequest.newBuilder()
+                        .setCourseId(course.getId())
+                        .build();
+                GetReviewByCourseResponse reviews = reviewServiceStub.getReviewByCourse(getReviewByCourseRequest);
+                courseInfo.put("rating", reviews.getReviewsList().stream().mapToInt(Review::getRating).average().orElse(0));
+                courseInfo.put("reviewCount", reviews.getReviewsList().size());
+
+                GetPriceByCourseRequest getPriceByCourseRequest = GetPriceByCourseRequest.newBuilder()
+                        .setCourseId(course.getId())
+                        .build();
+                GetPriceByCourseResponse prices = priceServiceStub.getPriceByCourse(getPriceByCourseRequest);
+                courseInfo.put("price", JsonFormat.printer().print(prices.getPrice()));
+
+                courseInfos.add(courseInfo);
+            }
+            ObjectMapper objectMapper = new ObjectMapper();
+            String json = objectMapper.writeValueAsString(courseInfos);
+
             return ResponseEntity.ok()
                     .header("Content-Type", "application/json")
                     .body(json);
@@ -198,6 +271,7 @@ public class CourseServiceController {
             return ResponseEntity.status(500).body("{\"error\":\"Failed to fetch courses\"}");
         }
     }
+
     @GetMapping("/categories_courses")
     public ResponseEntity<String> getCoursesByCategories(@RequestParam List<Integer> categoryIds) {
         try {

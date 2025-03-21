@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package review;
+
+option java_package = "com.example.gatewayreview";
+option java_outer_classname = "GateWayReviewRpcProto";
+
+message Review {
+  int32 id = 1;
+  int32 course_id = 2;
+  int32 user_id = 3;
+  int32 rating = 4;
+  string comment = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message CreateReviewRequest {
+  int32 course_id = 1;
+  int32 user_id = 2;
+  int32 rating = 3;
+  string comment = 4;
+}
+
+message CreateReviewResponse {
+  string status = 1;
+  string message = 2;
+}
+
+message GetReviewByCourseRequest {
+  int32 course_id = 1;
+}
+
+message GetReviewByCourseResponse {
+  repeated Review reviews = 1;
+}
+
+message UpdateReviewRequest {
+  int32 id = 1;
+  int32 course_id = 2;
+  int32 user_id = 3;
+  int32 rating = 4;
+  string comment = 5;
+}
+
+message UpdateReviewResponse {
+  Review review = 1;
+}
+
+service ReviewService {
+  rpc CreateReview(CreateReviewRequest) returns (CreateReviewResponse) {}
+  rpc GetReviewByCourse(GetReviewByCourseRequest) returns (GetReviewByCourseResponse) {}
+  rpc UpdateReview(UpdateReviewRequest) returns (UpdateReviewResponse) {}
+}

@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package price;
+
+option java_package = "com.example.gatewayprice";
+option java_outer_classname = "GateWayPriceRpcProto";
+
+message Price {
+  int32 id = 1;
+  int32 course_id = 2;
+  double price = 3;
+  double discount_price = 4;
+  string currency = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message CreatePriceRequest {
+  int32 course_id = 1;
+  double price = 2;
+  double discount_price = 3;
+  string currency = 4;
+}
+
+message CreatePriceResponse {
+  string status = 1;
+  string message = 2;
+}
+
+message GetPriceByCourseRequest {
+  int32 course_id = 1;
+}
+
+message GetPriceByCourseResponse {
+  Price price = 1;
+}
+
+message UpdatePriceRequest {
+  int32 id = 1;
+  int32 course_id = 2;
+  double price = 3;
+  double discount_price = 4;
+  string currency = 5;
+}
+
+message UpdatePriceResponse {
+  Price price = 1;
+}
+
+service PriceService {
+  rpc CreatePrice(CreatePriceRequest) returns (CreatePriceResponse) {}
+  rpc GetPriceByCourse(GetPriceByCourseRequest) returns (GetPriceByCourseResponse) {}
+  rpc UpdatePrice(UpdatePriceRequest) returns (UpdatePriceResponse) {}
+}
+
