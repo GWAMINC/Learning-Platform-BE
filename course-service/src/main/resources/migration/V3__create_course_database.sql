@@ -24,7 +24,8 @@ CREATE TABLE Lessons (
                          id INT AUTO_INCREMENT PRIMARY KEY,
                          name VARCHAR(100) NOT NULL,
                          content TEXT,
-                         course_unit_id INT NOT NULL,
+                         order_number INT NOT NULL,
+                        course_unit_id INT NOT NULL,
                          created_at DATETIME DEFAULT NOW(),
                          updated_at DATETIME DEFAULT NOW(),
                          FOREIGN KEY (course_unit_id) REFERENCES CourseUnits(id) ON DELETE CASCADE

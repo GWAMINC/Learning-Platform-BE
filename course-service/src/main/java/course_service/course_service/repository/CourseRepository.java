@@ -58,5 +58,26 @@ public class CourseRepository {
         return jdbcTemplate.queryForList(sql);
     }
 
+    public List<Long> getEnrolledUsers(int courseId) {
+        String sql = "SELECT student_id FROM CourseStudent WHERE course_id = ?";
+        return jdbcTemplate.queryForList(sql, Long.class, courseId);
+    }
+    public int getCourseIdByCourseUnitId(int courseUnitId) {
+        String sql = "SELECT course_id FROM CourseUnits WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, courseUnitId);
+    }
 
+    public String getCourseNameById(int courseId) {
+        String sql = "SELECT title FROM Courses WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, String.class, courseId);
+    }
+    public String getCourseUnitNameById(int courseUnitId) {
+        String sql = "SELECT name FROM CourseUnits WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, String.class, courseUnitId);
+    }
+
+    public String getCourseNameByCourseUnitId(int course_unit_id) {
+        String sql = "SELECT title FROM Courses WHERE id = (SELECT course_id FROM CourseUnits WHERE id = ?)";
+        return jdbcTemplate.queryForObject(sql, String.class, course_unit_id);
+    }
 }

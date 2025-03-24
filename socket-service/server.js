@@ -6,6 +6,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const Message = require("./model/Message");
+const connectRabbitMQ = require("./notification.js");
 
 const app = express();
 const server = http.createServer(app);
@@ -17,7 +18,8 @@ const io = socketIo(server, {
 });
 
 // Kết nối MongoDB
-mongoose.connect(process.env.MONGO_URI).then(() => console.log("✅ MongoDB Connected"))
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log("✅ MongoDB Connected"))
     .catch(err => console.error("❌ MongoDB connection error:", err));
 
 // Middleware CORS
@@ -43,11 +45,22 @@ io.on("connection", (socket) => {
         socket.join(chatRoomId);
         console.log(`✅ User ${socket.id} joined room ${chatRoomId}`);
     });
+    socket.on("join-room", (userId) => {
+        socket.join(`user_${userId}`);
+        console.log(`✅✅ User ${socket.id} joined room: user_${userId}`);
+    });
 
     socket.on("disconnect", () => {
         console.log("🔴 User disconnected", socket.id);
     });
 });
+
+// Truyền `io` vào `connectRabbitMQ`
+connectRabbitMQ(io);
+
+const notificationRoutes = require("./routes/notification.js");
+app.use("/api/notifications", notificationRoutes);
+
 
 const PORT = process.env.PORT || 5001;
 server.listen(PORT, () => console.log(`🚀 Socket server running on port ${PORT}`));
