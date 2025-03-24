@@ -45,6 +45,9 @@ public class UserService extends UserServiceGrpc.UserServiceImplBase {
         ManagedChannel channel = ManagedChannelBuilder.forAddress("course-service", 50051)
                 .usePlaintext()
                 .build();
+//        ManagedChannel channel = ManagedChannelBuilder.forAddress("localhost", 50051)
+//                .usePlaintext()
+//                .build();
         this.courseServiceBlockingStub = CourseServiceGrpc.newBlockingStub(channel);
     }
     private boolean isValidPassword(String password) {
